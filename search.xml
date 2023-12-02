@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>How to write an outline 笔记</title>
+      <link href="/2023/12/02/%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/"/>
+      <url>/2023/12/02/%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="复现代码指南"><a href="#复现代码指南" class="headerlink" title="复现代码指南"></a>复现代码指南</h1><p>安装环境时需要注意<strong>Python版本</strong>、<strong>Pytorch版本</strong>和<strong>CUDA版本</strong>是否兼容</p><h2 id="Python修改pip源"><a href="#Python修改pip源" class="headerlink" title="Python修改pip源"></a>Python修改pip源</h2><h3 id="一步到位版"><a href="#一步到位版" class="headerlink" title="一步到位版"></a>一步到位版</h3><p>参考网址：<a href="https://www.jianshu.com/p/b2412f7fc93f">pip换源一行命令直接搞定 - 简书 (jianshu.com)</a></p><p>打开cmd,输入：<code>pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</code></p><p>如果临时使用的话，可以使用：</p><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install +库名 -i +源</span><br><span class="line">eg:    pip install numpy -i http://mirrors.aliyun.com/pypi/simple/</span><br></pre></td></tr></table></figure><h3 id="几个国内源"><a href="#几个国内源" class="headerlink" title="几个国内源"></a>几个国内源</h3><p>阿里云 <a href="https://links.jianshu.com/go?to=http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a><br> 中国科技大学 <a href="https://links.jianshu.com/go?to=https://pypi.mirrors.ustc.edu.cn/simple/">https://pypi.mirrors.ustc.edu.cn/simple/</a><br> 豆瓣(douban) <a href="https://links.jianshu.com/go?to=http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a><br> 清华大学 <a href="https://links.jianshu.com/go?to=https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a><br> 中国科学技术大学 <a href="https://links.jianshu.com/go?to=http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></p><h2 id="离线安装Pytorch"><a href="#离线安装Pytorch" class="headerlink" title="离线安装Pytorch"></a>离线安装Pytorch</h2><p>参考网址：<a href="https://blog.csdn.net/weixin_47142735/article/details/113684365">离线安装Pytorch 最简单 高效的方法_pytorch离线安装_正在学习的浅语的博客-CSDN博客</a></p><p>在线下载安装包，特别是比较大的安装包，很容易因为网络原因失败（即使换源）:</p><p><img src="https://gitee.com/hahahaha5606/blog_resource/raw/master/post_img/20231202203943.png" alt="image-20231202203938666"></p><p>所以我们考虑先将需要的包下载后，再离线安装。下载地址：<span style="background:#fbd4d0;"><a href="http://download.pytorch.org/whl/torch_stable.html">download.pytorch.org&#x2F;whl&#x2F;torch_stable.html</a></span></p><h3 id="下载离线安装包"><a href="#下载离线安装包" class="headerlink" title="下载离线安装包"></a>下载离线安装包</h3><p>点进去后有pytorch安装包、torchaudio安装包和torchvision安装包等，可以通过<span style="background:#eef0f4;">Ctrl + F</span>寻找需要下载的包。主要有两种pytorch安装包（<span style="background:#f9eda6;">一般只使用gpu版本的安装包</span>）：</p><ol><li><p>cpu版本pytorch,<font color=red>开头为cpu</font>;  </p></li><li><p>gpu版本pytorch,<font color=red>开头为cu</font>，如cu111表示gpu版本pytorch，且该pytorch的cuda版本为11.1;</p></li></ol><p>cp表示python版本，linux&#x2F;window 表示系统版本。</p><p><img src="https://gitee.com/hahahaha5606/blog_resource/raw/master/post_img/20231202204318.png" alt="cpu"></p><p><img src="https://gitee.com/hahahaha5606/blog_resource/raw/master/post_img/20231202204355.png" alt="gpu"></p><p><strong>注意，我们要根据自己cuda的版本和系统版本来下载安装包，且一定要使Python版本、Pytorch版本和CUDA版本三者兼容！！！</strong>下面附一张版本对应关系表（也可以去问chatgpt）：<br><img src="https://gitee.com/hahahaha5606/blog_resource/raw/master/post_img/20231202212206.png" alt="cuda_pytorch"></p><h3 id="离线安装（以Pycharm安装为例）"><a href="#离线安装（以Pycharm安装为例）" class="headerlink" title="离线安装（以Pycharm安装为例）"></a>离线安装（以Pycharm安装为例）</h3><p><img src="C:\Users\21218\AppData\Roaming\Typora\typora-user-images\image-20231202212635162.png" alt="image-20231202212635162"></p><p>打开Pycharm中的终端，切换到需要安装包的环境，先使用<span style="background:#dad5e9;">cd指令</span>跳转到下载文件夹；然后<span style="background:#d4e9d5;">pip install 安装包名.后缀</span>进行安装；最后可使用<span style="background:#f9eda6;">conda list 或 python - import torch - torch.cuda.is_available()</span>进行查看。<span style="background:#fbd4d0;">大功告成！</span></p><p><strong>值得注意的是，一定要使用纯英文的路径，并且安装包的名字不饿能有任何变动，这些问题都会导致安装的失败。</strong>如果在终端中直接安装，别忘了先用<span style="background:#eef0f4;">conda activate</span>先激活环境。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 环境搭建 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>学术英语写作与沟通 笔记</title>
       <link href="/2023/11/25/%E5%AD%A6%E5%A0%82%E5%9C%A8%E7%BA%BF%20%E5%AD%A6%E6%9C%AF%E8%8B%B1%E8%AF%AD%E5%86%99%E4%BD%9C%E4%B8%8E%E6%B2%9F%E9%80%9A/"/>
       <url>/2023/11/25/%E5%AD%A6%E5%A0%82%E5%9C%A8%E7%BA%BF%20%E5%AD%A6%E6%9C%AF%E8%8B%B1%E8%AF%AD%E5%86%99%E4%BD%9C%E4%B8%8E%E6%B2%9F%E9%80%9A/</url>
