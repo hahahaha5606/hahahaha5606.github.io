@@ -3320,27 +3320,34 @@ h1.page-title + .tag-cloud-list {
   color: var(--white);
 }
 #page-header #site-subtitle #此处修改为白色,
-#page-header #site-subtitle font-size: 1.05em    #字体大小,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小,
+#page-header #site-subtitle font-size: 2.05em    #字体大小,
 #page-header #site-subtitle +minWidth768() {
   font-size: 1.4em;
 }
 #page-header #site-subtitle #此处修改为白色 #字体大小,
-#page-header #site-subtitle font-size: 1.05em    #字体大小 #字体大小,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 #字体大小,
+#page-header #site-subtitle font-size: 2.05em    #字体大小 #字体大小,
 #page-header #site-subtitle +minWidth768() #字体大小,
 #page-header #site-subtitle #此处修改为白色 #site_social_icons,
-#page-header #site-subtitle font-size: 1.05em    #字体大小 #site_social_icons,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 #site_social_icons,
+#page-header #site-subtitle font-size: 2.05em    #字体大小 #site_social_icons,
 #page-header #site-subtitle +minWidth768() #site_social_icons,
 #page-header #site-subtitle #此处修改为白色 display: none,
-#page-header #site-subtitle font-size: 1.05em    #字体大小 display: none,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 display: none,
+#page-header #site-subtitle font-size: 2.05em    #字体大小 display: none,
 #page-header #site-subtitle +minWidth768() display: none,
 #page-header #site-subtitle #此处修改为白色 margin: 0 auto,
-#page-header #site-subtitle font-size: 1.05em    #字体大小 margin: 0 auto,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 margin: 0 auto,
+#page-header #site-subtitle font-size: 2.05em    #字体大小 margin: 0 auto,
 #page-header #site-subtitle +minWidth768() margin: 0 auto,
 #page-header #site-subtitle #此处修改为白色 text-align: center,
-#page-header #site-subtitle font-size: 1.05em    #字体大小 text-align: center,
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 text-align: center,
+#page-header #site-subtitle font-size: 2.05em    #字体大小 text-align: center,
 #page-header #site-subtitle +minWidth768() text-align: center,
 #page-header #site-subtitle #此处修改为白色 +maxWidth768(),
-#page-header #site-subtitle font-size: 1.05em    #字体大小 +maxWidth768(),
+#page-header #site-subtitle #font-size: 1.05em    #字体大小 +maxWidth768(),
+#page-header #site-subtitle font-size: 2.05em    #字体大小 +maxWidth768(),
 #page-header #site-subtitle +minWidth768() +maxWidth768() {
   display: block;
 }
