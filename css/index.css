@@ -3317,7 +3317,7 @@ h1.page-title + .tag-cloud-list {
   }
 }
 #page-header #site-subtitle {
-  color: var(--white);
+  color: var(--red);
 }
 #page-header #site-subtitle #此处修改为白色 #font-size: 1.40em  #字体大小,
 #page-header #site-subtitle #font-size: 1.05em    #字体大小 #font-size: 1.40em  #字体大小,
