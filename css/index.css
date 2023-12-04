@@ -3308,7 +3308,7 @@ h1.page-title + .tag-cloud-list {
 }
 #page-header #site-title {
   margin: 0;
-  color: var(--white);
+  color: var(--red);
   font-size: 1.85em;
 }
 @media screen and (min-width: 768px) {
