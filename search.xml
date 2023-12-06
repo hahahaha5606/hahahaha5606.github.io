@@ -4,6 +4,48 @@
   
     
     <entry>
+      <title>Typora 搜狗自定义短语设置</title>
+      <link href="/2023/12/06/Typora%20%E6%90%9C%E7%8B%97%E5%BF%AB%E6%8D%B7%E9%94%AE%E8%AE%BE%E7%BD%AE/"/>
+      <url>/2023/12/06/Typora%20%E6%90%9C%E7%8B%97%E5%BF%AB%E6%8D%B7%E9%94%AE%E8%AE%BE%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>参考网址：<a href="https://blog.csdn.net/kllo__/article/details/122494151">Typora：改变字体的背景颜色_typora文字背景色_kllo__的博客-CSDN博客</a></p></blockquote><blockquote><p>在Typora中没有快捷设置字体颜色的方式，因此我们想到在搜狗输入法的自定义短语中定义快捷输入html代码来设置字体颜色。本文给出了一些常用的自定义短语。</p></blockquote><h2 id="设置方法"><a href="#设置方法" class="headerlink" title="设置方法"></a>设置方法</h2><p>打开<code>搜狗-属性设置-高级-候选扩展-自定义短语</code>，点击<code>添加新定义</code>，即可定义新的自定义短语。</p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231206093545264.png" alt="image-20231206093545264"></p><h2 id="设置字体颜色"><a href="#设置字体颜色" class="headerlink" title="设置字体颜色"></a>设置字体颜色</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;font color=red&gt;红色字体&lt;/font&gt;  #缩写red</span><br><span class="line">&lt;font color=blue&gt;蓝色字体&lt;/font&gt;  #缩写blu</span><br><span class="line">&lt;font color=green&gt;绿色字体&lt;/font&gt;  #缩写gree</span><br><span class="line">&lt;font color=orange&gt;橙色字体&lt;/font&gt;#缩写oran</span><br><span class="line">&lt;font color=purple&gt;紫色字体&lt;/font&gt;#缩写purp</span><br><span class="line">&lt;font color=yellow&gt;黄色字体&lt;/font&gt;#缩写yel</span><br></pre></td></tr></table></figure><h4 id="样式预览："><a href="#样式预览：" class="headerlink" title="样式预览："></a>样式预览：</h4><p><font color=red>红色字体</font>  <br><font color=blue>蓝色字体</font>  <br><font color=green>绿色字体</font>  <br><font color=orange>橙色字体</font><br><font color=purple>紫色字体</font><br><font color=yellow>黄色字体</font></p><h2 id="给字体加底色"><a href="#给字体加底色" class="headerlink" title="给字体加底色"></a>给字体加底色</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;span style=&quot;background:#eef0f4;&quot;&gt;浅灰色背景&lt;/span&gt;#缩写bggrey</span><br><span class="line">&lt;span style=&quot;background:#fbd4d0;&quot;&gt;浅红色背景&lt;/span&gt;#缩写bgred</span><br><span class="line">&lt;span style=&quot;background:#d4e9d5;&quot;&gt;浅绿色背景&lt;/span&gt;#缩写bggre</span><br><span class="line">&lt;span style=&quot;background:#dad5e9;&quot;&gt;浅紫色背景&lt;/span&gt;#缩写bgpur</span><br><span class="line">&lt;span style=&quot;background:#f9eda6;&quot;&gt;浅黄色背景&lt;/span&gt;#缩写bgyel</span><br></pre></td></tr></table></figure><h4 id="样式预览"><a href="#样式预览" class="headerlink" title="样式预览"></a>样式预览</h4><p><span style="background:#eef0f4;">浅灰色背景</span></p><p><span style="background:#fbd4d0;">浅红色背景</span></p><p><span style="background:#d4e9d5;">浅绿色背景</span></p><p><span style="background:#dad5e9;">浅紫色背景</span></p><p><span style="background:#f9eda6;">浅黄色背景</span></p><h2 id="给字体加底色且改颜色"><a href="#给字体加底色且改颜色" class="headerlink" title="给字体加底色且改颜色"></a>给字体加底色且改颜色</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;span style=&quot;background:#f9eda6;color:red&quot;&gt;浅黄色背景红字&lt;/span&gt;</span><br></pre></td></tr></table></figure><p>如：<span style="background:#f9eda6;color:red">浅黄色背景</span></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> markdown </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Butterfly主题 网页标题崩溃欺骗特效</title>
+      <link href="/2023/12/05/Butterfly%E4%B8%BB%E9%A2%98%20%E7%BD%91%E9%A1%B5%E6%A0%87%E9%A2%98%E5%B4%A9%E6%BA%83%E6%AC%BA%E9%AA%97%E7%89%B9%E6%95%88/"/>
+      <url>/2023/12/05/Butterfly%E4%B8%BB%E9%A2%98%20%E7%BD%91%E9%A1%B5%E6%A0%87%E9%A2%98%E5%B4%A9%E6%BA%83%E6%AC%BA%E9%AA%97%E7%89%B9%E6%95%88/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>参考网址：<a href="https://asdfv1929.github.io/2018/01/25/crash-cheat/">Hexo NexT主题中添加网页标题崩溃欺骗搞怪特效 | asdfv1929 ‘s Home</a></p></blockquote><p>在butterfly主题中给网页标题增加一些搞怪特效</p><h4 id="创建js文件-crash-cheat-js"><a href="#创建js文件-crash-cheat-js" class="headerlink" title="创建js文件 crash_cheat.js"></a>创建js文件 crash_cheat.js</h4><p>打开theme文件夹下的<code>\butterfly\source\js</code>，创建文件<span style="background:#f9eda6;color:red">crash_cheat.js</span>，添加代码：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--崩溃欺骗--&gt;</span><br><span class="line"> var OriginTitle = document.title;</span><br><span class="line"> var titleTime;</span><br><span class="line"> document.addEventListener(&#x27;visibilitychange&#x27;, function () &#123;</span><br><span class="line">     if (document.hidden) &#123;</span><br><span class="line">         $(&#x27;[rel=&quot;icon&quot;]&#x27;).attr(&#x27;href&#x27;, &quot;/img/favicon.png&quot;);</span><br><span class="line">         document.title = &#x27;╭(°A°`)╮ 页面崩溃啦 ~&#x27;;</span><br><span class="line">         clearTimeout(titleTime);</span><br><span class="line">     &#125;</span><br><span class="line">     else &#123;</span><br><span class="line">         $(&#x27;[rel=&quot;icon&quot;]&#x27;).attr(&#x27;href&#x27;, &quot;/favicon.png&quot;);</span><br><span class="line">         document.title = &#x27;(ฅ&gt;ω&lt;*ฅ) 噫又好了~&#x27; + OriginTitle;</span><br><span class="line">         titleTime = setTimeout(function () &#123;</span><br><span class="line">             document.title = OriginTitle;</span><br><span class="line">         &#125;, 2000);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure><h4 id="inject-引用"><a href="#inject-引用" class="headerlink" title="inject 引用"></a>inject 引用</h4><p>在主题配置文件<code>_config.butterfly.yml</code>的<span style="background:#f9eda6;color:red">inject-bottom</span>下直接引入js文件：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Inject</span><br><span class="line"># Insert the code to head (before &#x27;&lt;/head&gt;&#x27; tag) and the bottom (before &#x27;&lt;/body&gt;&#x27; tag)</span><br><span class="line"># 插入代码到头部 &lt;/head&gt; 之前 和 底部 &lt;/body&gt; 之前</span><br><span class="line">inject:</span><br><span class="line">  head:</span><br><span class="line">    # - &lt;link rel=&quot;stylesheet&quot; href=&quot;/xxx.css&quot;&gt;</span><br><span class="line"></span><br><span class="line">  bottom:</span><br><span class="line">    - &lt;script src=&quot;/js/crash_cheat.js&quot;&gt;&lt;/script&gt;     #页面崩溃欺骗特效</span><br><span class="line">    # - &lt;script src=&quot;xxxx&quot;&gt;&lt;/script&gt;     主题/source/js文件夹中的.js文件</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+            <tag> Butterfly主题优化 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>复现代码指南</title>
       <link href="/2023/12/04/%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/"/>
       <url>/2023/12/04/%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/</url>
