@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>制作电脑纹理壁纸</title>
+      <link href="/2023/12/16/%E8%87%AA%E5%88%B6%E7%94%B5%E8%84%91%E7%BA%B9%E7%90%86%E5%A3%81%E7%BA%B8/"/>
+      <url>/2023/12/16/%E8%87%AA%E5%88%B6%E7%94%B5%E8%84%91%E7%BA%B9%E7%90%86%E5%A3%81%E7%BA%B8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="查看电脑壁纸尺寸"><a href="#查看电脑壁纸尺寸" class="headerlink" title="查看电脑壁纸尺寸"></a>查看电脑壁纸尺寸</h1><p>在桌面右键，选择<font color=orange>显示设置</font></p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216200845959.png" alt="image-20231216200845959"></p><p>便可查看到目前电脑的分辨率是：<font color=orange>1920×1080</font></p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216201136929.png" alt="image-20231216201136929"></p><h1 id="制作壁纸"><a href="#制作壁纸" class="headerlink" title="制作壁纸"></a>制作壁纸</h1><blockquote><p>本文使用的图案编辑工具是在线PS工具（<a href="https://www.photopea.com/">Photopea | Online Photo Editor</a>），也可以直接在PS软件中编辑</p></blockquote><blockquote><p>颜色设置可参考配色网站：<a href="http://zhongguose.com/">zhongguose － 传统颜色</a></p><p>纹理图片可参考网站：</p><ol><li><a href="https://texturelabs.org/?pg=1">Free Textures, Tutorials, and More (texturelabs.org)</a></li><li><a href="https://www.transparenttextures.com/">Transparent Textures</a></li><li><a href="https://www.cgbookcase.com/textures">Textures | cgbookcase.com</a></li><li><a href="https://www.toptal.com/designers/subtlepatterns/">Subtle Patterns | Free textures for your next web project (toptal.com)</a></li><li><a href="https://polyhaven.com/">Poly Haven</a></li><li><a href="https://www.poliigon.com/search?credit=0">Search - Poliigon</a></li></ol></blockquote><ol><li><p>新建项目，设置分辨率为<strong>电脑显示器分辨率</strong>，设置<strong>背景色</strong>为你喜欢的颜色</p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216202126809.png" alt="image-20231216202126809"></p></li><li><p>点击**<font color=green>文件-打开</font>**或者<font color=blue>Ctrl+O</font>打开下载好的纹理图片</p></li></ol><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216210041490.png" alt="image-20231216210041490"></p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216214805133.png" alt="image-20231216214805133"></p><ol start="3"><li><p>在纹理图案界面，点击<font color=red>编辑-定义新的图案</font>，定义成功后回到壁纸界面</p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216215020114.png" alt="image-20231216215020114"></p></li><li><p>点击图层，右键点击<font color=purple>混合模式</font></p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216215322738.png" alt="image-20231216215322738"></p></li></ol><p>在出现的界面选择<font color=orange>纹理</font>，然后<strong>选择我们定义的图案</strong>，点击确定</p><blockquote><p>纹理界面的深度为正，代表纹理效果是凸出的；深度为负，表示纹理效果是凹陷的</p></blockquote><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216215555128.png" alt="image-20231216215555128"></p><ol start="5"><li><p>最后依次点击<font color=green>文件-导出为-PNG</font>，将图片导出即可</p><p><img src="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20231216215902983.png" alt="image-20231216215902983"></p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> blog搭建 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Butterfly主题优化 </tag>
+            
+            <tag> PS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>footer 和 侧边栏优化</title>
       <link href="/2023/12/16/footer%20%E5%92%8C%20%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%BC%98%E5%8C%96/"/>
       <url>/2023/12/16/footer%20%E5%92%8C%20%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%BC%98%E5%8C%96/</url>
