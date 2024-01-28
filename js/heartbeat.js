@@ -27,8 +27,3 @@ seconds=Math.floor((e_minsold-minsold)*60);
 span_dt_dt.innerHTML='<font style=color:#afb4db>'+daysold+'</font> 天 <font style=color:#f391a9>'+hrsold+'</font> 时 <font style=color:#fdb933>'+minsold+'</font> 分 <font style=color:#a3cf62>'+seconds+'</font> 秒';
 }
 
-
-作者: 花猪
-链接: https://cnhuazhu.gitee.io/2021/02/24/Hexo%E9%AD%94%E6%94%B9/Hexo%E9%A1%B5%E8%84%9A%E7%BE%8E%E5%8C%96/
-来源: 花猪のBlog
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
