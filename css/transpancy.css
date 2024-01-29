@@ -19,6 +19,11 @@
 #	/* 以下代表透明度为0.7 */
 #	background: rgba(255,255,255, .7);
 #}
+/* 小鱼页脚透明 */
+#footer {
+    background: transparent !important;
+}
+
 
 
 
