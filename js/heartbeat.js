@@ -1,6 +1,6 @@
 // 动态心跳
 $(document).ready(function(e){
-    $('.copyright').html('©2023 <i style="color:#FF6A6A" class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> By 胖胖大藕片');
+    $('.copyright').html('<i style="color:#FF6A6A" ©2023></i> <i style="color:#FF6A6A" class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> By 胖胖大藕片');
 })
 
 $(document).ready(function(e){
@@ -9,7 +9,7 @@ $(document).ready(function(e){
 
 //本站运行时间
 function show_date_time(){
-$('.framework-info').html('本站已运行<span id="span_dt_dt" style="color: #000;"></span>');
+$('.framework-info').html('本站已运行<span id="span_dt_dt" style="color: #b3c9d0;"></span>');
 window.setTimeout("show_date_time()", 1000);
 BirthDay=new Date("11/6/2023 0:0:0");
 today=new Date();
