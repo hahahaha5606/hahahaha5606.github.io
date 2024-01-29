@@ -1,6 +1,6 @@
 // 动态心跳
 $(document).ready(function(e){
-    $('.copyright').html('<i style="color:#FF6A6A">©2023</i> <i style="color:#FF6A6A" class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> By 胖胖大藕片');
+    $('.copyright').html('<i style="color:#b3c9d0">©2023</i>  <i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i> <i style="color:#b3c9d0">By 胖胖大藕片</i>');
 })
 
 $(document).ready(function(e){
