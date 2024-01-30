@@ -3897,33 +3897,6 @@ h1.page-title + .tag-cloud-list {
 #loading-box .loading-right-bg {
   right: 0;
 }
-#loading-box.loaded {
-  z-index: -1000;
-}
-#loading-box.loaded .loading-left-bg {
-  -webkit-transition: all 1s;
-  -moz-transition: all 1s;
-  -o-transition: all 1s;
-  -ms-transition: all 1s;
-  transition: all 1s;
-  -webkit-transform: translate(-70%, 0);
-  -moz-transform: translate(-70%, 0);
-  -o-transform: translate(-70%, 0);
-  -ms-transform: translate(-70%, 0);
-  transform: translate(-70%, 0);
-}
-#loading-box.loaded .loading-right-bg {
-  -webkit-transition: all 1s;
-  -moz-transition: all 1s;
-  -o-transition: all 1s;
-  -ms-transition: all 1s;
-  transition: all 1s;
-  -webkit-transform: translate(70%, 0);
-  -moz-transform: translate(70%, 0);
-  -o-transform: translate(70%, 0);
-  -ms-transform: translate(70%, 0);
-  transform: translate(70%, 0);
-}
 #loading-box {
   position: fixed;
   z-index: 1000;
