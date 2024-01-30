@@ -3892,7 +3892,7 @@ h1.page-title + .tag-cloud-list {
   background: var(--preloader-bg);
 }
 #loading-box .loading-left-bg {
-  left: 0;
+  left: 1;
 }
 #loading-box .loading-right-bg {
   right: 0;
