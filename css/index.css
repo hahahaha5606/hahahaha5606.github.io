@@ -1452,7 +1452,7 @@ canvas:not(#ribbon-canvas),
   --search-bg: #f6f8fa;
   --search-input-color: #4c4948;
   --search-a-color: #4c4948;
-  --preloader-bg: #ef475d;
+  --preloader-bg: #e3b4b8;
   --preloader-color: #fff;
   --tab-border-color: #f0f0f0;
   --tab-botton-bg: #f0f0f0;
@@ -3881,6 +3881,21 @@ h1.page-title + .tag-cloud-list {
 }
 #nav .site-page:not(.child):hover:after {
   width: 100%;
+}
+.loading-bg,
+#loading-box .loading-left-bg,
+#loading-box .loading-right-bg {
+  position: fixed;
+  z-index: 1000 /*这是遮罩背景的三维高度，请确保动画的三维高度大于它*/;
+  width: 50%;
+  height: 100%;
+  background-color: var(--preloader-bg);
+}
+#loading-box .loading-left-bg {
+  left: 0 /* 原代码中可能没有这项 */;
+}
+#loading-box .loading-right-bg {
+  right: 0;
 }
 .loading-bg,
 #loading-box .loading-left-bg,
