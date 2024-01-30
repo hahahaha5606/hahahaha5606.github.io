@@ -3886,24 +3886,9 @@ h1.page-title + .tag-cloud-list {
 #loading-box .loading-left-bg,
 #loading-box .loading-right-bg {
   position: fixed;
-  z-index: 1000 /*这是遮罩背景的三维高度，请确保动画的三维高度大于它*/;
-  width: 50%;
-  height: 100%;
-  background-color: var(--preloader-bg);
-}
-#loading-box .loading-left-bg {
-  left: 0 /* 原代码中可能没有这项 */;
-}
-#loading-box .loading-right-bg {
-  right: 0;
-}
-.loading-bg,
-#loading-box .loading-left-bg,
-#loading-box .loading-right-bg {
-  position: fixed;
   z-index: 1000;
   width: 50%;
-  height: 110%;
+  height: 50%;
   background: var(--preloader-bg);
 }
 #loading-box .loading-left-bg {
