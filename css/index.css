@@ -3958,9 +3958,6 @@ h1.page-title + .tag-cloud-list {
   height: 100vh;
   overflow: hidden;
 }
-#loading-box.loaded .wizard-scene {
-  display: none;
-}
 .wizard-scene {
   position: fixed;
   z-index: 1001;
