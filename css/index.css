@@ -3901,15 +3901,15 @@ h1.page-title + .tag-cloud-list {
   z-index: -1000;
 }
 #loading-box.loaded .loading-left-bg,
-#loading-box.loaded transition all 2.0s,
+#loading-box.loaded transition all 10.0s,
 #loading-box.loaded transform translate(-100%,
 #loading-box.loaded 0),
 #loading-box.loaded .loading-right-bg {
-  -webkit-transition: all 2s;
-  -moz-transition: all 2s;
-  -o-transition: all 2s;
-  -ms-transition: all 2s;
-  transition: all 2s;
+  -webkit-transition: all 10s;
+  -moz-transition: all 10s;
+  -o-transition: all 10s;
+  -ms-transition: all 10s;
+  transition: all 10s;
   -webkit-transform: translate(100%, 0);
   -moz-transform: translate(100%, 0);
   -o-transform: translate(100%, 0);
