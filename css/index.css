@@ -3901,11 +3901,11 @@ h1.page-title + .tag-cloud-list {
   z-index: -1000;
 }
 #loading-box.loaded .loading-left-bg {
-  -webkit-transition: all 7s;
-  -moz-transition: all 7s;
-  -o-transition: all 7s;
-  -ms-transition: all 7s;
-  transition: all 7s;
+  -webkit-transition: all 14s;
+  -moz-transition: all 14s;
+  -o-transition: all 14s;
+  -ms-transition: all 14s;
+  transition: all 14s;
   -webkit-transform: translate(-100%, 0);
   -moz-transform: translate(-100%, 0);
   -o-transform: translate(-100%, 0);
@@ -3913,11 +3913,11 @@ h1.page-title + .tag-cloud-list {
   transform: translate(-100%, 0);
 }
 #loading-box.loaded .loading-right-bg {
-  -webkit-transition: all 1s;
-  -moz-transition: all 1s;
-  -o-transition: all 1s;
-  -ms-transition: all 1s;
-  transition: all 1s;
+  -webkit-transition: all 2s;
+  -moz-transition: all 2s;
+  -o-transition: all 2s;
+  -ms-transition: all 2s;
+  transition: all 2s;
   -webkit-transform: translate(100%, 0);
   -moz-transform: translate(100%, 0);
   -o-transform: translate(100%, 0);
