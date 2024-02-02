@@ -3898,7 +3898,7 @@ h1.page-title + .tag-cloud-list {
   right: 0;
 }
 #loading-box.loaded {
-  z-index: -100;
+  z-index: 0;
 }
 #loading-box.loaded .loading-left-bg {
   -webkit-transition: all 7s;
