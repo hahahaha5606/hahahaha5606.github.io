@@ -1,27 +1,49 @@
 /* 来自：https://code7rain.github.io*/
 /* 文章页背景 */
 .layout_post>#post {
-    /* 以下代表透明度为0.7 可以自行修改*/
-    background: rgba(255,255,255,.5);
+    /* 以下代表透明度为0.5 可以自行修改*/
+    background: rgba(255,255,255,.7);
 }
 
 /* 所有页面背景 */
 #aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{
-    /* 以下代表透明度为0.7 */
-    background: rgba(255,255,255,.7);
+    /* 以下代表首页文章标题栏透明度为0.7 */
+    background: rgba(255,255,255,.8);
 }
 /*侧边卡片的透明度 */
 :root {
   --card-bg: rgba(255, 255, 255, .9);
 }
 /* 页脚透明 */
-#footer {
-#	/* 以下代表透明度为0.7 */
-#	background: rgba(255,255,255, .7);
-#}
+/* footer {*/
+	/* 以下代表透明度为0.7 */
+/*	background: rgba(255,255,255, .7);*/
+/*}*/
 /* 小鱼页脚透明 */
 #footer {
     background: transparent !important;
+}
+
+/* 导航栏做居中处理 */
+/* 一级菜单居中 */
+//#nav .menus_items {
+/* display: inline; 这个带不带都可以，本来就是inline */
+//position: absolute;
+//width: fit-content;
+//left: 50%;
+//transform: translateX(-50%);
+//}
+
+/* 去除导航栏选项中底下的蓝条 */
+#nav *::after{
+    background-color: rgba(239,71,93, .9) !important;
+}
+
+/* 导航栏菜单鼠标移入字体放大 */
+#nav #site-name:hover, 
+#nav .menus_item:hover, 
+#nav #search-button:hover{
+    font-size:28px;
 }
 
 
