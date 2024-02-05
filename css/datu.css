@@ -1,21 +1,24 @@
-.post-bg,
-.not-home-page {
+#page-header {
+  background: transparent !important;
+}
+#page-header.post-bg,
+#page-header.not-home-page {
   height: 280px !important;
 }
-#post-info {
+#page-header #post-info {
   bottom: 40px !important;
 }
-#page-site-info {
+#page-header #page-site-info {
   top: 140px !important;
 }
 @media screen and (max-width: 768px) {
-  .not-home-page {
+  #page-header.not-home-page {
     height: 200px !important;
   }
-  #post-info {
+  #page-header #post-info {
     bottom: 10px !important;
   }
-  #page-site-info {
+  #page-header #page-site-info {
     top: 100px !important;
   }
 }
