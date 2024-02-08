@@ -3,9 +3,9 @@ $(document).ready(function(e){
     $('.copyright').html('<i style="color:#b3c9d0">©2023</i>  <i style="color:#FF6A6A;" class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> <i style="color:#b3c9d0">By 胖胖大藕片</i>');
 })
 
-$(document).ready(function(e){
-    show_date_time();
-})
+//$(document).ready(function(e){
+//    show_date_time();
+//})
 
 //本站运行时间
 //function show_date_time(){
