@@ -7,8 +7,14 @@ $(document).ready(function(e){
     show_date_time();
 })
 
-//本站运行时间
+//不显示时间
 function show_date_time(){
+$('.framework-info').html('');
+span_dt_dt.innerHTML='';
+}
+
+//本站运行时间
+//function show_date_time(){
 //$('.framework-info').html('<i style="color:#b3c9d0">本站已运行</i> <span id="span_dt_dt" style="color: #b3c9d0;"></span>');
 //window.setTimeout("show_date_time()", 1000);
 //BirthDay=new Date("11/6/2023 0:0:0");
@@ -25,4 +31,4 @@ function show_date_time(){
 //minsold=Math.floor((e_hrsold-hrsold)*60);
 //seconds=Math.floor((e_minsold-minsold)*60);
 //span_dt_dt.innerHTML=' <font style=color:#985fff>'+daysold+'</font> 天 <font style=color:#f391a9>'+hrsold+'</font> 时 <font style=color:#fdb933>'+minsold+'</font> 分 <font style=color:#a3cf62>'+seconds+'</font> 秒';
-}
+//}
