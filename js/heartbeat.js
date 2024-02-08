@@ -3,12 +3,12 @@ $(document).ready(function(e){
     $('.copyright').html('<i style="color:#b3c9d0">©2023</i>  <i style="color:#FF6A6A;" class="fa-fw fas fa-heartbeat card-announcement-animation cc_pointer"></i> <i style="color:#b3c9d0">By 胖胖大藕片</i>');
 })
 
-//$(document).ready(function(e){
-//    show_date_time();
-//})
+$(document).ready(function(e){
+    show_date_time();
+})
 
 //本站运行时间
-//function show_date_time(){
+function show_date_time(){
 //$('.framework-info').html('<i style="color:#b3c9d0">本站已运行</i> <span id="span_dt_dt" style="color: #b3c9d0;"></span>');
 //window.setTimeout("show_date_time()", 1000);
 //BirthDay=new Date("11/6/2023 0:0:0");
