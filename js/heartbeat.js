@@ -9,7 +9,7 @@ $(document).ready(function(e){
 
 //不显示时间
 function show_date_time(){
-$('.framework-info').html('');
+$('.framework-info').html('<i style="color:#b3c9d0">欢迎光临小破站~</i> <span id="span_dt_dt" style="color: #b3c9d0;"></span>');
 span_dt_dt.innerHTML='';
 }
 
