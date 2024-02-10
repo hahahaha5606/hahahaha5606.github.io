@@ -1,0 +1,28 @@
+// 双栏美化：https://luo-honghua.gitee.io/2022/12/06/butterfly%E4%B8%BB%E9%A2%98%E6%96%87%E7%AB%A0%E5%8F%8C%E6%A0%8F%E5%B8%83%E5%B1%80/index.html
+#recent-posts>.recent-post-item{
+	border-radius: 30px;
+}
+.layout #recent-posts>.recent-post-item .post_cover{
+	height: 280px;
+}
+#recent-posts>.recent-post-item>.recent-post-info{
+	padding: 10px 40px;
+}
+.layout #recent-posts>.recent-post-item>.recent-post-info>.article-title{
+	font-size: 1.6em;
+}
+#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
+	font-size: 100%;
+}
+#pagination {
+    overflow: hidden;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+#pagination .page-number{
+	box-shadow: 0 8px 16px -4px #2c2d300c;
+}
+.layout>.recent-posts .pagination>:not(.space){
+	box-shadow: 0 8px 16px -4px #2c2d300c;
+}

@@ -28,7 +28,7 @@ setInterval(() => {
   }//秒
   //早上7点到晚上10点营业(这里修改为自己博客信息)
   if ((Number(time[2])<22) && (Number(time[2])>7)){
-    currentTimeHtml ="<img class='boardsign' src='https://img.shields.io/badge/开荒中-藕片种植基地?style=social&logo=docsify&label=藕片种植基地' title='哼哧哼哧~'><div id='runtime'>" + time[0] + ' YEAR ' + time[1] + ' DAYS ' + time[2] + ' : ' + time[3] + ' : ' + time[4] + '</div>';
+    currentTimeHtml ="<img class='boardsign' src='https://img.shields.io/badge/开荒中-藕片种植基地?style=social&logo=docsify&label=藕片种植基地' title='哼哧哼哧~'><div id='runtime'>" + '<font style=color:#f391a9>' + time[0] + '</font>' + ' YEAR ' + '<font style=color:#f391a9>' + time[1] + '</font>' + ' DAYS ' + '<font style=color:#a3cf62>' + time[2] + '</font>' + ' : ' + '<font style=color:#a3cf62>' + time[3] + '</font>' + ' : ' + '<font style=color:#a3cf62>' + time[4] + '</font>' + '</div>';
   } //徽标内容参考站内教程
   //其余时间打烊(这里修改为自己博客信息)
   else{
