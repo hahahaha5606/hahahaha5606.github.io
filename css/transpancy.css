@@ -10,9 +10,14 @@
     /* 以下代表首页文章标题栏透明度为0.7 */
     background: rgba(255,255,255,.8);
 }
-/*侧边卡片的透明度 */
+/*侧边卡片的透明度，但是它会把文章页也变了 */
 :root {
   --card-bg: rgba(255, 255, 255, .9);
+}
+/* 侧边栏透明 */
+#aside-content .card-widget {
+    /*background: var(--light_bg_color)*/
+    background: rgba(255, 255, 255, .3)
 }
 /* 页脚透明 */
 /* footer {*/
