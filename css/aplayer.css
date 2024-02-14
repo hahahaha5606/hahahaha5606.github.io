@@ -326,7 +326,7 @@
 /*另一个css*/
 /* 颜色 */
 :root {
-  --anzhiyu-theme-op: #4259ef23;
+  --anzhiyu-theme-op: #EEE8AA;
   --anzhiyu-card-bg-none: rgba(255, 255, 255, 0);
   --anzhiyu-main-op-deep: var(--anzhiyu-theme-op-deep) !important;
   --anzhiyu-gray-op: #9999992b;
@@ -368,11 +368,11 @@
 }
 
 [data-theme="light"] {
-  --anzhiyu-theme-op-deep: #4259efdd;
+  --anzhiyu-theme-op-deep: #696969;
   --global-bg: #f7f9fe;
-  --anzhiyu-theme: #3b70fc;
+  --anzhiyu-theme: #ef475d;
   --anzhiyu-theme-deep: #1856fb;
-  --anzhiyu-theme-op: #4259ef23;
+  --anzhiyu-theme-op: #EEE8AA;
   --anzhiyu-blue: #3b70fc;
   --anzhiyu-red: #d8213c;
   --anzhiyu-pink: #ff7c7c;
@@ -399,9 +399,9 @@
 }
 
 [data-theme="dark"] {
-  --anzhiyu-theme-op-deep: #0084ffdd;
+  --anzhiyu-theme-op-deep: #696969;
   --global-bg: #18171d;
-  --anzhiyu-theme: #0084ff;
+  --anzhiyu-theme: #696969;
   --anzhiyu-theme-deep: #0076e5;
   --anzhiyu-theme-op: #0084ff23;
   --anzhiyu-blue: #0084ff;
