@@ -1,0 +1,47 @@
+.reward-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 1rem -0.25rem 0.5rem -0.25rem
+}
+
+.reward-item-content {
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #e3e8f7;
+    width: calc((100% / 4) - 0.5rem);
+    box-shadow: 0 8px 16px -4px #2c2d300c;
+    margin: 0 .25rem .5rem .25rem
+}
+
+.reward-item-name {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei"
+}
+
+.reward-item-time {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    align-items: center;
+}
+
+.reward-item-money {
+    padding: 4px;
+    background: #363636;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    margin-right: 4px;
+    white-space: nowrap;
+    height: 26px;
+    line-height: 18px;
+}
+
+@media screen and (max-width: 700px){
+    .reward-item-content {
+        width: 100%;
+
+    }
+}

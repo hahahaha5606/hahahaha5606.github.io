@@ -17,8 +17,10 @@ setInterval(function () {
     //     + tow(hour) + '<span class="time">小时</span>'
     //     + tow(minute) + '<span class="time">分钟</span>'
     //     + tow(second) + '<span class="time">秒</span>';
+    //  "<font size=5px><b>这个人很无聊</b></font>" 
     var str = tow(hour) + '<span class="time" style="color: #ef475d;">小时</span>'
         + tow(minute) + '<span class="time" style="color: #fdb933;">分钟</span>'
         + tow(second) + '<span class="time" style="color: #a3cf62;">秒</span>';
-    oSpan.innerHTML = "您已浏览网页" + str;
+    oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 20px; font-weight: bold;">这个人很无聊</span>'+"<p> </p>您已浏览网页" + str;
 }, 1000)
+
