@@ -3,18 +3,19 @@
 	border-radius: 30px;
 }
 .layout #recent-posts>.recent-post-item .post_cover{
-	height: 280px;
+	height: 200px;
 }
 #recent-posts>.recent-post-item>.recent-post-info{
-	padding: 10px 40px;
+	padding: 1px 20px;
 }
 .layout #recent-posts>.recent-post-item>.recent-post-info>.article-title{
-	font-size: 1.6em;
+	font-size: 1.25em;
 }
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
-	font-size: 100%;
+	font-size: 85%;
 }
-#pagination {
+/* 翻页按钮居中 */
+#pagination {  
     overflow: hidden;
     margin-top: 1rem;
     width: 100%;
