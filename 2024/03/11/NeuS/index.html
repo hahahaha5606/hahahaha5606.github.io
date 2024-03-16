@@ -1,0 +1,739 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>群策群力战NeuS，乃知NeRF难自遮 | 藕片侠大战论文怪</title><meta name="author" content="胖胖大藕片"><meta name="copyright" content="胖胖大藕片"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="论文名称: NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction（NeuS: 通过体积渲染学习神经隐式曲面，用于多视图重建）
+ 代码地址：Totoro97/NeuS: Code release for NeuS (github.com)
+ 论文主页: NeuS: Lea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="群策群力战NeuS，乃知NeRF难自遮">
+<meta property="og:url" content="http://example.com/2024/03/11/NeuS/index.html">
+<meta property="og:site_name" content="藕片侠大战论文怪">
+<meta property="og:description" content="论文名称: NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction（NeuS: 通过体积渲染学习神经隐式曲面，用于多视图重建）
+ 代码地址：Totoro97/NeuS: Code release for NeuS (github.com)
+ 论文主页: NeuS: Lea">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg">
+<meta property="article:published_time" content="2024-03-11T12:35:13.828Z">
+<meta property="article:modified_time" content="2024-03-05T07:02:17.000Z">
+<meta property="article:author" content="胖胖大藕片">
+<meta property="article:tag" content="NIPS2021">
+<meta property="article:tag" content="volume rendering">
+<meta property="article:tag" content="neural surface reconstruction">
+<meta property="article:tag" content="SDF">
+<meta property="article:tag" content="表面重建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/03/11/NeuS/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '群策群力战NeuS，乃知NeRF难自遮',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-03-05 15:02:17'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/showAppreciation.css"><link rel="stylesheet" href="/css/fishfooter.css"><link rel="stylesheet" href="/css/ancientPoetry.css"><link rel="stylesheet" href="/css/mycss.css"><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/macblack.css"><link rel="stylesheet" href="/css/datu.css"><link rel="stylesheet" href="/css/aplayer.css"></head><body><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css">
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/doggy.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/Message/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="藕片侠大战论文怪"><span class="site-name">藕片侠大战论文怪</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/Message/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">群策群力战NeuS，乃知NeRF难自遮</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-11T12:35:13.828Z" title="发表于 2024-03-11 20:35:13">2024-03-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-03-05T07:02:17.000Z" title="更新于 2024-03-05 15:02:17">2024-03-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/">原理笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title="群策群力战NeuS，乃知NeRF难自遮"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="top-img" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg');"></div><article class="post-content" id="article-container"><blockquote>
+<p>论文名称: <strong>NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction</strong>（NeuS: 通过体积渲染学习神经隐式曲面，用于多视图重建）</p>
+<p>代码地址：<a target="_blank" rel="noopener" href="https://github.com/Totoro97/NeuS">Totoro97/NeuS: Code release for NeuS (github.com)</a></p>
+<p>论文主页: <a target="_blank" rel="noopener" href="https://lingjie0206.github.io/papers/NeuS/">NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction (lingjie0206.github.io)</a></p>
+<p>论文翻译：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/577893396">NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction - 知乎 (zhihu.com)</a> （来自别的友友的翻译~）</p>
+</blockquote>
+<h1 id="论文基本信息">论文基本信息</h1>
+<p>NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction<sup>[1]</sup>是<strong>2021</strong>年由来自香港大学、Max Planck研究所和德州农工大学的Peng Wang 等人发表在 <strong>NeurIPS (Spotlight)</strong> 会议上的SCI论文。</p>
+<h2 id="论文摘要">论文摘要</h2>
+<p>我们提出了一种新颖的神经表面重建方法，称为NeuS，用于从2D图像输入以高保真度重建对象和场景。</p>
+<p>现有的神经表面重建方法，例如DVR [Niemeyer等人，2020] 和IDR [Yariv等人，2020]，需要前景掩模<span style="background:#eef0f4;">(foreground mask)</span>作为监督，容易被困在局部最小值中，并且因此与具有严重自遮挡<span style="background:#eef0f4;">(self-occlusion)</span>或薄结构的对象的重建作斗争。同时，用于新视图合成的最近的神经方法，例如NeRF [Mildenhall等人，2020] 及其变体，使用体积渲染来产生具有优化鲁棒性的神经场景表示，即使对于高度复杂的对象也是如此。但是，很难从这种学习的隐式表示中提取高质量的曲面，因为表示中没有足够的曲面约束<span style="background:#eef0f4;">(surface constraints)</span>。</p>
+<p>在NeuS中，我们建议将曲面表示为有符号距离函数 (SDF) 的零级集<span style="background:#eef0f4;">(zero-level set)</span>，并开发一种新的体渲染方法来训练神经SDF表示。我们观察到传统的体绘制方法会导致表面重建的固有几何误差 (即偏差 <span style="background:#eef0f4;">bias</span>)，因此提出了一种新的公式，该公式在一阶近似中没有偏差，因此<strong>即使没有掩模监督</strong>，也可以实现更准确的表面重建。在DTU数据集和BlendedMVS数据集上的实验表明，NeuS在高质量的表面重建方面的性能优于现有技术，特别是对于具有复杂结构和自遮挡的对象和场景。</p>
+<h2 id="创新点idea">创新点/IDEA</h2>
+<p><strong>NeRF旨在进行新视图合成而不是表面重建</strong>，因此NeRF仅学习体积密度场，因此很难从中提取高质量的表面。</p>
+<figure>
+<img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240211204429014.png" alt="image-20240211204429014"><figcaption aria-hidden="true">image-20240211204429014</figcaption>
+</figure>
+<blockquote>
+<p>图1 : ( a) 表面渲染和体积渲染的图示。(b) 竹花机的玩具实例，其中花机顶部有咬合物。与最先进的方法相比，我们的方法可以处理闭塞并获得更好的重建质量。</p>
+</blockquote>
+<p>针对该问题，该文章提出通过引入由SDF引起的密度分布，应用体渲染方法来学习隐式SDF表示。又因简单地将标准体渲染方法应用于与SDF相关的密度将导致重构表面中的可识别偏差，所以文章提出一种新颖的体绘制方案，以确保在SDF的一阶近似中进行无偏表面重建。</p>
+<p><strong><span style="background:#daf5e9;">给定一组3D对象的有位姿图像{<span class="math inline">\(I_k\)</span>}，我们的目标是重建其表面<span class="math inline">\(S\)</span></span>。表面由神经隐式SDF的零级集表示。为了学习神经网络的权重，我们开发了一种新颖的体渲染方法，用于从隐式SDF渲染图像，并最小化渲染图像与输入图像之间的差异。这种体渲染方法可确保NeuS中的稳健优化，以重建复杂结构的对象。</strong></p>
+<h1 id="相关工作">相关工作</h1>
+<h2 id="classical-multi-view-surface-and-volumetric-reconstruction">Classical Multi-view Surface and Volumetric Reconstruction</h2>
+<ul>
+<li>基于点和表面的重建
+<ul>
+<li>基于点和表面的重建方法通过利用图像间光度一致性来估计每个像素的深度图，然后将深度图融合为全局密集点云；</li>
+<li>表面重建通常是通过诸如筛选的泊松表面重建之类的方法进行后处理 ；</li>
+<li>总结：重建质量很大程度上依赖于对应匹配的质量，对于没有丰富纹理的对象，匹配对应的困难往往会导致重建结果出现严重的伪影和缺失部分；</li>
+</ul></li>
+<li>体积重建
+<ul>
+<li>体积重建方法通过从多视图图像中估计体素网格中的占用率和颜色并评估每个体素的颜色一致性来规避显式对应匹配的困难；</li>
+<li>总结：由于可实现的体素分辨率有限，这些方法无法实现高精度；</li>
+</ul></li>
+</ul>
+<h2 id="neural-implicit-representation">Neural Implicit Representation</h2>
+<ul>
+<li>一些方法通过引入归纳偏差来在深度学习框架中强制实现3D理解。这些归纳偏差可以是显式表示，例如体素网格 ，点云 ，网格和隐式表示。</li>
+<li>由于神经网络编码的隐式表示是连续的并且可以实现高空间分辨率，因此最近引起了很多关注。此表示已成功应用于形状表示，新颖的视图合成 和多视图3D重建。</li>
+</ul>
+<h1 id="算法框架">算法框架</h1>
+<h2 id="场景表示-scene-representation">场景表示 Scene representation</h2>
+<p><u>第一步是构造从3D模型到图像的渲染方法</u>（在传统图形学大概可称为<u>光栅化</u>）。定义重建对象的<u>场景</u>由两个函数表示:</p>
+<ul>
+<li><span class="math inline">\(f:\mathbb{R} ^3\rightarrow \mathbb{R}\)</span> 将空间位置<span class="math inline">\(x\in \mathbb{R} ^3\)</span>映射为从<span class="math inline">\(x\)</span>到对象的有符号距离</li>
+<li><span class="math inline">\(c:\mathbb{R} ^3\times \mathbb{S}^2\rightarrow \mathbb{R} ^3\)</span> 对与点<span class="math inline">\(x\in \mathbb{R} ^3\)</span>和视角方向<span class="math inline">\(v\in \mathbb{S} ^2\)</span>相关的颜色进行编码</li>
+</ul>
+<p>这两个函数都由多层感知机MLP编码。重建对象的表面<span class="math inline">\(S\)</span>由SDF的零级集表示（<span style="background:#daf5e9;">SDF函数，即<span class="math inline">\(f(x)\)</span>的零值面表达形状）</span>，即 <span class="math display">\[
+\tag{1}
+\label{eq1}
+S=\left\{ x\in \mathbb{R} ^3|f\left( x \right) =0 \right\} .
+\]</span> <u>第二步是构造体渲染训练SDF网络。</u>为了应用体渲染方法来训练SDF网络，和传统体渲染不同，引入概率密度函数$_s( f( x ) ) <span class="math inline">\(作为不透明度`opacity`，称为 S-density 。其中\)</span>f(x)<span class="math inline">\(是\)</span>x<span class="math inline">\(的符号距离函数SDF，\)</span>s$是一个<strong>trainable parameter</strong>，外层是逻辑密度分布函数(logistic density function): <span class="math display">\[
+\phi _s\left( x \right) =se^{-sx}/\left( 1+e^{-sx} \right) ^2 \tag{2}.
+\]</span> 逻辑密度分布函数是sigmoid函数<span class="math inline">\(\varPhi _s\left( x \right) =\left( 1+e^{-sx} \right) ^{-1}\)</span>的一阶导数。原则上，概率密度函数<span class="math inline">\(\phi _S\left( x \right)\)</span>可以是以0为中心的任何单峰unimodal（即铃形 bell-shaped）密度函数，这里我们选逻辑密度分布是为了计算方便。逻辑密度分布函数<span class="math inline">\(\phi _s\left( x \right)\)</span>的标准差是<span class="math inline">\(1/s\)</span>，也是一个<strong>trainable parameter</strong>，即随着网络收敛<span class="math inline">\(1/s\)</span>趋向于0，同时也意味着此时概率密度函数pdf在射线上的某个空间点达到了峰值。</p>
+<h2 id="渲染-rendering">渲染 Rendering</h2>
+<p>给定一个像素，相机中心为<span class="math inline">\(\mathbf{o}\)</span>，光线方向（即射线ray的单位向量）为<span class="math inline">\(\mathbf{v}\)</span>，从相机中心到该像素的射线上一点为<span class="math inline">\(\mathbf{p}(t)=\mathbf{o}+t\mathbf{v}，t\geqslant0\)</span>。该像素颜色<span class="math inline">\(C\left( \mathbf{o},\mathbf{v} \right)\)</span>的一般渲染通式为： <span class="math display">\[
+C\left( \mathbf{o},\mathbf{v} \right) =\int_0^{+\infty}{w\left( t \right) c\left( \mathbf{p}\left( t \right) ,\mathbf{v} \right) dt}\tag{3}.
+\]</span> <span class="math inline">\(c\left( \mathbf{p}\left( t \right) ,\mathbf{v} \right)\)</span>是在射线上一点<span class="math inline">\(\mathbf{p}\)</span>沿着视角方向<span class="math inline">\(\mathbf{v}\)</span>的颜色。<span class="math inline">\(w(t)\)</span>是权重函数，因此要求<span class="math inline">\(w(t)&gt;0\)</span>且<span class="math inline">\(\int_0^{+\infty}w(t)dt=1\)</span>。</p>
+<p>作者认为从2D图像学习精确的SDF表达的关键是<strong>建立一个合适的基于SDF的权重函数 <span class="math inline">\(w(t)\)</span></strong>，有两点要求：</p>
+<ul>
+<li><strong>Unbiased</strong>：对于相机射线<span class="math inline">\(\mathbf{p}(t)\)</span>和表面surface的交点<span class="math inline">\(\mathbf{p}(t^*)\)</span>，<span class="math inline">\(w(t)\)</span>应在<span class="math inline">\(t^*\)</span>处取得局部最大值（即<u>相机射线</u>和<u>SDF零级集zero-level set（表面surface）</u>的交点处的像素贡献最大）。</li>
+<li><strong>Occulusion-aware</strong>：同一条射线上两个深度<span class="math inline">\(t_0\)</span>和<span class="math inline">\(t_1\)</span>，若<span class="math inline">\(f\left( t_0 \right) =f\left( t_1 \right)\)</span>但<span class="math inline">\(t_0&lt;t_1\)</span>，那么应该有<span class="math inline">\(w(t_0)&gt;w(t_1)\)</span>（即考虑自体遮挡，如果一条射线多次交叉表面（穿越多个表面），应该更多地使用最靠近相机的交点的颜色（射线所遇到的第一个表面交点所带来的颜色））。</li>
+</ul>
+<p>作者讨论了两种<span class="math inline">\(w(t)\)</span>表达，最终选择了<span class="math inline">\((b)\)</span>形式。</p>
+<figure>
+<img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240212171629587.png" alt="image-20240212171629587"><figcaption aria-hidden="true">image-20240212171629587</figcaption>
+</figure>
+<blockquote>
+<p>图2</p>
+</blockquote>
+<h3 id="naive的wt权重函数设计">naive的<span class="math inline">\(w(t)\)</span>权重函数设计</h3>
+<p>直接利用先前NeRF中提出的 volume rendering pipeline： <span class="math display">\[
+w\left( t \right) =T\left( t \right) \sigma \left( t \right)\tag{4}.
+\]</span> <span class="math inline">\(\sigma \left( t \right)\)</span>是传统体渲染中的体密度volume density，被设置为与S-density相同：<span class="math inline">\(\sigma(t)=S-density=\phi_s(f(\mathbf{p}(t)))\)</span>。<span class="math inline">\(T(t)=\exp(-\int_0^t\sigma(u){\rm d}u)\)</span>是沿射线的累积透射率accumulated transmittance。该方法只能做到occulusion-aware，但是由于它在重建表面引入了固有误差，因此有bias，在射线打到表面之前<span class="math inline">\(w(t)\)</span>已经取得了局部最优，如图2(a)所示（具体推导可参考原文补充材料）。</p>
+<h3 id="作者提出的wt权重函数设计">作者提出的<span class="math inline">\(w(t)\)</span>权重函数设计</h3>
+<p>首先讨论一种straight-forward 方式： <span class="math display">\[
+w(t) = \frac{ \phi_s(f(\mathbf{p}(t)))}{ \int_0^{+\infty} \phi_s( f( \mathbf{p}(u) ) ) {\rm d}u }. \tag{5}\label{eq5}
+\]</span> 该方式直接使用归一化的S-density作为权重函数，显然无偏，但是没有occlusion-aware：两个SDF交叉点将在<span class="math inline">\(w(t)\)</span>中产生两个等值的峰。</p>
+<p>接下来，我们需要再对其进行改造，使其能够满足occlusion-aware的性质。自然地，NeRF本身基本的公式就是occlusion-aware，文章还是采用了基本公式的逻辑，但是在其基础上做了微小的改动，即<span style="background:#daf5e9;">自行定义了一个不透明的密度函数<span class="math inline">\(\rho(t)\)</span>（opaque density），对应着传统公式中的<span class="math inline">\(\sigma(t)\)</span></span>，因此，权重函数变为了： <span class="math display">\[
+w(t)=T(t)\rho(t),\,\,where\,\,T(t)=\exp(-\int_0^t \rho(u){\rm d}u). \tag{6}\label{eq6}
+\]</span></p>
+<h4 id="rhot的推导思路"><span class="math inline">\(\rho(t)\)</span>的推导思路</h4>
+<figure>
+<img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240213173052919.png" alt="image-20240213173052919"><figcaption aria-hidden="true">image-20240213173052919</figcaption>
+</figure>
+<blockquote>
+<p>图3 多个表面相交情况下，权重分布图示。由图可见我们设计的<span class="math inline">\(w(t)\)</span>保证SDF的估计是一阶无偏的，并且是occlusion-aware的。</p>
+</blockquote>
+<p>首先，我们考虑一种简单情况：即只有一个表面交点且表面是平面，此时从<span class="math inline">\(\eqref{eq5}\eqref{eq6}\)</span>式出发导出<span class="math inline">\(\rho(t)\)</span>以<span class="math inline">\(f(\mathbf{p}(t))\)</span>为输入的表达式，然后再推广到多次表明相交的情况。</p>
+<p>在这种简单的特殊情况下，我们很容易地知道符号距离函数sdf，即<span class="math inline">\(f(\mathbf{p}(t))\)</span>有以下的关系： <span class="math display">\[
+f(\mathbf{p}(t))=-|cos(\theta)|\cdot(t-t^*),\,\,where\,\, f(\mathbf{p}(t^*))=0 \tag{7}.
+\]</span> 其中，<span class="math inline">\(\theta\)</span>是视角方向<span class="math inline">\(\mathbf{v}\)</span>与外表面法向量<span class="math inline">\(\mathbf{n}\)</span>之间的夹角。由于表面surface被假定为一个平面plane，因此<span class="math inline">\(|cos(\theta)|\)</span>是一个常量。此时根据<span class="math inline">\(\eqref{eq5}\)</span>式有： <span class="math display">\[
+\begin{aligned}
+w(t) &amp; =\lim _{t^{*} \rightarrow+\infty} \frac{\phi_{s}(f(\mathbf{p}(t)))}{\int_{0}^{+\infty} \phi_{s}(f(\mathbf{p}(u))) \mathrm{d} u} \\
+&amp; =\lim _{t^{*} \rightarrow+\infty} \frac{\phi_{s}(f(\mathbf{p}(t)))}{\int_{0}^{+\infty} \phi_{s}\left(-|\cos (\theta)|\left(u-t^{*}\right)\right) \mathrm{d} u} \\
+&amp; =\lim _{t^{*} \rightarrow+\infty} \frac{\phi_{s}(f(\mathbf{p}(t)))}{\int_{-t^{*}}^{+\infty} \phi_{s}\left(-|\cos (\theta)| u^{*}\right) \mathrm{d} u^{*}} \\
+&amp; =\lim _{t^{*} \rightarrow+\infty} \frac{\phi_{s}(f(\mathbf{p}(t)))}{|\cos (\theta)|^{-1} \int_{-|\cos (\theta)| t^{*}}^{+\infty} \phi_{s}(\hat{u}) \mathrm{d} \hat{u}} \\
+&amp; =|\cos (\theta)| \phi_{s}(f(\mathbf{p}(t))) .
+\end{aligned} \tag{8}
+\]</span> 又根据<span class="math inline">\(\eqref{eq6}\)</span>式， <span class="math display">\[
+T(t)\rho(t)=|\cos (\theta)| \phi_{s}(f(\mathbf{p}(t))).\tag{9}
+\]</span> 已知累积透射率accumulated transmittance <span class="math inline">\(T(t)=\exp(-\int_0^t \rho(u){\rm d}u)\)</span>，则： <span class="math display">\[
+T\left( t \right) \rho \left( t \right) =-\frac{dT}{dt}\left( t \right).\tag{10.a}
+\]</span></p>
+<p><span class="math display">\[
+|\cos (\theta)| \phi_{s}(f(\mathbf{p}(t)))=-\frac{d\varPhi _s}{dt}\left( f\left( \mathbf{p}\left( t \right) \right) \right) .\tag{10.b}
+\]</span></p>
+<p>从而， <span class="math display">\[
+\frac{dT}{dt}\left( t \right)=\frac{d\varPhi _s}{dt}\left( f\left( \mathbf{p}\left( t \right) \right) \right)
+\]</span> 对两边积分得， <span class="math display">\[
+T\left( t \right) =\varPhi _s\left( f\left( \mathbf{p}\left( t \right) \right) \right)\tag{11}
+\]</span> 最后取对数，再对两边积分， <span class="math display">\[
+\int_{0}^{t} \rho(u) \mathrm{d} u=-\ln \left(\Phi_{s}(f(\mathbf{p}(t)))\right) \\
+\Rightarrow \rho(t)=\frac{-\frac{\mathrm{d} \Phi_{s}}{\mathrm{~d} t}(f(\mathbf{p}(t)))}{\Phi_{s}(f(\mathbf{p}(t)))}. \tag{12}
+\]</span> 上式是单个surface的情况，当光线在两个surface之间时会变成负，把它拓展到多surface的情况需要在这时将之设为0，即： <span class="math display">\[
+\rho(t)=\max \left(\frac{-\frac{\mathrm{d} \Phi_{s}}{\mathrm{~d} t}(f(\mathbf{p}(t)))}{\Phi_{s}(f(\mathbf{p}(t)))}, 0\right) .\tag{13}\label{eq13}
+\]</span> 在补充材料中我们给出了在单面交和多面交情况下，由<span class="math inline">\(\eqref{eq13}\eqref{eq6}\)</span>式定义的权重函数在SDF的一阶逼近中是无偏的定理证明。</p>
+<h3 id="离散化discretization">离散化Discretization</h3>
+<p>为了获得不透明度opacity和权重函数weight function的离散对应部分，我们采用与NeRF中使用的近似方案，该方案沿着射线对<span class="math inline">\(n\)</span>个点进行采样<span class="math inline">\(\{\mathbf{p}_i=\mathbf{o}+t_i\mathbf{v}|i=1,...,n,t_i&lt;t_{i+1}\}\)</span>，以计算射线的近似像素颜色<span class="math inline">\(\hat{C}\)</span>如下： <span class="math display">\[
+\hat{C}=\sum_{i=1}^n{T_i\alpha _ic_i}, 
+\]</span> <span class="math display">\[
+T_i=\prod_{j=1}^{i-1}{\left( 1-\alpha _j \right)},   \tag{14}\label{eq14}
+\]</span></p>
+<p><span class="math display">\[
+\alpha _i=1-\exp \left( -\int_{t_i}^{t_{i+1}}{\rho \left( t \right) dt} \right) =\max \left( \frac{\Phi _s(f(\mathbf{p}(t_i)))-\Phi _s(f(\mathbf{p}(t_{i+1})))}{\Phi _s(f(\mathbf{p}(t_i)))},0 \right).
+\]</span></p>
+<p>其中<span class="math inline">\(T_i\)</span>是离散的累积透射率accumulated transmittance，<span class="math inline">\(\alpha_i\)</span>是离散的不透明度opacity值，关于<span class="math inline">\(\alpha_i\)</span>的详细推导在补充材料中给出。</p>
+<h4 id="离散化的采样方式">离散化的采样方式</h4>
+<p>在真正的实现过程中，实际上有两种采样方式：</p>
+<ol type="1">
+<li>直接采样射线上的点：<span class="math inline">\(\mathbf{q}_i=\mathbf{o}+t_i\mathbf{v}\)</span></li>
+<li>采样射线上某一小段的中点： <span class="math inline">\(\mathbf{p}_i = \mathbf{o} + \frac{ t_i + t_{i+1} }{2} \mathbf{v}\)</span></li>
+</ol>
+<figure>
+<img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240213205224343.png" alt="image-20240213205224343"><figcaption aria-hidden="true">image-20240213205224343</figcaption>
+</figure>
+<blockquote>
+<p>图4 两种采样方式。</p>
+<p>具体而言，当我们<strong>计算<span class="math inline">\(\alpha\)</span>值</strong>时，我们采用section points的方式，计算公式与<span class="math inline">\(\eqref{eq14}\)</span>保持一致，即<span class="math inline">\(\max \left( \frac{\Phi _s(f(\mathbf{q}(t_i)))-\Phi _s(f(\mathbf{q}(t_{i+1})))}{\Phi _s(f(\mathbf{q}(t_i)))},0 \right)\)</span>。当<strong>计算颜色值</strong>时，我们采用mid-point方式。</p>
+</blockquote>
+<h2 id="训练-training">训练 Training</h2>
+<h3 id="损失函数">损失函数</h3>
+<p>随机采样一批(a batch)像素，以及其对应的在世界坐标系下的射线，即： <span class="math display">\[
+P=\{C_k,M_k,\mathbf{o}_k,\mathbf{v}_k\}
+\]</span> 其中，<span class="math inline">\(C_k\)</span>是像素颜色，<span class="math inline">\(M_k\in\{0,1\}\)</span>是可选的mask值。采样像素数量（batch size）设为m，一条射线上的采样点数（point sampling size）设为n。损失函数定义为： <span class="math display">\[
+L=L_{color}+\lambda L_{reg}+\beta L_{mask}.\tag{15}
+\]</span> 其中，</p>
+<ul>
+<li><span class="math inline">\(L_{color}=\frac{1}{m}\sum_k{R\left( \hat{C}_k,C_k \right)}\)</span> ——渲染图和真实图差异。类似IDR，<span class="math inline">\(R\)</span>采用L1损失，这使得我们的观察对outliers鲁棒且训练稳定</li>
+<li><span class="math inline">\(L_{reg}=\frac{1}{nm}\sum_{k,i}{\left( |\nabla f\left( \mathbf{\hat{p}}_{k,i} \right) |_2-1 \right) ^2}\)</span>——在采样点sample points上加的Eikonal项，用于正则化<span class="math inline">\(f_{\theta}\)</span>的SDF值，即SDF法向量的损失</li>
+<li><span class="math inline">\(L_{mask}=BCE(M_k,\hat{O}_k)\)</span>——可选mask项，BCE（binary cross entropy）即二值交叉熵。其中<span class="math inline">\(\hat{O}_k=\sum_{i=1}^n{T_{k,i}\alpha _k}\)</span>是在相机射线上采样点的权重求和，这里的预测可微分mask就是通过射线上权重<span class="math inline">\(w(t)\)</span>的和求出的。</li>
+</ul>
+<h3 id="分层采样-hierarchical-sampling">分层采样 Hierarchical Sampling</h3>
+<blockquote>
+<p>原来的NeRF采样过程：</p>
+<p>首先均匀采样一组点，然后 coarse importance sampling + fine importance sampling。<strong>coarse sampling</strong> 64个点，其概率值由 <strong>固定的很大的</strong>标准差 <span class="math inline">\(1/s\)</span>定义的<span class="math inline">\(\phi_s(f(x))\)</span>给出；<strong>fine sampling</strong> 64个点，其概率值由 <strong>learned</strong> <span class="math inline">\(1/s\)</span> 定义的 <span class="math inline">\(\phi_s(f(x))\)</span>给出。</p>
+</blockquote>
+<p>基本没怎么改动 NeRF 原来的 stratified sampling 过程（首先，均匀地在射线上进行采样，然后迭代地在粗概率估计峰值处执行重要性采样。）:</p>
+<p>但不同于NeRF同时优化 coarse network和 fine network，这里只训练了一个network。首先均匀采样64个点作为coarse sampling 点，其概率由 <strong>固定的很大的</strong>标准差 <span class="math inline">\(1/s\)</span>定义的S-density <span class="math inline">\(\phi_s(f(x))\)</span>给出；然后利用这组coarse点、其对应的由<strong>固定的很大的</strong>标准差<span class="math inline">\(1/s\)</span>定义的<span class="math inline">\(\phi_s(f(x))\)</span>值和学得的标准差构造pdf，采样64个fine sampling点。</p>
+<h1 id="代码">代码</h1>
+<blockquote>
+<p>代码注释小技巧：在注释代码时，如果想区别原来就有的代码和我们后来加上的代码，可以通过 Ctrl+R 将所有原来就有的注释符号 '#' 改为' '###'。在后面添加的代码注释则都以 '#' 开头。</p>
+</blockquote>
+<h2 id="运行指令">运行指令</h2>
+<ul>
+<li><strong>Training without mask</strong></li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">python exp_runner.py --mode train --conf ./confs/womask.conf --<span class="keyword">case</span> &lt;case_name&gt;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><strong>Training with mask</strong></li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">python exp_runner.py --mode train --conf ./confs/wmask.conf --<span class="keyword">case</span> &lt;case_name&gt;</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><strong>Extract surface from trained model</strong>——The corresponding mesh can be found in <code>exp/&lt;case_name&gt;/&lt;exp_name&gt;/meshes/&lt;iter_steps&gt;.ply</code>.</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">python exp_runner.py --mode validate_mesh --conf &lt;config_file&gt; --<span class="keyword">case</span> &lt;case_name&gt; --is_continue <span class="comment"># use latest checkpoint</span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><strong>View interpolation</strong>——The corresponding image set of view interpolation can be found in <code>exp/&lt;case_name&gt;/&lt;exp_name&gt;/render/</code>.</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">python exp_runner.py --mode interpolate_&lt;img_idx_0&gt;_&lt;img_idx_1&gt; --conf &lt;config_file&gt; --<span class="keyword">case</span> &lt;case_name&gt; --is_continue <span class="comment"># use latest checkpoint</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="代码结构">代码结构</h2>
+<details>
+<summary>
+confs /配置文件 configurations
+</summary>
+<p>
+<span style="color: #800000;">thin_structure.conf &nbsp; &nbsp;/薄结构的情况</span><br><span style="color: #800000;">wmask.conf &nbsp; &nbsp;/有mask</span><br><span style="color: #800000;">womask.conf &nbsp; &nbsp;/没有mask</span><br><span style="color: #800000;">womask_dtu_large_roi.conf &nbsp; &nbsp;/不知道是什么</span>
+</p>
+</details>
+<details>
+<summary>
+exp /输出的结果 export
+</summary>
+<div>
+<strong><span style="font-size: 14pt;">data_BlendedMVS</span></strong>
+</div>
+<div style="padding-left: 40px;">
+<strong><span style="font-size: 12pt;">bmvs_bear</span></strong>
+</div>
+<div style="padding-left: 80px;">
+<span style="color: #800000;">wmask/有mask</span>
+</div>
+<div style="padding-left: 120px;">
+<span style="color: #f1c40f;">logs/日志</span>
+</div>
+<div style="padding-left: 120px;">
+<span style="color: #f1c40f;">recording/训练记录</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">models</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">dataset.py</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">embedder.py</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">fields.py</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">renderer.py</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">config.conf</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">exp_runner.py</span>
+</div>
+<div style="padding-left: 80px;">
+<span style="color: #800000;">womask_sphere/无mask</span>
+</div>
+<div style="padding-left: 120px;">
+<span style="color: #f1c40f;">logs</span>
+</div>
+<div style="padding-left: 120px;">
+<span style="color: #f1c40f;">recording</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">models</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">dataset.py/加载数据</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">embedder.py</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">fields.py</span>
+</div>
+<div style="padding-left: 200px;">
+<span style="color: #3598db;">renderer.py</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">config.conf</span>
+</div>
+<div style="padding-left: 160px;">
+<span style="color: #e03e2d;">exp_runner.py</span>
+</div>
+</details>
+<details>
+<summary>
+models /模型
+</summary>
+<p>
+<span style="color: #800000;">dataset.py &nbsp; &nbsp;/生成数据集，加载数据集</span><br><span style="color: #800000;">embedder.py</span><br><span style="color: #800000;">fields.py /存放了四个用于训练的网络类</span><br><span style="color: #800000;">renderer.py</span>
+</p>
+</details>
+<details>
+<summary>
+preprocess_custom_data
+</summary>
+<p>
+<span style="font-size: 14pt; color: #800000;">aruco_preprocess</span><br><span style="color: #3598db;">&nbsp; &nbsp; calibration.cpp</span><br><span style="color: #3598db;">&nbsp; &nbsp; CMakeLists.txt</span><br><span style="color: #3598db;">&nbsp; &nbsp; gen_cameras.py</span><br><span style="color: #3598db;">&nbsp; &nbsp; run.sh</span><br><span style="font-size: 14pt; color: #800000;">colmap_preprocess</span><br><span style="color: #3598db;">&nbsp; &nbsp; colmap_read_model.py</span><br><span style="color: #3598db;">&nbsp; &nbsp; colmap_wrapper.py</span><br><span style="color: #3598db;">&nbsp; &nbsp; gen_cameras.py</span><br><span style="color: #3598db;">&nbsp; &nbsp; imgs2poses.py</span><br><span style="color: #3598db;">&nbsp; &nbsp; pose_utils.py</span><br><span style="font-size: 14pt; color: #800000;">static</span><br><span style="color: #3598db;">&nbsp; &nbsp; aruco_board<span style="color: #3598db;">.png</span><br><span style="color: #3598db;">&nbsp; &nbsp; interest_sparse_points.png</span><br><span style="color: #3598db;">&nbsp; &nbsp; raw_sparse_points.png</span><br><span style="font-size: 14pt; color: #800000;">readme.md</span></span>
+</p>
+</details>
+<details>
+<summary>
+static
+</summary>
+<p>
+<span style="color: #800000;">intro_1_compressed.gif</span><br><span style="color: #800000;">intro_2_compressed.gif</span>
+</p>
+</details>
+<p>exp_runner.py /主程序：包含训练、验证、测试和预测<br> README.md /项目说明<br> requirements.txt /需要的python依赖包列表<br> public_data<br> .gitignore /告诉Git忽略哪些文件<br> LICENSE /许可类型<br></p>
+<h2 id="主程序-exp_runner.py">主程序 exp_runner.py</h2>
+<p>主要分为两部分：</p>
+<ul>
+<li><p><strong>class Runner</strong></p>
+<p>|<span style="background:#daf5e9;">def __init__</span> /初始化函数</p>
+<div class="line-block">&nbsp;&nbsp;|self.Networks /同时将其加入 params_to _train(来自 /models/fields.py)</div>
+<div class="line-block">&nbsp;&nbsp;| |nerf_outside—NeRF</div>
+<div class="line-block">&nbsp;&nbsp;| |sdf_network—SDFNetwork</div>
+<div class="line-block">&nbsp;&nbsp;| |deviation_network—SingleVarianceNetwork</div>
+<div class="line-block">&nbsp;&nbsp;| |color_network—RenderingNetwork</div>
+<div class="line-block">&nbsp;&nbsp;|self.renderer /neus渲染器,继承自/models/renderer.py</div>
+<div class="line-block">&nbsp;&nbsp;| |self.nerf_outside</div>
+<div class="line-block">&nbsp;&nbsp;| |self.sdf_network</div>
+<div class="line-block">&nbsp;&nbsp;| |self.deviation_network</div>
+<div class="line-block">&nbsp;&nbsp;| |self.color_network</div>
+<div class="line-block">&nbsp;&nbsp;| |**self.conf['model.neus_renderer']</div>
+<p>|<span style="background:#f9eda6;">def train(self)</span> /当mode为'train'时执行训练函数</p>
+<p>|<span style="background:#daf5e9;">def get_image_perm(self)</span> /将图片打乱顺序</p>
+<p>|<span style="background:#f9eda6;">def get_cos_anneal_ratio(self)</span></p>
+<p>|<span style="background:#daf5e9;">def update_learning_rate(self)</span> /更新学习率</p>
+<p>|<span style="background:#f9eda6;">def file_backup(self)</span></p>
+<p>|<span style="background:#daf5e9;">def load_checkpoint(self, checkpoint_name)</span></p>
+<p>|<span style="background:#f9eda6;">def save_checkpoint(self)</span> /存档中间结果</p>
+<p>|<span style="background:#daf5e9;">def validate_image(self, idx=-1, resolution_level=-1)</span></p>
+<p>|<span style="background:#f9eda6;">def render_novel_image</span> /渲染新图片</p>
+<p>|<span style="background:#daf5e9;">def validate_mesh</span> /当mode为'validate_mesh'时执行</p>
+<p>|<span style="background:#f9eda6;">def interpolate_view(self, img_idx_0, img_idx_1)</span> /当mode以'interpolate'开头时执行</p></li>
+<li><p><strong>if __name__ == '__main__'</strong></p>
+<p>|print开始提示信息</p>
+<p>|log输出格式</p>
+<p>|创建arg = parser.parse_args</p>
+<div class="line-block">&nbsp;&nbsp;|conf</div>
+<div class="line-block">&nbsp;&nbsp;|mode</div>
+<div class="line-block">&nbsp;&nbsp;|mcube_threshold</div>
+<div class="line-block">&nbsp;&nbsp;|is_continue</div>
+<div class="line-block">&nbsp;&nbsp;|gpu</div>
+<div class="line-block">&nbsp;&nbsp;|case: 样本集名称，默认值为空，需要由运行指令传入</div>
+<p>|创建runner = Runner(args.xxx,...)，传入arg参数</p>
+<p>|用if循环判断args.mode值以执行不同runner类的函数</p></li>
+</ul>
+<h2 id="配置文件夹confs">配置文件夹confs</h2>
+<p>配置文件：主要是 general、dataset、train 和 model 四部分内容</p>
+<ul>
+<li><p>|<span style="background:#daf5e9;">general</span></p>
+<p>|<span style="background:#daf5e9;">dataset</span></p>
+<p>|<span style="background:#daf5e9;">train</span></p>
+<p>|<span style="background:#daf5e9;">model</span></p>
+<div class="line-block">&nbsp;&nbsp;|nerf</div>
+<div class="line-block">&nbsp;&nbsp;|sdf_network</div>
+<div class="line-block">&nbsp;&nbsp;|variance_network</div>
+<div class="line-block">&nbsp;&nbsp;|rendering_network</div>
+<div class="line-block">&nbsp;&nbsp;|neus_renderer</div></li>
+</ul>
+<h2 id="models-模型文件夹">models 模型文件夹</h2>
+<h3 id="fields.py">fields.py</h3>
+<p>fields.py 中存放了从IDR（https://github.com/lioryariv/idr）中借鉴的两个网络 <span style="background:#daf5e9;">SDFNetwork</span> 和 <span style="background:#daf5e9;">RenderingNetwork</span> ，从nerf-pytorch（https://github.com/yenchenlin/nerf-pytorch）中借鉴的网络 <span style="background:#f9eda6;">NeRF</span> 和最后一个网络 <span style="background:#dad5e9;">SingleVarianceNetwork</span> 。</p>
+<h3 id="renderer.py">renderer.py</h3>
+<ul>
+<li><p>|def extract_fields</p>
+<p>|def extract_geometry</p>
+<p>|def sample_pdf</p>
+<p>|class NeuSRenderer</p></li>
+</ul>
+<h3 id="dataset.py">dataset.py</h3>
+<ul>
+<li><p>|def load_K_Rt_from_P</p>
+<p>|class Dataset /用于加载处理数据data</p>
+<div class="line-block">&nbsp;&nbsp;|def __init__</div>
+<div class="line-block">&nbsp;&nbsp;|def gen_rays_at /Generate rays at world space from one camera</div>
+<div class="line-block">&nbsp;&nbsp;|def gen_random_rays_at /Generate random rays at world space from one camera</div>
+<div class="line-block">&nbsp;&nbsp;|def gen_rays_between /Interpolate pose between two cameras.</div>
+<div class="line-block">&nbsp;&nbsp;|def near_far_from_sphere</div>
+<div class="line-block">&nbsp;&nbsp;|def image_at</div></li>
+</ul>
+<h1 id="bib-citation">Bib Citation</h1>
+<figure class="highlight tex"><table><tbody><tr><td class="code"><pre><span class="line">@article{wang2021neus,</span><br><span class="line">      title={NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction}, </span><br><span class="line">      author={Peng Wang and Lingjie Liu and Yuan Liu and Christian Theobalt and Taku Komura and Wenping Wang},</span><br><span class="line">	  journal={NeurIPS},</span><br><span class="line">      year={2021}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考文献">参考文献</h1>
+<p><strong>[1] Wang P, Liu L, Liu Y, et al. Neus: Learning neural implicit surfaces by volume rendering for multi-view reconstruction[J]. arixv preprint arixv:2106.10689, 2021.</strong></p>
+<h2 id="参考网址">参考网址：</h2>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pylittlebrat/article/details/127503069">Neus学习笔记-CSDN博客</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://longtimenohack.com/posts/paper_reading/2021_wang_neus/">NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction - Jianfei Guo (longtimenohack.com)</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/flow_specter/article/details/126222914">论文笔记：NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction_neus 论文解读-CSDN博客</a></p></li>
+<li><p>[<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/496752239">论文笔记]NeuS: Learning Neural Implicit Surfaces by Volume Rendering for Multi-view Reconstruction - 知乎 (zhihu.com)</a></p></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">胖胖大藕片</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/03/11/NeuS/">http://example.com/2024/03/11/NeuS/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">藕片侠大战论文怪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/NIPS2021/">NIPS2021</a><a class="post-meta__tags" href="/tags/volume-rendering/">volume rendering</a><a class="post-meta__tags" href="/tags/neural-surface-reconstruction/">neural surface reconstruction</a><a class="post-meta__tags" href="/tags/SDF/">SDF</a><a class="post-meta__tags" href="/tags/%E8%A1%A8%E9%9D%A2%E9%87%8D%E5%BB%BA/">表面重建</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/doggy.gif" data-original="/img/wechat.jpg" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/doggy.gif" data-original="/img/alipay.jpg" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/03/11/DVGO%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="DVGO"><img class="cover" src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DVGO</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/05/NeRF/" title="长江后浪扑前浪，NeRF现在沙滩上"><img class="cover" src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235146.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">长江后浪扑前浪，NeRF现在沙滩上</div></div></a></div></nav><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/doggy.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">胖胖大藕片</div><div class="author-info__description">人生无完美，曲折亦风景</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hahahaha5606"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hahahaha5606" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:212188767@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文基本信息</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E6%91%98%E8%A6%81"><span class="toc-number">1.1.</span> <span class="toc-text">论文摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9idea"><span class="toc-number">1.2.</span> <span class="toc-text">创新点/IDEA</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">相关工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#classical-multi-view-surface-and-volumetric-reconstruction"><span class="toc-number">2.1.</span> <span class="toc-text">Classical Multi-view Surface and Volumetric Reconstruction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#neural-implicit-representation"><span class="toc-number">2.2.</span> <span class="toc-text">Neural Implicit Representation</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6"><span class="toc-number">3.</span> <span class="toc-text">算法框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E8%A1%A8%E7%A4%BA-scene-representation"><span class="toc-number">3.1.</span> <span class="toc-text">场景表示 Scene representation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93-rendering"><span class="toc-number">3.2.</span> <span class="toc-text">渲染 Rendering</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#naive%E7%9A%84wt%E6%9D%83%E9%87%8D%E5%87%BD%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.1.</span> <span class="toc-text">naive的\(w(t)\)权重函数设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E8%80%85%E6%8F%90%E5%87%BA%E7%9A%84wt%E6%9D%83%E9%87%8D%E5%87%BD%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.2.</span> <span class="toc-text">作者提出的\(w(t)\)权重函数设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rhot%E7%9A%84%E6%8E%A8%E5%AF%BC%E6%80%9D%E8%B7%AF"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">\(\rho(t)\)的推导思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%8C%96discretization"><span class="toc-number">3.2.3.</span> <span class="toc-text">离散化Discretization</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%8C%96%E7%9A%84%E9%87%87%E6%A0%B7%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.3.1.</span> <span class="toc-text">离散化的采样方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83-training"><span class="toc-number">3.3.</span> <span class="toc-text">训练 Training</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-number">3.3.1.</span> <span class="toc-text">损失函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E9%87%87%E6%A0%B7-hierarchical-sampling"><span class="toc-number">3.3.2.</span> <span class="toc-text">分层采样 Hierarchical Sampling</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%8C%87%E4%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text">运行指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">代码结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E7%A8%8B%E5%BA%8F-exp_runner.py"><span class="toc-number">4.3.</span> <span class="toc-text">主程序 exp_runner.py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A4%B9confs"><span class="toc-number">4.4.</span> <span class="toc-text">配置文件夹confs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#models-%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">4.5.</span> <span class="toc-text">models 模型文件夹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fields.py"><span class="toc-number">4.5.1.</span> <span class="toc-text">fields.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#renderer.py"><span class="toc-number">4.5.2.</span> <span class="toc-text">renderer.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dataset.py"><span class="toc-number">4.5.3.</span> <span class="toc-text">dataset.py</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bib-citation"><span class="toc-number">5.</span> <span class="toc-text">Bib Citation</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">6.</span> <span class="toc-text">参考文献</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%BD%91%E5%9D%80"><span class="toc-number">6.1.</span> <span class="toc-text">参考网址：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/03/16/Diffusion%20Model%20%EF%BC%88%E4%BA%8C%EF%BC%89/" title="Diffusion Model（二）"><img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/6a7a7b3bfa95490fa22c53555b449425.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="Diffusion Model（二）"></a><div class="content"><a class="title" href="/2024/03/16/Diffusion%20Model%20%EF%BC%88%E4%BA%8C%EF%BC%89/" title="Diffusion Model（二）">Diffusion Model（二）</a><time datetime="2024-03-16T08:54:08.640Z" title="发表于 2024-03-16 16:54:08">2024-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/16/Diffusion%20Model%20%EF%BC%88%E4%B8%80%EF%BC%89/" title="Diffusion Model（一）"><img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235146.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="Diffusion Model（一）"></a><div class="content"><a class="title" href="/2024/03/16/Diffusion%20Model%20%EF%BC%88%E4%B8%80%EF%BC%89/" title="Diffusion Model（一）">Diffusion Model（一）</a><time datetime="2024-03-16T08:54:08.499Z" title="发表于 2024-03-16 16:54:08">2024-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/16/%E4%B8%80%E4%BA%9B%E4%B8%93%E4%B8%9A%E5%90%8D%E8%AF%8D%E7%B4%A2%E5%BC%95/" title="胸中无笔墨，如何点江山"><img src="/img/doggy.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="胸中无笔墨，如何点江山"></a><div class="content"><a class="title" href="/2024/03/16/%E4%B8%80%E4%BA%9B%E4%B8%93%E4%B8%9A%E5%90%8D%E8%AF%8D%E7%B4%A2%E5%BC%95/" title="胸中无笔墨，如何点江山">胸中无笔墨，如何点江山</a><time datetime="2024-03-16T08:54:08.323Z" title="发表于 2024-03-16 16:54:08">2024-03-16</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2023 - 2024  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 胖胖大藕片</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><p id="ghbdages"></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://blogtwikoo-one.vercel.app',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://blogtwikoo-one.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script><script src="/js/crash_cheat.js"></script><script src="/js/heartbeat.js"></script><script src="/js/showAppreciation.js"></script><script src="/js/fish.js"></script><script src="/js/timing.js"></script><script src="/js/sun_moon.js" async=""></script><script defer="" src="https://rmt.dogedoge.com/fetch/~/source/jsdelivr/npm/jquery@latest/dist/jquery.min.js"></script><script defer="" data-pjax="" src="https://cdn.jsdelivr.net/gh/sirxemic/jquery.ripples/dist/jquery.ripples.js"></script><script defer="" data-pjax="" src="/js/ripples.js"></script><div><canvas id="snow" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;pointer-events:none"></canvas></div><script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script><script async="" type="text/javascript" src="https://cdn.jsdelivr.net/gh/Candinya/Kratos-Rebirth@latest/source/js/snow.min.js"></script><script async="" data-pjax="" src="/js/anzhiyu.js"></script><script async="" data-pjax="" src="/js/anzhiyufunction.js"></script><script async="" src="/js/anzhiyuOnlyOne.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><link rel="stylesheet" href="/css/Aplayer.min.css" media="print" onload="this.media='all'"><script src="/js/Aplayer.min.js"></script><script src="/js/Meting2.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  //document.querySelectorAll('script[data-pjax]').forEach(item => {
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div><div class="pjax-reload"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__fadeInLeft');
+    arr[i].setAttribute('data-wow-duration', '600ms');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__fadeInRightBig');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer="defer" src="https://cdn.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer="defer" src="/js/wow_init.js"></script></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><!-- hexo injector body_end start --><script data-pjax="">
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async="" src="/js/runtime_huibiao.js"></script><!-- hexo injector body_end end -->
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
