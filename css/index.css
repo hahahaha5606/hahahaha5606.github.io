@@ -1452,7 +1452,7 @@ canvas:not(#ribbon-canvas),
   --search-bg: #f6f8fa;
   --search-input-color: #4c4948;
   --search-a-color: #4c4948;
-  --preloader-bg: #f9f1db;
+  --preloader-bg: #b7ae8f;
   --preloader-color: #fff;
   --tab-border-color: #f0f0f0;
   --tab-botton-bg: #f0f0f0;
@@ -3888,7 +3888,7 @@ h1.page-title + .tag-cloud-list {
   position: fixed;
   z-index: 1000;
   width: 50%;
-  height: 110%;
+  height: 100%;
   background: var(--preloader-bg);
 }
 #loading-box .loading-left-bg {
@@ -3901,11 +3901,11 @@ h1.page-title + .tag-cloud-list {
   z-index: -1000;
 }
 #loading-box.loaded .loading-left-bg {
-  -webkit-transition: all 10s;
-  -moz-transition: all 10s;
-  -o-transition: all 10s;
-  -ms-transition: all 10s;
-  transition: all 10s;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -ms-transition: all 1s;
+  transition: all 1s;
   -webkit-transform: translate(-100%, 0);
   -moz-transform: translate(-100%, 0);
   -o-transform: translate(-100%, 0);
@@ -3913,11 +3913,11 @@ h1.page-title + .tag-cloud-list {
   transform: translate(-100%, 0);
 }
 #loading-box.loaded .loading-right-bg {
-  -webkit-transition: all 10s;
-  -moz-transition: all 10s;
-  -o-transition: all 10s;
-  -ms-transition: all 10s;
-  transition: all 10s;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  -ms-transition: all 1s;
+  transition: all 1s;
   -webkit-transform: translate(100%, 0);
   -moz-transform: translate(100%, 0);
   -o-transform: translate(100%, 0);
@@ -3991,7 +3991,7 @@ h1.page-title + .tag-cloud-list {
   left: 68px;
   height: 100px;
   width: 60px;
-  background: #3f64ce;
+  background: #685e48;
 }
 .wizard-body::after {
   content: "";
@@ -4000,7 +4000,7 @@ h1.page-title + .tag-cloud-list {
   left: 20px;
   height: 100px;
   width: 60px;
-  background: #3f64ce;
+  background: #685e48;
   -webkit-transform: skewX(14deg);
   -webkit-transform: skewX(14deg);
   -moz-transform: skewX(14deg);
@@ -4014,7 +4014,7 @@ h1.page-title + .tag-cloud-list {
   left: 110px;
   height: 44px;
   width: 90px;
-  background: #3f64ce;
+  background: #685e48;
   border-radius: 22px;
   -webkit-transform-origin: 16px 22px;
   -webkit-transform-origin: 16px 22px;
@@ -4042,7 +4042,7 @@ h1.page-title + .tag-cloud-list {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #f1c5b4;
+  background: #685e48;
   -webkit-transform-origin: center center;
   -webkit-transform-origin: center center;
   -moz-transform-origin: center center;
@@ -4070,7 +4070,7 @@ h1.page-title + .tag-cloud-list {
   width: 15px;
   height: 30px;
   border-radius: 10px;
-  background: #f1c5b4;
+  background: #685e48;
   -webkit-transform: translateY(16px);
   -webkit-transform: translateY(16px);
   -moz-transform: translateY(16px);
@@ -4090,7 +4090,7 @@ h1.page-title + .tag-cloud-list {
   left: 26px;
   height: 44px;
   width: 70px;
-  background: #3f64ce;
+  background: #685e48;
   border-bottom-left-radius: 8px;
   -webkit-transform-origin: 60px 26px;
   -webkit-transform-origin: 60px 26px;
@@ -4119,7 +4119,7 @@ h1.page-title + .tag-cloud-list {
   height: 30px;
   border-top-left-radius: 35px;
   border-bottom-left-radius: 35px;
-  background: #f1c5b4;
+  background: #685e48;
 }
 .wizard-left-arm .wizard-left-hand::after {
   content: "";
@@ -4129,7 +4129,7 @@ h1.page-title + .tag-cloud-list {
   width: 30px;
   height: 15px;
   border-radius: 20px;
-  background: #f1c5b4;
+  background: #685e48;
   -webkit-transform-origin: right bottom;
   -webkit-transform-origin: right bottom;
   -moz-transform-origin: right bottom;
@@ -4199,7 +4199,7 @@ h1.page-title + .tag-cloud-list {
   left: 38px;
   height: 30px;
   width: 60px;
-  background: #f1c5b4;
+  background: #685e48;
 }
 .wizard-head .wizard-face::before {
   content: "";
@@ -4210,7 +4210,7 @@ h1.page-title + .tag-cloud-list {
   height: 40px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  background: #f1c5b4;
+  background: #685e48;
 }
 .wizard-head .wizard-face::after {
   content: "";
@@ -4221,7 +4221,7 @@ h1.page-title + .tag-cloud-list {
   height: 20px;
   border-radius: 20px;
   border-bottom-right-radius: 0px;
-  background: #fff;
+  background: #685e48;
 }
 .wizard-head .wizard-face .wizard-adds {
   position: absolute;
@@ -4230,7 +4230,7 @@ h1.page-title + .tag-cloud-list {
   width: 40px;
   height: 20px;
   border-radius: 20px;
-  background: #f1c5b4;
+  background: #685e48;
 }
 .wizard-head .wizard-face .wizard-adds::after {
   content: "";
@@ -4241,7 +4241,7 @@ h1.page-title + .tag-cloud-list {
   height: 20px;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
-  background: #f1c5b4;
+  background: #685e48;
 }
 .wizard-head .wizard-hat {
   position: absolute;
@@ -4250,7 +4250,7 @@ h1.page-title + .tag-cloud-list {
   width: 160px;
   height: 20px;
   border-radius: 20px;
-  background: #3f64ce;
+  background: #685e48;
 }
 .wizard-head .wizard-hat::before {
   content: "";
@@ -4267,7 +4267,7 @@ h1.page-title + .tag-cloud-list {
   height: 0;
   border-style: solid;
   border-width: 0 34px 70px 50px;
-  border-color: transparent transparent #3f64ce transparent;
+  border-color: transparent transparent #685e48 transparent;
 }
 .wizard-head .wizard-hat::after {
   content: "";
@@ -4276,7 +4276,7 @@ h1.page-title + .tag-cloud-list {
   left: 0;
   width: 160px;
   height: 20px;
-  background: #3f64ce;
+  background: #685e48;
   border-radius: 20px;
 }
 .wizard-head .wizard-hat .wizard-hat-of-the-hat {
@@ -4287,18 +4287,19 @@ h1.page-title + .tag-cloud-list {
   height: 0;
   border-style: solid;
   border-width: 0 25px 25px 19px;
-  border-color: transparent transparent #3f64ce transparent;
+  border-color: transparent transparent #685e48 transparent;
 }
 .wizard-head .wizard-hat .wizard-hat-of-the-hat::after {
   content: "";
-  position: absolute;
+}
+37474f {
   top: 6px;
   left: -4px;
   width: 35px;
   height: 10px;
   border-radius: 10px;
   border-bottom-left-radius: 0px;
-  background: #3f64ce;
+  background: #685e48;
   -webkit-transform: rotate(40deg);
   -webkit-transform: rotate(40deg);
   -moz-transform: rotate(40deg);
@@ -4306,12 +4307,12 @@ h1.page-title + .tag-cloud-list {
   -ms-transform: rotate(40deg);
   transform: rotate(40deg);
 }
-.wizard-head .wizard-hat .wizard-four-point-star {
+.wizard-four-point-star {
   position: absolute;
   width: 12px;
   height: 12px;
 }
-.wizard-head .wizard-hat .wizard-four-point-star::after {
+.wizard-four-point-star::after {
   -webkit-transform: rotate(156.66deg) skew(45deg);
   -webkit-transform: rotate(156.66deg) skew(45deg);
   -moz-transform: rotate(156.66deg) skew(45deg);
@@ -4319,15 +4320,15 @@ h1.page-title + .tag-cloud-list {
   -ms-transform: rotate(156.66deg) skew(45deg);
   transform: rotate(156.66deg) skew(45deg);
 }
-.wizard-head .wizard-hat .wizard-four-point-star.--first {
+.wizard-four-point-star.--first {
   bottom: 28px;
   left: 46px;
 }
-.wizard-head .wizard-hat .wizard-four-point-star.--second {
+.wizard-four-point-star.--second {
   bottom: 40px;
   left: 80px;
 }
-.wizard-head .wizard-hat .wizard-four-point-star.--third {
+.wizard-four-point-star.--third {
   bottom: 15px;
   left: 108px;
 }
@@ -4381,7 +4382,7 @@ h1.page-title + .tag-cloud-list {
   left: 0;
   width: 50px;
   height: 50px;
-  background: #9ab3f5;
+  background: #685e48;
 }
 .wizard-circle {
   position: absolute;
@@ -4411,7 +4412,7 @@ h1.page-title + .tag-cloud-list {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: #c56183;
+  background: #685e48;
 }
 .wizard-triangle {
   position: absolute;
@@ -4442,7 +4443,7 @@ h1.page-title + .tag-cloud-list {
   height: 0;
   border-style: solid;
   border-width: 0 28px 48px 28px;
-  border-color: transparent transparent #89beb3 transparent;
+  border-color: transparent transparent #685e48 transparent;
 }
 @-webkit-keyframes right_arm {
   0% {
