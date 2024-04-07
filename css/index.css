@@ -1452,7 +1452,7 @@ canvas:not(#ribbon-canvas),
   --search-bg: #f6f8fa;
   --search-input-color: #4c4948;
   --search-a-color: #4c4948;
-  --preloader-bg: #fff;
+  --preloader-bg: #37474f;
   --preloader-color: #fff;
   --tab-border-color: #f0f0f0;
   --tab-botton-bg: #f0f0f0;
@@ -1565,7 +1565,7 @@ table td {
   vertical-align: middle;
 }
 *::selection {
-  background: #00c4b6;
+  background: #393733;
   color: #f7f7f7;
 }
 button {
@@ -2986,7 +2986,7 @@ h1.page-title + .tag-cloud-list {
   color: #685e48;
 }
 #aside-content #card-toc .toc-content .toc-link.active {
-  background: #00c4b6;
+  background: #393733;
   color: #fff;
 }
 #aside-content .sticky_layout:only-child > :first-child {
@@ -3991,7 +3991,7 @@ h1.page-title + .tag-cloud-list {
   left: 68px;
   height: 100px;
   width: 60px;
-  background: #826b48;
+  background: #9c9c9c;
 }
 .wizard-body::after {
   content: "";
@@ -4000,7 +4000,7 @@ h1.page-title + .tag-cloud-list {
   left: 20px;
   height: 100px;
   width: 60px;
-  background: #826b48;
+  background: #9c9c9c;
   -webkit-transform: skewX(14deg);
   -webkit-transform: skewX(14deg);
   -moz-transform: skewX(14deg);
@@ -4014,7 +4014,7 @@ h1.page-title + .tag-cloud-list {
   left: 110px;
   height: 44px;
   width: 90px;
-  background: #826b48;
+  background: #9c9c9c;
   border-radius: 22px;
   -webkit-transform-origin: 16px 22px;
   -webkit-transform-origin: 16px 22px;
@@ -4090,7 +4090,7 @@ h1.page-title + .tag-cloud-list {
   left: 26px;
   height: 44px;
   width: 70px;
-  background: #826b48;
+  background: #9c9c9c;
   border-bottom-left-radius: 8px;
   -webkit-transform-origin: 60px 26px;
   -webkit-transform-origin: 60px 26px;
@@ -4250,7 +4250,7 @@ h1.page-title + .tag-cloud-list {
   width: 160px;
   height: 20px;
   border-radius: 20px;
-  background: #826b48;
+  background: #9c9c9c;
 }
 .wizard-head .wizard-hat::before {
   content: "";
@@ -4267,7 +4267,7 @@ h1.page-title + .tag-cloud-list {
   height: 0;
   border-style: solid;
   border-width: 0 34px 70px 50px;
-  border-color: transparent transparent #826b48 transparent;
+  border-color: transparent transparent #9c9c9c transparent;
 }
 .wizard-head .wizard-hat::after {
   content: "";
@@ -4276,7 +4276,7 @@ h1.page-title + .tag-cloud-list {
   left: 0;
   width: 160px;
   height: 20px;
-  background: #826b48;
+  background: #9c9c9c;
   border-radius: 20px;
 }
 .wizard-head .wizard-hat .wizard-hat-of-the-hat {
@@ -4287,7 +4287,7 @@ h1.page-title + .tag-cloud-list {
   height: 0;
   border-style: solid;
   border-width: 0 25px 25px 19px;
-  border-color: transparent transparent #826b48 transparent;
+  border-color: transparent transparent #9c9c9c transparent;
 }
 .wizard-head .wizard-hat .wizard-hat-of-the-hat::after {
   content: "";
@@ -4299,7 +4299,7 @@ h1.page-title + .tag-cloud-list {
   height: 10px;
   border-radius: 10px;
   border-bottom-left-radius: 0px;
-  background: #826b48;
+  background: #9c9c9c;
   -webkit-transform: rotate(40deg);
   -webkit-transform: rotate(40deg);
   -moz-transform: rotate(40deg);
