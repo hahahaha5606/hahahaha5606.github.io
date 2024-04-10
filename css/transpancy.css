@@ -2,7 +2,7 @@
 /* 文章页背景 */
 .layout_post>#post {
     /* 以下代表透明度为0.5 可以自行修改*/
-    background: rgba(255,255,255,.7);
+    background: rgba(255,255,255,1.0);
 }
 
 /* 所有页面背景 */
@@ -12,7 +12,7 @@
 }
 /*侧边卡片的透明度，但是它会把文章页也变了 */
 :root {
-  --card-bg: rgba(255, 255, 255, .9);
+  --card-bg: rgba(255, 255, 255, 1.0);
 }
 /* 侧边栏透明 */
 #aside-content .card-widget {

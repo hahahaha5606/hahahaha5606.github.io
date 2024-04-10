@@ -1470,14 +1470,14 @@ canvas:not(#ribbon-canvas),
   --white: #fff;
   --text-highlight-color: #1f2d3d;
   --blockquote-color: #6a737d;
-  --blockquote-bg: rgba(73,177,245,0.1);
+  --blockquote-bg: rgba(104,94,72,0.1);
   --reward-pop: #f5f5f5;
   --toc-link-color: #666261;
   --card-box-shadow: 0 3px 8px 6px rgba(7,17,27,0.05);
   --card-hover-box-shadow: 0 3px 8px 6px rgba(7,17,27,0.09);
   --pseudo-hover: #ef475d;
   --headline-presudo: #a0a0a0;
-  --scrollbar-color: #393733;
+  --scrollbar-color: #470024;
   --default-bg-color: #685e48;
   --zoom-bg: #fff;
   --mark-bg: rgba(0,0,0,0.3);
@@ -1622,7 +1622,7 @@ img:not([src]) {
 blockquote {
   margin: 0 0 20px;
   padding: 12px 15px;
-  border-left: 3px solid #49b1f5;
+  border-left: 3px solid #685e48;
   background-color: var(--blockquote-bg);
   color: var(--blockquote-color);
 }
@@ -7300,7 +7300,7 @@ h1.page-title + .tag-cloud-list {
   text-align: center;
 }
 #pagination .page-number.current {
-  background: #00c4b6;
+  background: #393733;
   color: var(--white);
 }
 #pagination .pagination-info {
