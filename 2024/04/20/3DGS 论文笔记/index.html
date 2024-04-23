@@ -1,0 +1,543 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记 | 藕片侠大战论文怪</title><meta name="author" content="胖胖大藕片"><meta name="copyright" content="胖胖大藕片"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)
+ 论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of &quot;3D Gaussian Splatting fo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记">
+<meta property="og:url" content="http://example.com/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="藕片侠大战论文怪">
+<meta property="og:description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)
+ 论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of &quot;3D Gaussian Splatting fo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg">
+<meta property="article:published_time" content="2024-04-20T07:44:16.966Z">
+<meta property="article:modified_time" content="2024-04-19T12:40:31.000Z">
+<meta property="article:author" content="胖胖大藕片">
+<meta property="article:tag" content="SIGGRAPH 2023">
+<meta property="article:tag" content="辐射场">
+<meta property="article:tag" content="NeRF">
+<meta property="article:tag" content="splatting">
+<meta property="article:tag" content="CUDA kernels 加速">
+<meta property="article:tag" content="InstantNGP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-19 20:40:31'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/showAppreciation.css"><link rel="stylesheet" href="/css/ancientPoetry.css"><link rel="stylesheet" href="/css/mycss.css"><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/macblack.css"><link rel="stylesheet" href="/css/datu.css"><link rel="stylesheet" href="/css/aplayer.css"><link rel="stylesheet" href="/css/myvaline.css"></head><body><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css">
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"><!--#loading-box//.loading-left-bg
+//.loading-right-bg
+//.spinner-box
+  //.configure-border-1
+    //.configure-core
+  //.configure-border-2
+    //.configure-core
+  //.loading-word= _p('loading')
+--><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="wizard-scene"><div class="wizard-objects"><div class="wizard-square"></div><div class="wizard-circle"></div><div class="wizard-triangle"></div></div><div class="wizard"><div class="wizard-body"></div><div class="wizard-right-arm"><div class="wizard-right-hand"></div></div><div class="wizard-left-arm"><div class="wizard-left-hand"></div></div><div class="wizard-head"><div class="wizard-beard"></div><div class="wizard-face"><div class="wizard-adds"></div></div><div class="wizard-hat"><div class="wizard-hat-of-the-hat"></div><div class="wizard-four-point-star --first"></div><div class="wizard-four-point-star --second"></div><div class="wizard-four-point-star --third"></div></div></div></div></div></div><script async="async">(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = 'auto'
+      //$loadingBox.classList.add('loaded')
+      setTimeout(function(){
+      document.getElementById('loading-box').classList.add("loaded")
+    }, 1500);
+      document.getElementById('loading-box').style.transition = 'opacity 1s ease 0.3s' //000
+      document.getElementById('loading-box').style.opacity = '0'  // 000
+    },
+    initLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.remove('loaded')
+      document.getElementById('loading-box').style.transition = '';  //000
+      document.getElementById('loading-box').style.opacity = '1'  //000
+    }
+  }
+
+  preloader.initLoading()
+  // window.addEventListener('load',() => { preloader.endLoading() })
+  setTimeout(function(){preloader.endLoading();}, 1500);
+  document.getElementById('loading-box').addEventListener('click',()=> {preloader.endLoading()})
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 议事堂</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 藏书阁</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清风亭</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 忘忧涧</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 传送门</span></a></div><div class="menus_item"><a class="site-page" href="/Message/"><i class="fa-fw fa fa-paper-plane"></i><span> 打卡处</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="藕片侠大战论文怪"><span class="site-name">藕片侠大战论文怪</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 议事堂</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 藏书阁</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清风亭</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments"></i><span> 分享</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 忘忧涧</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 传送门</span></a></div><div class="menus_item"><a class="site-page" href="/Message/"><i class="fa-fw fa fa-paper-plane"></i><span> 打卡处</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-20T07:44:16.966Z" title="发表于 2024-04-20 15:44:16">2024-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-19T12:40:31.000Z" title="更新于 2024-04-19 20:40:31">2024-04-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" data-flag-title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" itemprop="commentCount"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="top-img" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg');"></div><article class="post-content" id="article-container"><blockquote>
+<p><strong>论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)</strong></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/graphdeco-inria/gaussian-splatting">GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of "3D Gaussian Splatting for Real-Time Radiance Field Rendering"</a></p>
+<p>论文主页：</p>
+</blockquote>
+<h1 id="论文基本信息">论文基本信息</h1>
+<p>3D Gaussian Splatting for Real-Time Radiance Field Rendering<sup>[1]</sup>是由来自法国蔚蓝海岸大学的 Bernhard 等人发表在 <strong>2023 SIGGRAPH</strong> 会议上的SCI论文。</p>
+<p>3DGS 之所以如此大受欢迎，原因主要在于以下几个亮点：</p>
+<ul>
+<li><u>SOTA级别的视觉质量</u>：优于 Mip-NeRF360[Barron et al. 2022]<sup>[2]</sup></li>
+<li>以1080p的分辨率进行<u>实时渲染</u>(<span class="math inline">\(\ge30fps\)</span>)</li>
+<li>competitive 的训练时长：比 InstantNGP[Müller et al. 2022]<sup>[3]</sup>、 Plenoxels[Fridovich-Keil and Yu et al. 2022]<sup>[5]</sup>快</li>
+</ul>
+<p><strong>3D Gaussian Splatting 主要工作</strong>：</p>
+<ol type="1">
+<li><font color="#ef042a">使用 3D Gaussian 球进行场景表示，并通过可微的 tile-based Splatting 技术以1080p的质量实时渲染出来。</font></li>
+<li>3DGS 证明了可以使用非连续的表示来训练快速、高质量的辐射场。</li>
+<li>除了80%的 python 代码外，使用了 InstantNGP 中的优化 CUDA kernels 来加速<u>光栅化 rasterization / 新视角合成</u>。</li>
+</ol>
+<p><strong>数据集</strong>：Mip-NeRF360 数据集、Deep Blending 数据集[Hedman et al. 2018]<sup>[4]</sup>、Tanks&amp;Temples 数据集、Synthetic NeRF 数据集（在这个数据集下，甚至在随机初始化的情况下也达到了高质量）</p>
+<p><strong>sparkling</strong>：3DGS 是重建辐射场的，可以考虑把它扩展到重建三维表面 mesh reconstruction？</p>
+<h1 id="预备知识">预备知识</h1>
+<h2 id="original-splatting">original splatting</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660512916">Splatting 抛雪球法简介 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-splatting.pdf">Slide 1 (stonybrook.edu)</a></p>
+</blockquote>
+<h2 id="dgs-中的-splatting">3DGS 中的 splatting</h2>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240411203920419.png" alt="image-20240411203920419"><figcaption aria-hidden="true">image-20240411203920419</figcaption>
+</figure>
+<p>之所以用“splatting”即“泼溅”来形容抛雪球算法，是因为它将椭球体的 3D 高斯投影投影到图像平面成为椭圆的过程，就像水珠溅到二维平面上留下印子，是一个从立体三维到平面二维的过程。</p>
+<h2 id="dgs-标识形状">3DGS 标识形状</h2>
+<h2 id="球谐函数标识颜色">球谐函数标识颜色</h2>
+<p>3DGS 中的 SH following standard practice [Fridovich-Keil and Yu et al. 2022; Müller et al. 2022].</p>
+<h1 id="算法全貌">算法全貌</h1>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240413093014740.png" alt="image-20240413093014740"><figcaption aria-hidden="true">image-20240413093014740</figcaption>
+</figure>
+<p><strong>第一部分：用 3D Gaussian 作为场景表示</strong></p>
+<p>我们模型的输入是一组静态场景的图片，然后使用SfM方法 [Snavely et al. 2006]<sup>[7]</sup>，<u>通过匹配这组场景图片的关键点得到该场景的稀疏点云，同时也估计了相机位姿</u>。用 SfM 过程产生的稀疏点云初始化一组 3D Gaussians。（<span style="background:#eef0f4;">注意其他方法往往还需要多视图立体化 MVS 进行几何初始化，以此作为 SfM 的辅助。因此它们不可避免地继承了来自 MVS 的 artifacts ,在 featureless/shiny 的区域或者薄结构处出现 over 或 under 重建</span>）。</p>
+<p><strong>第二部分：optimization 过程</strong></p>
+<p>在这里将优化 3D 位置、不透明度 <span class="math inline">\(\alpha\)</span> 、各向异性协方差/三维协方差矩阵、颜色/球谐系数等3D Gaussians 属性。优化属性的步骤与自适应的密度控制步骤相交织，在这个过程中我们将添加和偶尔删除 3D Gaussians。Optimization 过程最后将产生所有被测试场景的 1-5 million 高斯的高质量表示（<span style="background:#eef0f4;">in part because highly anisotropic volumetric splats can be used to represent fine structures compactly</span>）。</p>
+<p><strong>第三部分：使用快速GPU排序算法和 tile-based 的 Splatting 技术进行实时渲染</strong></p>
+<p>这一部分是受启发于最近的一个<font color="#985fff"> tile-based 的光栅化工作</font>[Lassner and Zollhofer 2021]<sup>[8]</sup>。这里作者的用法有所不同：However, thanks to our 3D Gaussian representation, we can perform anisotropic splatting that respects visibility ordering – <font color="#985fff">thanks to sorting and 𝛼-blending</font> – and enable a fast and accurate backward pass by tracking the traversal of as many sorted splats as required.</p>
+<p>也就是说，作者在这一部分主要使用 <font color="#985fff">GPU 排序算法+tile-based 光栅化+<span class="math inline">\(\alpha\)</span>-blending</font> 来快速渲染高质量的新视图。且该过程是 visibility-aware 的。对应关系分别是：</p>
+<ul>
+<li>tile-based rasterizer——𝛼-blending of anisotropic splats</li>
+<li>fast sorting——respecting visibility</li>
+</ul>
+<h2 id="引言">引言</h2>
+<p><strong>动机</strong>：目前，最有效的辐射场方案一般建模在通过插值<u>体素[Fridovich-Keil and Yu et al. 2022]<sup>[5]</sup>、哈希网格[Müller et al. 2022]<sup>[3]</sup>和点[Xu et al. 2022]<sup>[6]</sup></u>得到的连续表示，虽然这些模型的连续性有助于优化(Plenoxels 和 InstantNGP快，MipNeRF360 质量高)，然而渲染时需要的 stochastic sampling 是 costly 且可能导致噪声的。——具体见“3DGS 与 NeRF 的区别与联系”</p>
+<p><strong>目标</strong>：给定场景的多张图片，能实时渲染出场景，且训练时间应该达到 SOTA 级别。</p>
+<p><strong>初始化 3D 高斯点</strong>：使用SfM方法，即通过匹配一组场景图片的关键点从而给出该场景的点云，同时也估计了相机位姿。SfM方法可以直接拿来用！</p>
+<p><strong>对点密度的控制</strong>：反向传播时，梯度下降会改变 3D 高斯点的值，但是并不改变其数目。因此，3DGS 还对点的密度做了控制，主要是在训练周期执行以下操作：</p>
+<ul>
+<li>删除几乎透明的高斯</li>
+<li>将高斯设置为完全透明，在之后训练时，有用的高斯被重现，无用的则一直保持透明直到被删除</li>
+<li>over-reconstruction 时，迭代分裂范围大的高斯</li>
+<li>under-reconstruction 时，迭代进行高斯克隆</li>
+</ul>
+<h1 id="dgs-与-nerf-的区别与联系">3DGS 与 NeRF 的区别与联系</h1>
+<h2 id="从-ray-marching-的体渲染到-point-based-alpha-blending-渲染">从 ray-marching 的体渲染到 point-based <span class="math inline">\(\alpha\)</span>-blending 渲染</h2>
+<p>NeRF 中计算<strong>每个像素点</strong>颜色的体渲染公式： <span class="math display">\[
+\hat{C}_{c}(\mathbf{r})=\sum_{i=1}^{N_{c}} w_{i} c_{i}, \quad w_{i}=T_{i}\left(1-\exp \left(-\sigma_{i} \delta_{i}\right)\right) \tag{1} \\
+T_{i}=\exp \left(-\sum_{j=1}^{i-1} \sigma_{j} \delta_{j}\right)
+\]</span> 我们也可以将 NeRF 中这个 ray-marhing 的体渲染写成另一种形式，即： <span class="math display">\[
+\begin{align}
+&amp;C=\sum^N_{i=1}{T_i \alpha_i \mathbf{c}_i}, \tag{2} \\
+&amp;where \ \ \alpha_i=(1-exp(-\sigma_i\delta_i))\\
+&amp;\ \ \ \ \ \ \ \ \ \ \  \ \ T_i=\prod^{i-1}_{j=1}{(1-\alpha_i)}
+\end{align}
+\]</span> 通过上式，可计算得射线穿过的那个像素的颜色值。而一种经典的基于点的 neural 方法[Kopanas et al. 2022,2021]通过融合 <span class="math inline">\(\mathcal{N}\)</span> 个 ordered points 来覆盖该像素，从而得到该像素的颜色，计算公式如下： <span class="math display">\[
+C=\sum_{i \in \mathcal{N}}{c_i\alpha_i \prod^{i-1}_{j=1}{(1-\alpha_i})}，\tag{3}
+\]</span> 这里 <span class="math inline">\(\mathcal{c}_i\)</span> 是每个 point 的颜色，而不是每个采样点的颜色。<span class="math inline">\(\alpha_i\)</span> 是通过<u>用协方差 <span class="math inline">\(\varSigma\)</span> [Yifan et al. 2019]乘以学习到的 per-point 不透明度</u>来估计的 2D Gaussian 给出。</p>
+<p><span style="background:#fbd4d0;">可以看出上面两种模型成像公式是一样的，但是这两种渲染算法是很不同的。</span></p>
+<ol type="1">
+<li>NeRF 是连续表示，且通过隐式表达体现占据空间；而 points 是非结构化的离散表示，能更为灵活地构筑几何；</li>
+<li>NeRF 需要 expensive 的随机抽样来采样 (2) 式中的样本点，由此产生噪声和很大的计算成本，因此无法达到 real-time。</li>
+</ol>
+<h2 id="nerf-vs.-3dgs"><strong>NeRF vs. 3DGS</strong></h2>
+<p>在保持 <span class="math inline">\(\alpha\)</span>-blending 表示的体渲染优势的同时，结合 Pulsar[Lassner and Zollhofer 2021]<sup>[8]</sup> 的球体光栅化，3DGS 创造了一种 tile-based 排序渲染器。这种渲染器和 NeRF 中的渲染有着许多差别：训练时，NeRF 以<strong>每个像素</strong>为样本单位，而 3DGS 则以<strong>每张图片</strong>为样本单位，在训练完一张图片的颜色后才反向传播梯度，更新网络的参数。</p>
+<p>此外，3DGS 还创新性地开创了用非连续的表达来进行快速高质量辐射场训练的先河：</p>
+<ul>
+<li>NeRF 的整体模型是连续可微、隐式表达的；</li>
+<li>传统的 mesh 模型是纯离散（通过插值得到不同位置的值）、显式表达的；</li>
+<li>3DGS 介于离散和连续之间：在高斯球内部连续可微、每个高斯球之间是离散的。</li>
+</ul>
+<h1 id="实验">实验</h1>
+<h1 id="bib-tex">Bib Tex</h1>
+<figure class="highlight latex"><table><tbody><tr><td class="code"><pre><span class="line">@Article{kerbl3Dgaussians,</span><br><span class="line">      author       = {Kerbl, Bernhard and Kopanas, Georgios and Leimk{<span class="keyword">\"</span>u}hler, Thomas and Drettakis, George},</span><br><span class="line">      title        = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},</span><br><span class="line">      journal      = {ACM Transactions on Graphics},</span><br><span class="line">      number       = {4},</span><br><span class="line">      volume       = {42},</span><br><span class="line">      month        = {July},</span><br><span class="line">      year         = {2023},</span><br><span class="line">      url          = {https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考文献">参考文献</h1>
+<blockquote>
+<ul>
+<li>适合小白阅读：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/688636817">NeRF与3DGS速通 - 知乎 (zhihu.com)</a></li>
+<li>有很多基础知识：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/681085846">3d Gaussian splatting笔记 - 知乎 (zhihu.com)</a></li>
+</ul>
+</blockquote>
+<p>[1] Kerbl B, Kopanas G, Leimkühler T, et al. 3d gaussian splatting for real-time radiance field rendering[J]. ACM Transactions on Graphics, 2023, 42(4): 1-14.</p>
+<p>[2] Barron J T, Mildenhall B, Verbin D, et al. Mip-nerf 360: Unbounded anti-aliased neural radiance fields[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2022: 5470-5479.</p>
+<p>[3] Müller T, Evans A, Schied C, et al. Instant neural graphics primitives with a multiresolution hash encoding[J]. ACM transactions on graphics (TOG), 2022, 41(4): 1-15.</p>
+<p>[4] Hedman P, Philip J, Price T, et al. Deep blending for free-viewpoint image-based rendering[J]. ACM Transactions on Graphics (ToG), 2018, 37(6): 1-15.</p>
+<p>[5] Fridovich-Keil S, Yu A, Tancik M, et al. Plenoxels: Radiance fields without neural networks[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2022: 5501-5510.</p>
+<p>[6] Xu Q, Xu Z, Philip J, et al. Point-nerf: Point-based neural radiance fields[C]//Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2022: 5438-5448.</p>
+<p>[7] Snavely N, Seitz S M, Szeliski R. Photo tourism: exploring photo collections in 3D[M]//ACM siggraph 2006 papers. 2006: 835-846.</p>
+<p>[8] Lassner C, Zollhofer M. Pulsar: Efficient sphere-based neural rendering[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 1440-1449.</p>
+<p>[9]</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">胖胖大藕片</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">http://example.com/2024/04/20/3DGS 论文笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">藕片侠大战论文怪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SIGGRAPH-2023/">SIGGRAPH 2023</a><a class="post-meta__tags" href="/tags/%E8%BE%90%E5%B0%84%E5%9C%BA/">辐射场</a><a class="post-meta__tags" href="/tags/NeRF/">NeRF</a><a class="post-meta__tags" href="/tags/splatting/">splatting</a><a class="post-meta__tags" href="/tags/CUDA-kernels-%E5%8A%A0%E9%80%9F/">CUDA kernels 加速</a><a class="post-meta__tags" href="/tags/InstantNGP/">InstantNGP</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/wechat.jpg" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/alipay.jpg" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/22/%E5%88%B6%E4%BD%9C%20PPT%20%E8%BD%AC%20PDF%20%E5%B0%8F%E7%A8%8B%E5%BA%8F/" title="PPT 转 PDF 小程序"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">PPT 转 PDF 小程序</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/20/Windows%20%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/" title="Windows 复现代码指南"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/yunhai.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Windows 复现代码指南</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/12/20/3D%20Gaussian%20Splatting%20for%20Real-Time%20Radiance%20Field%20Rendering%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-20</div><div class="title">3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记</div></div></a></div><div><a href="/2024/04/10/TensoRF%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="TensoRF"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">TensoRF</div></div></a></div></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">胖胖大藕片</div><div class="author-info__description">人生无完美，曲折亦风景</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hahahaha5606"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hahahaha5606" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:212188767@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文基本信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#original-splatting"><span class="toc-number">2.1.</span> <span class="toc-text">original splatting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dgs-%E4%B8%AD%E7%9A%84-splatting"><span class="toc-number">2.2.</span> <span class="toc-text">3DGS 中的 splatting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dgs-%E6%A0%87%E8%AF%86%E5%BD%A2%E7%8A%B6"><span class="toc-number">2.3.</span> <span class="toc-text">3DGS 标识形状</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0%E6%A0%87%E8%AF%86%E9%A2%9C%E8%89%B2"><span class="toc-number">2.4.</span> <span class="toc-text">球谐函数标识颜色</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%85%A8%E8%B2%8C"><span class="toc-number">3.</span> <span class="toc-text">算法全貌</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">3.1.</span> <span class="toc-text">引言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dgs-%E4%B8%8E-nerf-%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">4.</span> <span class="toc-text">3DGS 与 NeRF 的区别与联系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-ray-marching-%E7%9A%84%E4%BD%93%E6%B8%B2%E6%9F%93%E5%88%B0-point-based-alpha-blending-%E6%B8%B2%E6%9F%93"><span class="toc-number">4.1.</span> <span class="toc-text">从 ray-marching 的体渲染到 point-based \(\alpha\)-blending 渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nerf-vs.-3dgs"><span class="toc-number">4.2.</span> <span class="toc-text">NeRF vs. 3DGS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">5.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bib-tex"><span class="toc-number">6.</span> <span class="toc-text">Bib Tex</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">7.</span> <span class="toc-text">参考文献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/22/%E5%88%B6%E4%BD%9C%20PPT%20%E8%BD%AC%20PDF%20%E5%B0%8F%E7%A8%8B%E5%BA%8F/" title="PPT 转 PDF 小程序"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="PPT 转 PDF 小程序"></a><div class="content"><a class="title" href="/2024/04/22/%E5%88%B6%E4%BD%9C%20PPT%20%E8%BD%AC%20PDF%20%E5%B0%8F%E7%A8%8B%E5%BA%8F/" title="PPT 转 PDF 小程序">PPT 转 PDF 小程序</a><time datetime="2024-04-22T03:46:36.249Z" title="发表于 2024-04-22 11:46:36">2024-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"></a><div class="content"><a class="title" href="/2024/04/20/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记">3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记</a><time datetime="2024-04-20T07:44:16.966Z" title="发表于 2024-04-20 15:44:16">2024-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/20/Windows%20%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/" title="Windows 复现代码指南"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/yunhai.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="Windows 复现代码指南"></a><div class="content"><a class="title" href="/2024/04/20/Windows%20%E5%A4%8D%E7%8E%B0%E4%BB%A3%E7%A0%81%E6%8C%87%E5%8D%97/" title="Windows 复现代码指南">Windows 复现代码指南</a><time datetime="2024-04-20T07:44:16.784Z" title="发表于 2024-04-20 15:44:16">2024-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2023 - 2024  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 胖胖大藕片</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><p id="ghbdages"></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'ybVvPd5f8ymUrtyDgiPIcU3E-gzGzoHsz',
+      appKey: 'P08uK63s8SFzZd9oN7vr8tmn',
+      avatar: 'monsterid',
+      serverURLs: 'https://ybvvpd5f.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      master: 'cda7cc5c3b41c1ce1e80dade99393150',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主","小伙伴","访客"],     //标识字段名
+      friends:  [],  //小伙伴邮箱Md5
+      path: window.location.pathname,
+      visitor: true
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('/js/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><script>(() => {
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://blogtwikoo-one.vercel.app',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://blogtwikoo-one.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  if ('Valine' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else {
+      loadTwikoo()
+      GLOBAL_CONFIG_SITE.isPost && getCount()
+    }
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script><script src="/js/crash_cheat.js"></script><script src="/js/heartbeat.js"></script><script src="/js/showAppreciation.js"></script><script src="/js/timing.js"></script><script src="/js/sun_moon.js" async=""></script><script defer="" src="https://rmt.dogedoge.com/fetch/~/source/jsdelivr/npm/jquery@latest/dist/jquery.min.js"></script><script defer="" data-pjax="" src="https://cdn.jsdelivr.net/gh/sirxemic/jquery.ripples/dist/jquery.ripples.js"></script><script defer="" data-pjax="" src="/js/ripples.js"></script><script async="" data-pjax="" src="/js/anzhiyu.js"></script><script async="" data-pjax="" src="/js/anzhiyufunction.js"></script><script async="" src="/js/anzhiyuOnlyOne.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><link rel="stylesheet" href="/css/Aplayer.min.css" media="print" onload="this.media='all'"><script src="/js/Aplayer.min.js"></script><script src="/js/Meting2.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  //document.querySelectorAll('script[data-pjax]').forEach(item => {
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div><hr><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div><div class="pjax-reload"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__fadeInLeft');
+    arr[i].setAttribute('data-wow-duration', '600ms');
+    arr[i].setAttribute('data-wow-delay', '200ms');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__fadeInRightBig');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer="defer" src="https://cdn.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script><script defer="defer" src="/js/wow_init.js"></script></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><!-- hexo injector body_end start --><script data-pjax="">
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async="" src="/js/runtime_huibiao.js"></script><!-- hexo injector body_end end -->
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(r){r.imageLazyLoadSetting.processImages=t;var e=r.imageLazyLoadSetting.isSPA,n=r.imageLazyLoadSetting.preloadRatio||1,c=a();function a(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){e&&(c=a());for(var t,o=0;o<c.length;o++)0<=(t=(t=c[o]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(r.innerHeight*n||document.documentElement.clientHeight*n)&&function(){var t,e,n,a,i=c[o];e=function(){c=c.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(n=new Image,a=t.getAttribute("data-original"),n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a))}()}function i(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",i),r.addEventListener("resize",i),r.addEventListener("orientationchange",i)}(this);</script></body></html>
