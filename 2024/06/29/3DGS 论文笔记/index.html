@@ -1,11 +1,13 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记 | 藕片侠大战论文怪</title><meta name="author" content="胖胖大藕片"><meta name="copyright" content="胖胖大藕片"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)   论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of “3D Gaussian Splat">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记 | 藕片侠大战论文怪</title><meta name="author" content="胖胖大藕片"><meta name="copyright" content="胖胖大藕片"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)
+ 论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of &quot;3D Gaussian Splatting fo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记">
 <meta property="og:url" content="http://example.com/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="藕片侠大战论文怪">
-<meta property="og:description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)   论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of “3D Gaussian Splat">
+<meta property="og:description" content="论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)
+ 论文代码：GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of &quot;3D Gaussian Splatting fo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png">
 <meta property="article:published_time" content="2024-06-29T10:55:51.570Z">
 <meta property="article:modified_time" content="2024-07-20T12:19:07.186Z">
 <meta property="article:author" content="胖胖大藕片">
@@ -14,7 +16,7 @@
 <meta property="article:tag" content="splatting">
 <meta property="article:tag" content="CUDA kernels 加速">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
   root: '/',
   algolia: undefined,
   localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
@@ -159,64 +161,33 @@
     })(window)</script><link rel="stylesheet" href="/css/transpancy.css"><link rel="stylesheet" href="/css/showAppreciation.css"><link rel="stylesheet" href="/css/ancientPoetry.css"><link rel="stylesheet" href="/css/mycss.css"><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/macblack.css"><link rel="stylesheet" href="/css/datu.css"><link rel="stylesheet" href="/css/aplayer.css"><link rel="stylesheet" href="/css/myvaline.css"></head><body><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css">
 <style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
   white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"><!--#loading-box//.loading-left-bg
-//.loading-right-bg
-//.spinner-box
-  //.configure-border-1
-    //.configure-core
-  //.configure-border-2
-    //.configure-core
-  //.loading-word= _p('loading')
---><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="wizard-scene"><div class="wizard-objects"><div class="wizard-square"></div><div class="wizard-circle"></div><div class="wizard-triangle"></div></div><div class="wizard"><div class="wizard-body"></div><div class="wizard-right-arm"><div class="wizard-right-hand"></div></div><div class="wizard-left-arm"><div class="wizard-left-hand"></div></div><div class="wizard-head"><div class="wizard-beard"></div><div class="wizard-face"><div class="wizard-adds"></div></div><div class="wizard-hat"><div class="wizard-hat-of-the-hat"></div><div class="wizard-four-point-star --first"></div><div class="wizard-four-point-star --second"></div><div class="wizard-four-point-star --third"></div></div></div></div></div></div><script async="async">(()=>{
-  const $loadingBox = document.getElementById('loading-box')
-  const $body = document.body
-  const preloader = {
-    endLoading: () => {
-      $body.style.overflow = 'auto'
-      //$loadingBox.classList.add('loaded')
-      setTimeout(function(){
-      document.getElementById('loading-box').classList.add("loaded")
-    }, 1500);
-      document.getElementById('loading-box').style.transition = 'opacity 1s ease 0.3s' //000
-      document.getElementById('loading-box').style.opacity = '0'  // 000
-    },
-    initLoading: () => {
-      $body.style.overflow = ''
-      $loadingBox.classList.remove('loaded')
-      document.getElementById('loading-box').style.transition = '';  //000
-      document.getElementById('loading-box').style.opacity = '1'  //000
-    }
-  }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"><script>window.paceOptions = {
+  restartOnPushState: false
+}
 
-  preloader.initLoading()
-  // window.addEventListener('load',() => { preloader.endLoading() })
-  setTimeout(function(){preloader.endLoading();}, 1500);
-  document.getElementById('loading-box').addEventListener('click',()=> {preloader.endLoading()})
-
-  if (true) {
-    document.addEventListener('pjax:send', () => { preloader.initLoading() })
-    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-  }
-
-})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 游戏</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="藕片侠大战论文怪"><span class="site-name">藕片侠大战论文怪</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 游戏</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-29T10:55:51.570Z" title="发表于 2024-06-29 18:55:51">2024-06-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-20T12:19:07.186Z" title="更新于 2024-07-20 20:19:07">2024-07-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" data-flag-title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" itemprop="commentCount"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="top-img" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg');"></div><article class="post-content" id="article-container"><blockquote>
-<p>  <strong>论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)</strong></p>
-<p>  论文代码：<a target="_blank" rel="noopener" href="https://github.com/graphdeco-inria/gaussian-splatting">GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of “3D Gaussian Splatting for Real-Time Radiance Field Rendering”</a></p>
-<p>  论文主页：</p>
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/loading-bar.css"><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><hr class="custom-hr"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 游戏</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png')"><nav id="nav"><span id="blog-info"><a href="/" title="藕片侠大战论文怪"><span class="site-name">藕片侠大战论文怪</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-space-shuttle"></i><span> 游戏</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/2048/"><i class="fa-fw fa fa-cubes"></i><span> 2048</span></a></li><li><a class="site-page child" href="/catch_cat/"><i class="fa-fw fa fa-cat"></i><span> 抓猫猫</span></a></li><li><a class="site-page child" href="/flower/"><i class="fa-fw fa fa-eye"></i><span> 花花世界迷人眼</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-06-29T10:55:51.570Z" title="发表于 2024-06-29 18:55:51">2024-06-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-20T12:19:07.186Z" title="更新于 2024-07-20 20:19:07">2024-07-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>22分钟</span></span><span class="post-meta-separator">|</span><span class="leancloud_visitors" id="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" data-flag-title="3D Gaussian Splatting for Real-Time Radiance Field Rendering 论文笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span class="leancloud-visitors-count"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" itemprop="commentCount"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="top-img" style="background-image: url('https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png');"></div><article class="post-content" id="article-container"><blockquote>
+<p><strong>论文名称：3D Gaussian Splatting for Real-Time Radiance Field Rendering (实时辐射场渲染的 3D 高斯泼溅)</strong></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/graphdeco-inria/gaussian-splatting">GitHub - graphdeco-inria/gaussian-splatting: Original reference implementation of "3D Gaussian Splatting for Real-Time Radiance Field Rendering"</a></p>
+<p>论文主页：</p>
 </blockquote>
-<h1 id="论文基本信息"><a href="#论文基本信息" class="headerlink" title="论文基本信息"></a>论文基本信息</h1><p>3D Gaussian Splatting for Real-Time Radiance Field Rendering^[1]^是由来自法国蔚蓝海岸大学的 Bernhard 等人发表在 <strong>2023 SIGGRAPH</strong> 会议上的SCI论文。</p>
+<h1 id="论文基本信息">论文基本信息</h1>
+<p>3D Gaussian Splatting for Real-Time Radiance Field Rendering<sup>[1]</sup>是由来自法国蔚蓝海岸大学的 Bernhard 等人发表在 <strong>2023 SIGGRAPH</strong> 会议上的SCI论文。</p>
 <p>3DGS 之所以如此大受欢迎，原因主要在于以下几个亮点：</p>
 <ul>
-<li><u>SOTA级别的视觉质量</u>：优于 Mip-NeRF360[Barron et al. 2022]^[2]^</li>
-<li>以1080p的分辨率进行<u>实时渲染</u>($\ge30fps$)</li>
-<li>competitive 的训练时长：比 InstantNGP[Müller et al. 2022]^[3]^、 Plenoxels[Fridovich-Keil and Yu et al. 2022]^[5]^快,差不多一个场景训练几分钟</li>
+<li><u>SOTA级别的视觉质量</u>：优于 Mip-NeRF360[Barron et al. 2022]<sup>[2]</sup></li>
+<li>以1080p的分辨率进行<u>实时渲染</u>(<span class="math inline">\(\ge30fps\)</span>)</li>
+<li>competitive 的训练时长：比 InstantNGP[Müller et al. 2022]<sup>[3]</sup>、 Plenoxels[Fridovich-Keil and Yu et al. 2022]<sup>[5]</sup>快,差不多一个场景训练几分钟</li>
 </ul>
 <p><strong>3D Gaussian Splatting 主要工作：稠密输入的实时新视图合成(相当于 instant-ngp 的训练速度达到了mip-nerf 360 的渲染质量，甚至更好)</strong></p>
-<ol>
+<ol type="1">
 <li><font color="#ef042a">使用 3D Gaussian 球进行场景表示，并通过可微的 tile-based Splatting 技术以1080p的质量实时渲染出来。</font></li>
 <li>3DGS 证明了可以使用非连续的表示来训练快速、高质量的辐射场。</li>
 <li>除了80%的 python 代码外，使用了 InstantNGP 中的优化 CUDA kernels 来加速<u>光栅化 rasterization / 新视角合成</u>。</li>
 </ol>
-<p><strong>数据集</strong>：Mip-NeRF360 数据集、Deep Blending 数据集[Hedman et al. 2018]^[4]^、Tanks&amp;Temples 数据集、Synthetic NeRF 数据集（在这个数据集下，甚至在随机初始化的情况下也达到了高质量）</p>
+<p><strong>数据集</strong>：Mip-NeRF360 数据集、Deep Blending 数据集[Hedman et al. 2018]<sup>[4]</sup>、Tanks&amp;Temples 数据集、Synthetic NeRF 数据集（在这个数据集下，甚至在随机初始化的情况下也达到了高质量）</p>
 <p><strong>特点：</strong></p>
 <ul>
 <li>无深度学习，只有简单的机器学习</li>
@@ -228,64 +199,123 @@
 <li>3DGS 是重建辐射场的，可以考虑把它扩展到重建三维表面 mesh reconstruction？</li>
 <li>强依赖 SFM 生成的点云</li>
 </ul>
-<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="original-splatting"><a href="#original-splatting" class="headerlink" title="original splatting"></a>original splatting</h2><blockquote>
-<p>  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660512916">Splatting 抛雪球法简介 - 知乎 (zhihu.com)</a></p>
-<p>  <a target="_blank" rel="noopener" href="https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-splatting.pdf">Slide 1 (stonybrook.edu)</a></p>
+<h1 id="预备知识">预备知识</h1>
+<h2 id="original-splatting">original splatting</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660512916">Splatting 抛雪球法简介 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www3.cs.stonybrook.edu/~qin/courses/visualization/visualization-splatting.pdf">Slide 1 (stonybrook.edu)</a></p>
 </blockquote>
-<h2 id="3DGS-中的-splatting"><a href="#3DGS-中的-splatting" class="headerlink" title="3DGS 中的 splatting"></a>3DGS 中的 splatting</h2><h3 id="初步定义"><a href="#初步定义" class="headerlink" title="初步定义"></a>初步定义</h3><p>splatting 是一种体渲染方法，从 3D 物体渲染到 2D 平面。它于1990年[9]被首次提出，比体渲染快，但是效果一般。3DGS 是基于2001年的 EWA Volume Splatting ，不同于 被动的ray-casting 计算出每个像素点受到发光粒子的影响来生成图像，splatting 是主动的，它计算出每个发光粒子如何影响像素点。具体区别参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660512916">Splatting 抛雪球法简介 - 知乎 (zhihu.com)</a>，简言之</p>
+<h2 id="dgs-中的-splatting">3DGS 中的 splatting</h2>
+<h3 id="初步定义">初步定义</h3>
+<p>splatting 是一种体渲染方法，从 3D 物体渲染到 2D 平面。它于1990年[9]被首次提出，比体渲染快，但是效果一般。3DGS 是基于2001年的 EWA Volume Splatting ，不同于 被动的ray-casting 计算出每个像素点受到发光粒子的影响来生成图像，splatting 是主动的，它计算出每个发光粒子如何影响像素点。具体区别参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660512916">Splatting 抛雪球法简介 - 知乎 (zhihu.com)</a>，简言之</p>
 <ul>
 <li>Ray-casting：合成沿着光线进行，在每次插值采样和每个像素上执行</li>
 <li>Splatting：合成沿着表格进行，在特定一组体素的所有像素同时执行</li>
 </ul>
 <p>splatting 算法也称为抛雪球法、足迹法，splatting 也可译为“喷溅”。</p>
-<p><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240411203920419.png" alt="image-20240411203920419"></p>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240411203920419.png" alt="image-20240411203920419"><figcaption aria-hidden="true">image-20240411203920419</figcaption>
+</figure>
 <p>之所以用“splatting”即“泼溅”来形容抛雪球算法，是因为它将椭球体的 3D 高斯投影投影到图像平面成为椭圆的过程，就像水珠溅到二维平面上留下印子，是一个从立体三维到平面二维的过程。</p>
-<h3 id="第一步：捏雪球-3DGS-表示形状"><a href="#第一步：捏雪球-3DGS-表示形状" class="headerlink" title="第一步：捏雪球(3DGS 表示形状)"></a>第一步：捏雪球(3DGS 表示形状)</h3><p>我们选择高斯核来作为“雪球”，因为 Gaussian 有很多好的数学性质，如经过仿射变换仍为高斯、从3D降到2D后仍然是高斯等。在高维情况下，椭球高斯函数为：<br>$$<br>G(x)=\frac{1}{\sqrt{(2 \pi)^k |\varSigma|}}e^{-\frac{1}{2}(x-\mu)^T\varSigma^{-1}(x-\mu)}<br>$$<br>其中，$\varSigma$ 为协方差矩阵 $\boldsymbol{\Sigma}=\left[\begin{array}{ccc}<br>\sigma_{x}^{2} &amp; \sigma_{x y} &amp; \sigma_{x z} \<br>\sigma_{y x} &amp; \sigma_{y}^{2} &amp; \sigma_{y z} \<br>\sigma_{z x} &amp; \sigma_{z y} &amp; \sigma_{z}^{2}<br>\end{array}\right]$ （如 $\sigma_{xy}$ 是x与y的相关程度），它控制椭球的形状，半正定，”|$\varSigma$​|”是其行列式。</p>
-<p><strong>各向异性（Anisotropic）</strong>指的是在不同方向具有不同的梯度，即不同方向的投影各不相同。由于高斯核是个椭球，所以说它是各向异性的。如果是个圆球，那么梯度在不同方向都是相同的，这时就是<strong>各向同性（Isotropic）</strong>的。<strong>任意高斯 $x \sim N(\mu,\varSigma)$ 都可以看作是标准高斯 $x \sim N(\vec{0},I)$ 通过仿射变换得到</strong></p>
+<h3 id="第一步捏雪球3dgs-表示形状">第一步：捏雪球(3DGS 表示形状)</h3>
+<p>我们选择高斯核来作为“雪球”，因为 Gaussian 有很多好的数学性质，如经过仿射变换仍为高斯、从3D降到2D后仍然是高斯等。在高维情况下，椭球高斯函数为： <span class="math display">\[
+G(x)=\frac{1}{\sqrt{(2 \pi)^k |\varSigma|}}e^{-\frac{1}{2}(x-\mu)^T\varSigma^{-1}(x-\mu)}
+\]</span> 其中，<span class="math inline">\(\varSigma\)</span> 为协方差矩阵 <span class="math inline">\(\boldsymbol{\Sigma}=\left[\begin{array}{ccc} \sigma_{x}^{2} &amp; \sigma_{x y} &amp; \sigma_{x z} \\ \sigma_{y x} &amp; \sigma_{y}^{2} &amp; \sigma_{y z} \\ \sigma_{z x} &amp; \sigma_{z y} &amp; \sigma_{z}^{2} \end{array}\right]\)</span> （如 <span class="math inline">\(\sigma_{xy}\)</span> 是x与y的相关程度），它控制椭球的形状，半正定，"|<span class="math inline">\(\varSigma\)</span>​|"是其行列式。</p>
+<p><strong>各向异性（Anisotropic）</strong>指的是在不同方向具有不同的梯度，即不同方向的投影各不相同。由于高斯核是个椭球，所以说它是各向异性的。如果是个圆球，那么梯度在不同方向都是相同的，这时就是<strong>各向同性（Isotropic）</strong>的。<strong>任意高斯 <span class="math inline">\(x \sim N(\mu,\varSigma)\)</span> 都可以看作是标准高斯 <span class="math inline">\(x \sim N(\vec{0},I)\)</span> 通过仿射变换得到</strong></p>
 <ul>
-<li>仿射变换：$w=Ax+b$ , $b$ 表示平移矩阵</li>
-<li>一个均值为 $\mu$ 、方差为 $\varSigma$ 的高斯分布经过仿射变换后服从：$w \sim N(A\mu+b,A\varSigma A^T)$</li>
+<li>仿射变换：<span class="math inline">\(w=Ax+b\)</span> , <span class="math inline">\(b\)</span> 表示平移矩阵</li>
+<li>一个均值为 <span class="math inline">\(\mu\)</span> 、方差为 <span class="math inline">\(\varSigma\)</span> 的高斯分布经过仿射变换后服从：<span class="math inline">\(w \sim N(A\mu+b,A\varSigma A^T)\)</span></li>
 </ul>
-<p>因此，我们可以得到 $\varSigma =A\cdot I\cdot A^T$ 。又由仿射变换的概念知，$A=RS$，$R$ 是旋转矩阵，$S$ 是缩放矩阵。于是：<br>$$<br>\begin{align}<br>\varSigma &amp;= A \cdot I \cdot A^T \<br>&amp;= R\cdot S \cdot I \cdot (R \cdot S)^T \<br>&amp;= R\cdot S \cdot (S)^T \cdot (R)^T<br>\end{align}<br>$$</p>
-<h3 id="第二步：抛雪球"><a href="#第二步：抛雪球" class="headerlink" title="第二步：抛雪球"></a>第二步：抛雪球</h3><p>这里的预备知识1是关于光栅化的操作过程。简单来说，主要是观测变换——投影变换——视口变换——光栅化的过程。预备知识2是雅可比矩阵，其主要思想是已知非线性函数中的某一点，对其附近去求导，利用一个很小邻域内的导数（$\frac{dy}{dx}$）来近似该点附近的线性函数导数（$y_x’$）（在一个很小的区域内，非线性也会变成线性的），即“对非线性变换的局部线性近似”。<u>在3D高斯中是选取高斯中心点附近求雅可比矩阵</u>。</p>
+<p>因此，我们可以得到 <span class="math inline">\(\varSigma =A\cdot I\cdot A^T\)</span> 。又由仿射变换的概念知，<span class="math inline">\(A=RS\)</span>，<span class="math inline">\(R\)</span> 是旋转矩阵，<span class="math inline">\(S\)</span> 是缩放矩阵。于是： <span class="math display">\[
+\begin{align}
+\varSigma &amp;= A \cdot I \cdot A^T \\
+&amp;= R\cdot S \cdot I \cdot (R \cdot S)^T \\
+&amp;= R\cdot S \cdot (S)^T \cdot (R)^T
+\end{align}
+\]</span></p>
+<h3 id="第二步抛雪球">第二步：抛雪球</h3>
+<p>这里的预备知识1是关于光栅化的操作过程。简单来说，主要是观测变换——投影变换——视口变换——光栅化的过程。预备知识2是雅可比矩阵，其主要思想是已知非线性函数中的某一点，对其附近去求导，利用一个很小邻域内的导数（<span class="math inline">\(\frac{dy}{dx}\)</span>）来近似该点附近的线性函数导数（<span class="math inline">\(y_x'\)</span>）（在一个很小的区域内，非线性也会变成线性的），即“对非线性变换的局部线性近似”。<u>在3D高斯中是选取高斯中心点附近求雅可比矩阵</u>。</p>
 <p>1.对于物理世界坐标系的一个3D高斯，设其</p>
 <ul>
-<li>均值：$t_k$ </li>
-<li>协方差矩阵：$V^{‘’}_k$​</li>
-<li>高斯核中心：$t_k=[t_0,t_1,t_2]^T$ , <font color="#ef042a">认为高斯的中心点位置 <code>self._xyz</code> 就是高斯的均值</font></li>
-<li>高斯核：$r^{‘’}<em>k(t)=G</em>{V^{‘’}_k}(t-t_k)$</li>
+<li>均值：<span class="math inline">\(t_k\)</span></li>
+<li>协方差矩阵：<span class="math inline">\(V^{''}_k\)</span>​</li>
+<li>高斯核中心：<span class="math inline">\(t_k=[t_0,t_1,t_2]^T\)</span> , <font color="#ef042a">认为高斯的中心点位置 <code>self._xyz</code> 就是高斯的均值</font></li>
+<li>高斯核：<span class="math inline">\(r^{''}_k(t)=G_{V^{''}_k}(t-t_k)\)</span></li>
 </ul>
-<p>2.首先，我们对该3D高斯进行观测变换 $u=\varphi(t)=Wt+d$, 实现物理世界坐标系—&gt;相机坐标系的转变。在相机坐标系中，3D高斯的</p>
+<p>2.首先，我们对该3D高斯进行观测变换 <span class="math inline">\(u=\varphi(t)=Wt+d\)</span>, 实现物理世界坐标系—&gt;相机坐标系的转变。在相机坐标系中，3D高斯的</p>
 <ul>
-<li>均值：$u_k=Wt_k+d$</li>
-<li>协方差矩阵：$V^{‘}_k=WV^{‘’}_kW^T$</li>
-<li>高斯核中心：$u_k=[u_0,u_1,u_2]^T$</li>
-<li>高斯核：$r^{‘}<em>k(u)=G</em>{V^{‘}_k}(u-u_k)$</li>
+<li>均值：<span class="math inline">\(u_k=Wt_k+d\)</span></li>
+<li>协方差矩阵：<span class="math inline">\(V^{'}_k=WV^{''}_kW^T\)</span></li>
+<li>高斯核中心：<span class="math inline">\(u_k=[u_0,u_1,u_2]^T\)</span></li>
+<li>高斯核：<span class="math inline">\(r^{'}_k(u)=G_{V^{'}_k}(u-u_k)\)</span></li>
 </ul>
-<p>3.然后，我们对3D高斯进行投影变换,实现相机坐标系——&gt;归一化坐标系NDC。<u>这里的投影变换使用的是非线性的透视投影</u> $x=m(t)$ ，这对于仅仅是一个点的均值可行（一个点不会发生形变），但是对于协方差矩阵不可行。因此需要<strong>用到雅可比矩阵 $J=\frac{ \partial m(u_k)}{\partial u}$ 将其模拟成线性的变换，此时雅可比矩阵就相当于仿射变换矩阵</strong>。</p>
+<p>3.然后，我们对3D高斯进行投影变换,实现相机坐标系——&gt;归一化坐标系NDC。<u>这里的投影变换使用的是非线性的透视投影</u> <span class="math inline">\(x=m(t)\)</span> ，这对于仅仅是一个点的均值可行（一个点不会发生形变），但是对于协方差矩阵不可行。因此需要<strong>用到雅可比矩阵 <span class="math inline">\(J=\frac{ \partial m(u_k)}{\partial u}\)</span> 将其模拟成线性的变换，此时雅可比矩阵就相当于仿射变换矩阵</strong>。</p>
 <ul>
-<li>均值：<font color="#ef042a">$x_k=m(u_k)$</font></li>
-<li>协方差矩阵：<font color="#ef042a">$V_k=JV^{‘}_kJ^T=JWV^{‘’}_kW^TJ^T$ </font></li>
-<li>高斯核中心：$x_k=[x_0,x_1,x_2]^T$</li>
-<li>高斯核：$r_k(x)=G_{V_k}(x-x_k)$​</li>
+<li>均值：<font color="#ef042a"><span class="math inline">\(x_k=m(u_k)\)</span></font></li>
+<li>协方差矩阵：<font color="#ef042a"><span class="math inline">\(V_k=JV^{'}_kJ^T=JWV^{''}_kW^TJ^T\)</span> </font></li>
+<li>高斯核中心：<span class="math inline">\(x_k=[x_0,x_1,x_2]^T\)</span></li>
+<li>高斯核：<span class="math inline">\(r_k(x)=G_{V_k}(x-x_k)\)</span>​</li>
 </ul>
 <blockquote>
 <p><strong>投影变换的雅可比矩阵</strong></p>
-<p>我们知道，在进行投影变换时，如果做透视投影，那么需要先用非仿射变换函数 $x=m(t)$ 将其转换为四四方方的立方体，再进行正交投影。</p>
-<p>如对于视锥中的一个点 $[x,y,z,1]^T$，先乘该非仿射变换的转换矩阵 $M_{persp \rightarrow ortho}$：<br>$$<br>\left[ \begin{matrix}<br>    n&amp;		0&amp;		0&amp;		0\<br>    0&amp;		n&amp;		0&amp;		0\<br>    0&amp;		0&amp;		n+f&amp;		-nf\<br>    0&amp;		0&amp;		1&amp;		0\<br>\end{matrix} \right] \left[ \begin{array}{l}<br>    x\<br>    y\<br>    z\<br>    1\<br>\end{array} \right] =\left[ \begin{array}{c}<br>    nx\<br>    ny\<br>    \left( n+f \right) z-nf\<br>    z\<br>\end{array} \right] =\left[ \begin{array}{c}<br>    \frac{nx}{z}\<br>    \frac{ny}{z}\<br>    \left( n+f \right) -\frac{nf}{z}\<br>    1\<br>\end{array} \right] =\left[ \begin{array}{c}<br>    f_1\left( x \right)\<br>    f_2\left( y \right)\<br>    f_3\left( z \right)\<br>    1\<br>\end{array} \right]<br>$$<br>$n$ 和 $f$ 表示z方向的两个量 near 和 far，实际编写代码时 n 也分为 focal_x 和 focal_y 两种情况 。将右侧齐次坐标中的1去掉，进行求导即得上文中雅可比矩阵如下：<br>$$<br>J=\left[\begin{array}{lll}<br>\frac{d f_{1}}{d x} &amp; \frac{d f_{1}}{d y} &amp; \frac{d f_{1}}{d z} \<br>\frac{d f_{2}}{d x} &amp; \frac{d f_{2}}{d y} &amp; \frac{d f_{2}}{d z} \<br>\frac{d f_{3}}{d x} &amp; \frac{d f_{3}}{d y} &amp; \frac{d f_{3}}{d z}<br>\end{array}\right]=\left[\begin{array}{lll}<br>\frac{n}{z} &amp; 0 &amp; -\frac{n x}{z^{2}} \<br>0 &amp; \frac{n}{z} &amp; -\frac{n y}{z^{2}} \<br>0 &amp; 0 &amp; \frac{n f}{z^{2}}<br>\end{array}\right]<br>$$</p>
+<p>我们知道，在进行投影变换时，如果做透视投影，那么需要先用非仿射变换函数 <span class="math inline">\(x=m(t)\)</span> 将其转换为四四方方的立方体，再进行正交投影。</p>
+<p>如对于视锥中的一个点 <span class="math inline">\([x,y,z,1]^T\)</span>，先乘该非仿射变换的转换矩阵 <span class="math inline">\(M_{persp \rightarrow ortho}\)</span>： <span class="math display">\[
+\left[ \begin{matrix}
+  n&amp;      0&amp;      0&amp;      0\\
+  0&amp;      n&amp;      0&amp;      0\\
+  0&amp;      0&amp;      n+f&amp;        -nf\\
+  0&amp;      0&amp;      1&amp;      0\\
+\end{matrix} \right] \left[ \begin{array}{l}
+  x\\
+  y\\
+  z\\
+  1\\
+\end{array} \right] =\left[ \begin{array}{c}
+  nx\\
+  ny\\
+  \left( n+f \right) z-nf\\
+  z\\
+\end{array} \right] =\left[ \begin{array}{c}
+  \frac{nx}{z}\\
+  \frac{ny}{z}\\
+  \left( n+f \right) -\frac{nf}{z}\\
+  1\\
+\end{array} \right] =\left[ \begin{array}{c}
+  f_1\left( x \right)\\
+  f_2\left( y \right)\\
+  f_3\left( z \right)\\
+  1\\
+\end{array} \right]
+\]</span> <span class="math inline">\(n\)</span> 和 <span class="math inline">\(f\)</span> 表示z方向的两个量 near 和 far，实际编写代码时 n 也分为 focal_x 和 focal_y 两种情况 。将右侧齐次坐标中的1去掉，进行求导即得上文中雅可比矩阵如下： <span class="math display">\[
+J=\left[\begin{array}{lll}
+\frac{d f_{1}}{d x} &amp; \frac{d f_{1}}{d y} &amp; \frac{d f_{1}}{d z} \\
+\frac{d f_{2}}{d x} &amp; \frac{d f_{2}}{d y} &amp; \frac{d f_{2}}{d z} \\
+\frac{d f_{3}}{d x} &amp; \frac{d f_{3}}{d y} &amp; \frac{d f_{3}}{d z}
+\end{array}\right]=\left[\begin{array}{lll}
+\frac{n}{z} &amp; 0 &amp; -\frac{n x}{z^{2}} \\
+0 &amp; \frac{n}{z} &amp; -\frac{n y}{z^{2}} \\
+0 &amp; 0 &amp; \frac{n f}{z^{2}}
+\end{array}\right]
+\]</span></p>
 </blockquote>
-<p>4.最后，将3D高斯变换到像素坐标系。我们对<strong>均值</strong>做完非线性的投影变换后，其变到了NDC坐标系，范围是$[-1,1]^3$ 。而对于<strong>协方差矩阵</strong>，它没有进行非线性的操作。因此<strong>只有均值/高斯核中心需要进行视口变换</strong>，即进行平移+缩放操作，将 $[-1,1]^2$ 的正方形变换回 $[0,w]×[0,h]$。<strong>对于协方差则利用其进行足迹渲染 $G(\hat{x})=exp(-\frac{1}{2}(x-\mu)^TV_k^{-1}(x-\mu))$</strong>, 点离均值越近，函数值就越大。</p>
+<p>4.最后，将3D高斯变换到像素坐标系。我们对<strong>均值</strong>做完非线性的投影变换后，其变到了NDC坐标系，范围是<span class="math inline">\([-1,1]^3\)</span> 。而对于<strong>协方差矩阵</strong>，它没有进行非线性的操作。因此<strong>只有均值/高斯核中心需要进行视口变换</strong>，即进行平移+缩放操作，将 <span class="math inline">\([-1,1]^2\)</span> 的正方形变换回 <span class="math inline">\([0,w]×[0,h]\)</span>。<strong>对于协方差则利用其进行足迹渲染 <span class="math inline">\(G(\hat{x})=exp(-\frac{1}{2}(x-\mu)^TV_k^{-1}(x-\mu))\)</span></strong>, 点离均值越近，函数值就越大。</p>
 <ul>
-<li>均值：$\mu=[\mu_1,\mu_2,\mu_3]^T$</li>
-<li>协方差矩阵：$V_k=JV^{‘}_kJ^T=JWV^{‘’}_kW^TJ^T$</li>
-<li>高斯核中心 ：$\mu=[\mu_1,\mu_2,\mu_3]^T$​</li>
-<li>高斯核（离散计算）：$G(\hat{x})=exp(-\frac{1}{2}(x-\mu)^TV_k^{-1}(x-\mu))$</li>
+<li>均值：<span class="math inline">\(\mu=[\mu_1,\mu_2,\mu_3]^T\)</span></li>
+<li>协方差矩阵：<span class="math inline">\(V_k=JV^{'}_kJ^T=JWV^{''}_kW^TJ^T\)</span></li>
+<li>高斯核中心 ：<span class="math inline">\(\mu=[\mu_1,\mu_2,\mu_3]^T\)</span>​</li>
+<li>高斯核（离散计算）：<span class="math inline">\(G(\hat{x})=exp(-\frac{1}{2}(x-\mu)^TV_k^{-1}(x-\mu))\)</span></li>
 </ul>
-<h3 id="雪球颜色-球谐函数"><a href="#雪球颜色-球谐函数" class="headerlink" title="雪球颜色(球谐函数)"></a>雪球颜色(球谐函数)</h3><p>3DGS 中的 SH 参考的是 [Fridovich-Keil and Yu et al. 2022; Müller et al. 2022].</p>
-<p><strong>球谐函数是一组基函数，任何一个球面坐标的函数 $f(t)$ 都可以用多个球谐函数来近似</strong>：<br>$$<br>f(t)\approx \sum_l\sum_{m=-l}^lc_l^my_l^m(\theta,\phi)<br>$$<br>其中，$c_l^m$ 是各项系数，$y_l^m$ 是球谐基函数，方向$(\theta,\phi)$中的 $\theta$ 和 $\phi$ 分别表示仰角和方位角。那么对于任意球面函数，<strong>我们只需知道球谐系数和方向</strong>，再用系数去乘相应的球谐基即可得到函数在该方向的值了。具体计算过程如下：</p>
-<p><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240627202726854.png" alt="image-20240627202726854"></p>
-<p>在实际编程中，我们常用 $\frac{y}{r}=\sin\theta $、$\frac{x}{r}=\cos\theta$ 等式子来简化计算，且提前计算出能预计算的常数进行保存。当使用球谐系数 $c_l^m$ 来表示三通道的RGB颜色时，通常取到下标阶数为 3 的球谐基。也就是，一共取了 3*(1+3+5+7)=3*16 个球谐系数。</p>
-<h3 id="第三步：足迹合成"><a href="#第三步：足迹合成" class="headerlink" title="第三步：足迹合成"></a>第三步：足迹合成</h3><p>我们将捏好的雪球一个接一个抛在成像平面上，就能得到一个接一个的雪球印 (<strong>footprint</strong>)。这些足迹有的有重叠，有的没有，很容易想到后抛的雪球印会覆盖先抛的雪球印(<strong>深度排序</strong>)，而我们最后得到的图像就是这些雪球印的融合渲染结果(<strong>α-blending</strong>)。</p>
+<h3 id="雪球颜色球谐函数">雪球颜色(球谐函数)</h3>
+<p>3DGS 中的 SH 参考的是 [Fridovich-Keil and Yu et al. 2022; Müller et al. 2022].</p>
+<p><strong>球谐函数是一组基函数，任何一个球面坐标的函数 <span class="math inline">\(f(t)\)</span> 都可以用多个球谐函数来近似</strong>： <span class="math display">\[
+f(t)\approx \sum_l\sum_{m=-l}^lc_l^my_l^m(\theta,\phi)
+\]</span> 其中，<span class="math inline">\(c_l^m\)</span> 是各项系数，<span class="math inline">\(y_l^m\)</span> 是球谐基函数，方向<span class="math inline">\((\theta,\phi)\)</span>中的 <span class="math inline">\(\theta\)</span> 和 <span class="math inline">\(\phi\)</span> 分别表示仰角和方位角。那么对于任意球面函数，<strong>我们只需知道球谐系数和方向</strong>，再用系数去乘相应的球谐基即可得到函数在该方向的值了。具体计算过程如下：</p>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240627202726854.png" alt="image-20240627202726854"><figcaption aria-hidden="true">image-20240627202726854</figcaption>
+</figure>
+<p>在实际编程中，我们常用 $=<span class="math inline">\(、\)</span>=$ 等式子来简化计算，且提前计算出能预计算的常数进行保存。当使用球谐系数 <span class="math inline">\(c_l^m\)</span> 来表示三通道的RGB颜色时，通常取到下标阶数为 3 的球谐基。也就是，一共取了 3*(1+3+5+7)=3*16 个球谐系数。</p>
+<h3 id="第三步足迹合成">第三步：足迹合成</h3>
+<p>我们将捏好的雪球一个接一个抛在成像平面上，就能得到一个接一个的雪球印 (<strong>footprint</strong>)。这些足迹有的有重叠，有的没有，很容易想到后抛的雪球印会覆盖先抛的雪球印(<strong>深度排序</strong>)，而我们最后得到的图像就是这些雪球印的融合渲染结果(<strong>α-blending</strong>)。</p>
 <p>实际上，虽然每抛一个高斯雪球就会留下一个足迹，但是在实际代码中对留下每个的足迹 —大小 H×W×3— 仍然是逐像素遍历进行赋值渲染的。<font color="#df8400"><strong>这里作者利用到 GPU 的高性能进行渲染加速</strong>。用GPU的一个线程负责一个像素，所有线程并发运行进行渲染。此外，</font></p>
 <ul>
 <li>把整个图像划分为16*16个tiles, 每个tile视锥内挑选可视的3D高斯——每个视锥内只取置信度大于 99% 的高斯实例化为对象，并按所在视域深度进行排序</li>
@@ -293,94 +323,131 @@
 <li>有像素的不透明度达到饱和就停止对应线程</li>
 <li>反向传播误差时按tile对高斯进行索引</li>
 </ul>
-<p><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240629132954884.png" alt="image-20240629132954884"></p>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240629132954884.png" alt="image-20240629132954884"><figcaption aria-hidden="true">image-20240629132954884</figcaption>
+</figure>
 <blockquote>
 <p>GPU 和 CPU 好比 两千个小学生和一个老教授。当进行简单的小学计算时，这些小学生同时一人写一道题，能瞬间写完一份2000题的卷子，比孤身奋战的老教授快得多。但是在面对一道高数题时，老教授能慢慢悠悠写完，而这两千个小学生一道题都写不出。</p>
 </blockquote>
-<p>渲染雪球颜色用到的公式与NeRF中的体渲染公式大体类似：<br>$$<br>\begin{align}<br>&amp;C=\sum_{i=1}^{N} T_{i}\alpha_i \mathbf{c}<em>{i},\<br>&amp;\text { where } \  T</em>{i}=\exp \left(-\sum_{j=1}^{i-1} \sigma_{j} \delta_{j}\right)= \prod^{i-1}<em>{j=1}{(1-\alpha_i)},\<br>&amp; \ \ \ \ \ \ \ \ \ \ \ \ \ \alpha_i= 1-\exp \left(-\sigma</em>{i} \delta_{i}\right),<br>\tag{1}\label{eq1}<br>\end{align}<br>$$<br>其中</p>
+<p>渲染雪球颜色用到的公式与NeRF中的体渲染公式大体类似： <span class="math display">\[
+\begin{align}
+&amp;C=\sum_{i=1}^{N} T_{i}\alpha_i \mathbf{c}_{i},\\
+&amp;\text { where } \  T_{i}=\exp \left(-\sum_{j=1}^{i-1} \sigma_{j} \delta_{j}\right)= \prod^{i-1}_{j=1}{(1-\alpha_i)},\\
+&amp; \ \ \ \ \ \ \ \ \ \ \ \ \ \alpha_i= 1-\exp \left(-\sigma_{i} \delta_{i}\right),
+\tag{1}\label{eq1}
+\end{align}
+\]</span> 其中</p>
 <ul>
-<li>$T_i$ 是透射比，即光线不被遮挡的概率，初始值为1，需要通过 $\alpha_i$ 计算得到。<u>在按抛高斯雪球顺序计算像素颜色值时，如果前面的高斯雪球已经使 $T$ 值很小时，就不再计算后面雪球的影响；相反如果所有高斯雪球遍历完后 $T$ 值仍然不够大，就设置颜色为背景色——黑色</u>。</li>
-<li>$\alpha_i$ 是不透明度，需要计算。这里的不透明度有两层含义：1.高斯椭球本身的不透明度；2.像素离高斯椭球越远，高斯椭球对该像素影响越小。</li>
-<li>$c_i$ 是通过球谐函数算得的颜色值，是已知的。</li>
+<li><span class="math inline">\(T_i\)</span> 是透射比，即光线不被遮挡的概率，初始值为1，需要通过 <span class="math inline">\(\alpha_i\)</span> 计算得到。<u>在按抛高斯雪球顺序计算像素颜色值时，如果前面的高斯雪球已经使 <span class="math inline">\(T\)</span> 值很小时，就不再计算后面雪球的影响；相反如果所有高斯雪球遍历完后 <span class="math inline">\(T\)</span> 值仍然不够大，就设置颜色为背景色——黑色</u>。</li>
+<li><span class="math inline">\(\alpha_i\)</span> 是不透明度，需要计算。这里的不透明度有两层含义：1.高斯椭球本身的不透明度；2.像素离高斯椭球越远，高斯椭球对该像素影响越小。</li>
+<li><span class="math inline">\(c_i\)</span> 是通过球谐函数算得的颜色值，是已知的。</li>
 </ul>
-<p>但<strong>不同的是</strong>，splatting 中没有用光线穿过逐个像素，对光线上的粒子颜色进行采样求和的过程。相反地，它根据抛雪球的顺序 即深度 $z$​​ ，对高斯球进行深度排序。</p>
+<p>但<strong>不同的是</strong>，splatting 中没有用光线穿过逐个像素，对光线上的粒子颜色进行采样求和的过程。相反地，它根据抛雪球的顺序 即深度 <span class="math inline">\(z\)</span>​​ ，对高斯球进行深度排序。</p>
 <p>首先，外循环遍历每一个像素，通过GPU对每个单一像素进行操作；然后内循环遍历每一个高斯，由深度的近到远对高斯颜色进行渲染得到指定像素的颜色。这样遍历后，就得到了最后的所有颜色。</p>
-<h1 id="算法全貌"><a href="#算法全貌" class="headerlink" title="算法全貌"></a>算法全貌</h1><p><strong>动机</strong>：目前，最有效的辐射场方案一般建模在通过插值<u>体素[Fridovich-Keil and Yu et al. 2022]^[5]^、哈希网格[Müller et al. 2022]^[3]^和点[Xu et al. 2022]^[6]^</u>得到的连续表示，虽然这些模型的连续性有助于优化(Plenoxels 和  InstantNGP快，MipNeRF360 质量高)，然而渲染时需要的 stochastic sampling 是 costly 且可能导致噪声的。——具体见“3DGS 与 NeRF 的区别与联系”</p>
-<p><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240413093014740.png" alt="image-20240413093014740"></p>
+<h1 id="算法全貌">算法全貌</h1>
+<p><strong>动机</strong>：目前，最有效的辐射场方案一般建模在通过插值<u>体素[Fridovich-Keil and Yu et al. 2022]<sup>[5]</sup>、哈希网格[Müller et al. 2022]<sup>[3]</sup>和点[Xu et al. 2022]<sup>[6]</sup></u>得到的连续表示，虽然这些模型的连续性有助于优化(Plenoxels 和 InstantNGP快，MipNeRF360 质量高)，然而渲染时需要的 stochastic sampling 是 costly 且可能导致噪声的。——具体见“3DGS 与 NeRF 的区别与联系”</p>
+<figure>
+<img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/image-20240413093014740.png" alt="image-20240413093014740"><figcaption aria-hidden="true">image-20240413093014740</figcaption>
+</figure>
 <p><strong>总结</strong>：模型的输入是一组图片，首先通过 SfM 方法匹配这组场景图片的关键点从而给出该场景的点云，同时也估计了相机位姿。以该初始点云的各个点为中心，膨胀得到各个 3D 高斯椭球。（<span style="background:#eef0f4;">椭球的初始形状是各向同性的球(Isotropic Gaussians)。使用knn法，找到每个高斯椭球的3近邻，将高斯椭球的半径初始化为3近邻的距离的平均。</span>）</p>
 <p>然后结合先前估计的相机位姿，通过GPU对3D高斯球实现高速的 tile-based splatting 渲染/光栅化得到图片，与真实图片比较得到损失。</p>
-<p>最后通过SGD反向传播梯度优化，优化时改变的主要有中心点位置、不透明度 $\alpha$ 、协方差矩阵、球谐系数等3D Gaussians 属性。同时还根据传递的梯度进行自适应的密度控制，自适应的密度控制的判断标准是传递的梯度超过阈值时，认为重建不充分。</p>
+<p>最后通过SGD反向传播梯度优化，优化时改变的主要有中心点位置、不透明度 <span class="math inline">\(\alpha\)</span> 、协方差矩阵、球谐系数等3D Gaussians 属性。同时还根据传递的梯度进行自适应的密度控制，自适应的密度控制的判断标准是传递的梯度超过阈值时，认为重建不充分。</p>
 <blockquote>
-<p>  参数：</p>
+<p>参数：</p>
 <ul>
 <li>假设初始点云有10000个点</li>
 <li>每个点膨胀成 3D高斯椭球</li>
-<li>则每个椭球的参数包括：<ul>
+<li>则每个椭球的参数包括：
+<ul>
 <li>中心点位置：(x,y,z)</li>
 <li>协方差矩阵：R、S</li>
 <li>球谐函数系数：16×3</li>
 <li>不透明度：α</li>
-</ul>
-</li>
+</ul></li>
 </ul>
 </blockquote>
-<p><strong>算法</strong>：渲染+SGD+Sigmoid/Exponential激活函数。这里的Sigmoid激活函数是用来将不透明度 $\alpha$ 限制在[0,1]内。</p>
-<p><strong>损失函数</strong>：$L=(1-\lambda)L_1+\lambda L_{D-SSIM}, \ \lambda=0.2$。前者的L1损失是对渲染图片和真实图片做光度误差，后者是结构相似性误差。</p>
+<p><strong>算法</strong>：渲染+SGD+Sigmoid/Exponential激活函数。这里的Sigmoid激活函数是用来将不透明度 <span class="math inline">\(\alpha\)</span> 限制在[0,1]内。</p>
+<p><strong>损失函数</strong>：<span class="math inline">\(L=(1-\lambda)L_1+\lambda L_{D-SSIM}, \ \lambda=0.2\)</span>。前者的L1损失是对渲染图片和真实图片做光度误差，后者是结构相似性误差。</p>
 <p><strong>问题</strong>：<font color="#ef042a">强依赖 SFM 生成的初始点云</font></p>
 <p><strong>解决方案</strong>：打补丁（Adaptive Control of Gaussians）</p>
 <ul>
-<li>重建不充分的区域往往有较大的梯度，即中心点 <code>self._xyz</code> 梯度大的高斯认为误差也大，需要 densify。根据高斯的尺度 <code>self._scaling</code>进行不同的 densify 操作<ul>
-<li>scale 太大的高斯拆分—over-reconstruction </li>
+<li>重建不充分的区域往往有较大的梯度，即中心点 <code>self._xyz</code> 梯度大的高斯认为误差也大，需要 densify。根据高斯的尺度 <code>self._scaling</code>进行不同的 densify 操作
+<ul>
+<li>scale 太大的高斯拆分—over-reconstruction</li>
 <li>scale 太小的高斯复制—under-reconstruction</li>
-</ul>
-</li>
+</ul></li>
 <li>存在感太低的剔除（每100次迭代移除不透明度小于阈值的点）</li>
 <li>周期性将不透明度重置为0用于去除floaters、周期性移除较大的高斯用于避免重叠</li>
 </ul>
 <p><strong>第一部分：用 3D Gaussian 作为场景表示</strong></p>
-<p>我们模型的输入是一组静态场景的图片，然后使用SfM方法 [Snavely et al. 2006]^[7]^，<u>通过匹配这组场景图片的关键点得到该场景的稀疏点云，同时也估计了相机位姿</u>。用 SfM 过程产生的稀疏点云初始化一组 3D Gaussians。（<span style="background:#eef0f4;">注意其他方法往往还需要多视图立体化 MVS 进行几何初始化，以此作为 SfM 的辅助。因此它们不可避免地继承了来自 MVS 的 artifacts ,在 featureless/shiny 的区域或者薄结构处出现 over 或 under 重建</span>）。</p>
+<p>我们模型的输入是一组静态场景的图片，然后使用SfM方法 [Snavely et al. 2006]<sup>[7]</sup>，<u>通过匹配这组场景图片的关键点得到该场景的稀疏点云，同时也估计了相机位姿</u>。用 SfM 过程产生的稀疏点云初始化一组 3D Gaussians。（<span style="background:#eef0f4;">注意其他方法往往还需要多视图立体化 MVS 进行几何初始化，以此作为 SfM 的辅助。因此它们不可避免地继承了来自 MVS 的 artifacts ,在 featureless/shiny 的区域或者薄结构处出现 over 或 under 重建</span>）。</p>
 <p><strong>第二部分：optimization 过程</strong></p>
-<p>在这里将优化 3D 位置、不透明度 $\alpha$ 、各向异性协方差/三维协方差矩阵、颜色/球谐系数等3D Gaussians 属性。优化属性的步骤与自适应的密度控制步骤相交织，在这个过程中我们将添加和偶尔删除 3D Gaussians。Optimization 过程最后将产生所有被测试场景的 1-5 million 高斯的高质量表示（<span style="background:#eef0f4;">in part because highly<br>anisotropic volumetric splats can be used to represent fine structures<br>compactly</span>）。</p>
+<p>在这里将优化 3D 位置、不透明度 <span class="math inline">\(\alpha\)</span> 、各向异性协方差/三维协方差矩阵、颜色/球谐系数等3D Gaussians 属性。优化属性的步骤与自适应的密度控制步骤相交织，在这个过程中我们将添加和偶尔删除 3D Gaussians。Optimization 过程最后将产生所有被测试场景的 1-5 million 高斯的高质量表示（<span style="background:#eef0f4;">in part because highly anisotropic volumetric splats can be used to represent fine structures compactly</span>）。</p>
 <p><strong>第三部分：使用快速GPU排序算法和 tile-based 的 Splatting 技术进行实时渲染</strong></p>
-<p>这一部分是受启发于最近的一个<font color="#985fff"> tile-based 的光栅化工作</font>[Lassner and Zollhofer 2021]^[8]^。这里作者的用法有所不同：However, thanks to our 3D Gaussian representation, we can perform anisotropic splatting that respects visibility ordering – <font color="#985fff">thanks to sorting and 𝛼-blending</font> – and enable a fast and accurate backward pass by tracking the traversal of as many sorted splats as required.</p>
-<p>也就是说，作者在这一部分主要使用 <font color="#985fff">GPU 排序算法+tile-based 光栅化+$\alpha$-blending</font> 来快速渲染高质量的新视图。且该过程是 visibility-aware 的。对应关系分别是：</p>
+<p>这一部分是受启发于最近的一个<font color="#985fff"> tile-based 的光栅化工作</font>[Lassner and Zollhofer 2021]<sup>[8]</sup>。这里作者的用法有所不同：However, thanks to our 3D Gaussian representation, we can perform anisotropic splatting that respects visibility ordering – <font color="#985fff">thanks to sorting and 𝛼-blending</font> – and enable a fast and accurate backward pass by tracking the traversal of as many sorted splats as required.</p>
+<p>也就是说，作者在这一部分主要使用 <font color="#985fff">GPU 排序算法+tile-based 光栅化+<span class="math inline">\(\alpha\)</span>-blending</font> 来快速渲染高质量的新视图。且该过程是 visibility-aware 的。对应关系分别是：</p>
 <ul>
 <li>tile-based rasterizer——𝛼-blending of anisotropic splats</li>
 <li>fast sorting——respecting visibility</li>
 </ul>
-<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="方法梳理"><a href="#方法梳理" class="headerlink" title="方法梳理"></a>方法梳理</h2><p>输入一系列图像，使用COLMAP从中构建点云，然后为点云中的每个点去初始化一个3D gaussian。每个3D gaussian都包含一组可学习的参数，包括中心点位置<code>self._xyz</code>（3D gaussian的均值）、球谐系数<code>self._features_dc</code>和<code>self._features_rest</code>（用来表示颜色）、尺度<code>self._scaling</code>、旋转参数<code>self._rotation</code>、不透明度<code>self._opacity</code>。对<code>self._scaling</code>和<code>self._rotation</code>使用<code>build_covariance_from_scaling_rotation</code>，可以获得3D gaussian的协方差矩阵（表示了每个3D gaussian的大小、形状和方向）。这些可学习的参数通过<code>self.optimizer</code>进行优化。</p>
+<h1 id="实验">实验</h1>
+<h1 id="代码">代码</h1>
+<h2 id="方法梳理">方法梳理</h2>
+<p>输入一系列图像，使用COLMAP从中构建点云，然后为点云中的每个点去初始化一个3D gaussian。每个3D gaussian都包含一组可学习的参数，包括中心点位置<code>self._xyz</code>（3D gaussian的均值）、球谐系数<code>self._features_dc</code>和<code>self._features_rest</code>（用来表示颜色）、尺度<code>self._scaling</code>、旋转参数<code>self._rotation</code>、不透明度<code>self._opacity</code>。对<code>self._scaling</code>和<code>self._rotation</code>使用<code>build_covariance_from_scaling_rotation</code>，可以获得3D gaussian的协方差矩阵（表示了每个3D gaussian的大小、形状和方向）。这些可学习的参数通过<code>self.optimizer</code>进行优化。</p>
 <p>给定一个相机视角，可以根据这些参数将这些3D gaussians投影到2D，得到对应的2D gaussian。通过将这些2D gaussian按照深度的顺序进行混合，就可以得到新视角2D图像上每个pixel的颜色，进而得到渲染好的2D图像。在渲染所得的2D图像和真实的2D图像之间进行loss的计算，从而可以优化每个3D gaussian对应的可学习参数。</p>
 <p>为了应对欠重建和过重建，在训练期间还会每隔一定间隔，对那些均值<code>self._xyz</code>的梯度超过一定阈值且尺度<code>self._scaling</code>小于一定阈值的3D gaussian进行克隆操作，对于那些均值<code>self._xyz</code>的梯度超过一定阈值且尺度<code>self._scaling</code>大于一定阈值的3D gaussian进行分割操作，并将opacity小于一定阈值的3D gaussians进行删除。</p>
-<h2 id="代码构成"><a href="#代码构成" class="headerlink" title="代码构成"></a>代码构成</h2><p>(1) 训练流程: <code>train.py</code>中的<code>training</code>函数;</p>
-<p>(2) 数据加载 + 模型创建: <code>scene/__init__.py</code>中的<code>Scene</code>类的<code>__init__</code>函数;</p>
+<h2 id="代码构成">代码构成</h2>
+<ol type="1">
+<li><p>训练流程: <code>train.py</code>中的<code>training</code>函数;</p></li>
+<li><p>数据加载 + 模型创建: <code>scene/__init__.py</code>中的<code>Scene</code>类的<code>__init__</code>函数;</p></li>
+</ol>
 <p>3DGS只有两个数据加载器一个是Blender,另一个是colmap数据加载器; Blender数据集用的是随机点云，不是从SFM生成的, blender数据集用的是box内随机生成点云。</p>
-<p>(3) 模型代码: <code>scene/gaussian_model.py</code>中的<code>GaussianModel</code>类;</p>
+<ol start="3" type="1">
+<li>模型代码: <code>scene/gaussian_model.py</code>中的<code>GaussianModel</code>类;</li>
+</ol>
 <p>关于初始化的3D高斯：</p>
 <p>~/gaussian-splatting/submodules</p>
 <ul>
 <li>diff-gaussian-rasterization：cuda加速渲染</li>
 <li>simple-knn：通过knn法初始化椭球的半径</li>
 </ul>
-<p>(4) 图像渲染 python 调用部分: <code>submodules/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py</code>中的<code>_RasterizeGaussians</code>类;</p>
-<p>(5) 图像渲染 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/rasterize_points.cu</code>中的<code>RasterizeGaussiansCUDA</code>类和<code>RasterizeGaussiansBackwardCUDA</code>类;</p>
-<p>(6) 渲染前传 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu</code>中的<code>int CudaRasterizer::Rasterizer::forward</code>函数;</p>
-<p>(7) 渲染反传 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu</code>中的<code>void CudaRasterizer::Rasterizer::backward</code>函数;</p>
-<h1 id="3DGS-与-NeRF-的区别与联系"><a href="#3DGS-与-NeRF-的区别与联系" class="headerlink" title="3DGS 与 NeRF 的区别与联系"></a>3DGS 与 NeRF 的区别与联系</h1><h2 id="从-ray-marching-的体渲染到-point-based-alpha-blending-渲染"><a href="#从-ray-marching-的体渲染到-point-based-alpha-blending-渲染" class="headerlink" title="从 ray-marching 的体渲染到  point-based $\alpha$-blending 渲染"></a>从 ray-marching 的体渲染到  point-based $\alpha$-blending 渲染</h2><p>NeRF 中计算<strong>每个像素点</strong>颜色的体渲染公式：<br>$$<br>\hat{C}<em>{c}(\mathbf{r})=\sum</em>{i=1}^{N_{c}} w_{i} c_{i}, \quad w_{i}=T_{i}\left(1-\exp \left(-\sigma_{i} \delta_{i}\right)\right) \tag{1} \<br>T_{i}=\exp \left(-\sum_{j=1}^{i-1} \sigma_{j} \delta_{j}\right)<br>$$<br>我们也可以将 NeRF 中这个 ray-marhing 的体渲染写成另一种形式，即：<br>$$<br>\begin{align}<br>&amp;C=\sum^N_{i=1}{T_i \alpha_i \mathbf{c}<em>i}, \tag{2} \<br>&amp;where \ \ \alpha_i=(1-exp(-\sigma_i\delta_i))\<br>&amp;\ \ \ \ \ \ \ \ \ \ \  \ \ T_i=\prod^{i-1}</em>{j=1}{(1-\alpha_i)}<br>\end{align}<br>$$<br>通过上式，可计算得射线穿过的那个像素的颜色值。而一种经典的基于点的 neural 方法[Kopanas et al. 2022,2021]通过融合 $\mathcal{N}$ 个 ordered points 来覆盖该像素，从而得到该像素的颜色，计算公式如下：<br>$$<br>C=\sum_{i \in \mathcal{N}}{c_i\alpha_i \prod^{i-1}_{j=1}{(1-\alpha_i})}，\tag{3}<br>$$<br>这里 $\mathcal{c}_i$ 是每个 point 的颜色，而不是每个采样点的颜色。$\alpha_i$ 是通过<u>用协方差 $\varSigma$ [Yifan et al. 2019]乘以学习到的 per-point 不透明度</u>来估计的 2D Gaussian 给出。</p>
+<ol start="4" type="1">
+<li><p>图像渲染 python 调用部分: <code>submodules/diff-gaussian-rasterization/diff_gaussian_rasterization/__init__.py</code>中的<code>_RasterizeGaussians</code>类;</p></li>
+<li><p>图像渲染 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/rasterize_points.cu</code>中的<code>RasterizeGaussiansCUDA</code>类和<code>RasterizeGaussiansBackwardCUDA</code>类;</p></li>
+<li><p>渲染前传 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu</code>中的<code>int CudaRasterizer::Rasterizer::forward</code>函数;</p></li>
+<li><p>渲染反传 CUDA 实现部分: <code>submodules/diff-gaussian-rasterization/cuda_rasterizer/rasterizer_impl.cu</code>中的<code>void CudaRasterizer::Rasterizer::backward</code>函数;</p></li>
+</ol>
+<h1 id="dgs-与-nerf-的区别与联系">3DGS 与 NeRF 的区别与联系</h1>
+<h2 id="从-ray-marching-的体渲染到-point-based-alpha-blending-渲染">从 ray-marching 的体渲染到 point-based <span class="math inline">\(\alpha\)</span>-blending 渲染</h2>
+<p>NeRF 中计算<strong>每个像素点</strong>颜色的体渲染公式： <span class="math display">\[
+\hat{C}_{c}(\mathbf{r})=\sum_{i=1}^{N_{c}} w_{i} c_{i}, \quad w_{i}=T_{i}\left(1-\exp \left(-\sigma_{i} \delta_{i}\right)\right) \tag{1} \\
+T_{i}=\exp \left(-\sum_{j=1}^{i-1} \sigma_{j} \delta_{j}\right)
+\]</span> 我们也可以将 NeRF 中这个 ray-marhing 的体渲染写成另一种形式，即： <span class="math display">\[
+\begin{align}
+&amp;C=\sum^N_{i=1}{T_i \alpha_i \mathbf{c}_i}, \tag{2} \\
+&amp;where \ \ \alpha_i=(1-exp(-\sigma_i\delta_i))\\
+&amp;\ \ \ \ \ \ \ \ \ \ \  \ \ T_i=\prod^{i-1}_{j=1}{(1-\alpha_i)}
+\end{align}
+\]</span> 通过上式，可计算得射线穿过的那个像素的颜色值。而一种经典的基于点的 neural 方法[Kopanas et al. 2022,2021]通过融合 <span class="math inline">\(\mathcal{N}\)</span> 个 ordered points 来覆盖该像素，从而得到该像素的颜色，计算公式如下： <span class="math display">\[
+C=\sum_{i \in \mathcal{N}}{c_i\alpha_i \prod^{i-1}_{j=1}{(1-\alpha_i})}，\tag{3}
+\]</span> 这里 <span class="math inline">\(\mathcal{c}_i\)</span> 是每个 point 的颜色，而不是每个采样点的颜色。<span class="math inline">\(\alpha_i\)</span> 是通过<u>用协方差 <span class="math inline">\(\varSigma\)</span> [Yifan et al. 2019]乘以学习到的 per-point 不透明度</u>来估计的 2D Gaussian 给出。</p>
 <p><span style="background:#fbd4d0;">可以看出上面两种模型成像公式是一样的，但是这两种渲染算法是很不同的。</span></p>
-<ol>
+<ol type="1">
 <li>NeRF 是连续表示，且通过隐式表达体现占据空间；而 points 是非结构化的离散表示，能更为灵活地构筑几何；</li>
 <li>NeRF 需要 expensive 的随机抽样来采样 (2) 式中的样本点，由此产生噪声和很大的计算成本，因此无法达到 real-time。</li>
 </ol>
-<h2 id="NeRF-vs-3DGS"><a href="#NeRF-vs-3DGS" class="headerlink" title="NeRF vs. 3DGS"></a><strong>NeRF vs. 3DGS</strong></h2><p>在保持 $\alpha$-blending 表示的体渲染优势的同时，结合 Pulsar[Lassner and Zollhofer 2021]^[8]^ 的球体光栅化，3DGS 创造了一种 tile-based 排序渲染器。这种渲染器和 NeRF 中的渲染有着许多差别：训练时，NeRF 以<strong>每个像素</strong>为样本单位，而 3DGS 则以<strong>每张图片</strong>为样本单位，在训练完一张图片的颜色后才反向传播梯度，更新网络的参数。</p>
+<h2 id="nerf-vs.-3dgs"><strong>NeRF vs. 3DGS</strong></h2>
+<p>在保持 <span class="math inline">\(\alpha\)</span>-blending 表示的体渲染优势的同时，结合 Pulsar[Lassner and Zollhofer 2021]<sup>[8]</sup> 的球体光栅化，3DGS 创造了一种 tile-based 排序渲染器。这种渲染器和 NeRF 中的渲染有着许多差别：训练时，NeRF 以<strong>每个像素</strong>为样本单位，而 3DGS 则以<strong>每张图片</strong>为样本单位，在训练完一张图片的颜色后才反向传播梯度，更新网络的参数。</p>
 <p>此外，3DGS 还创新性地开创了用非连续的表达来进行快速高质量辐射场训练的先河：</p>
 <ul>
 <li>NeRF 的整体模型是连续可微、隐式表达的；</li>
 <li>传统的 mesh 模型是纯离散（通过插值得到不同位置的值）、显式表达的；</li>
 <li>3DGS 介于离散和连续之间：在高斯球内部连续可微、每个高斯球之间是离散的。</li>
 </ul>
-<h1 id="Bib-Tex"><a href="#Bib-Tex" class="headerlink" title="Bib Tex"></a>Bib Tex</h1><figure class="highlight latex"><table><tbody><tr><td class="code"><pre><span class="line">@Article{kerbl3Dgaussians,</span><br><span class="line">      author       = {Kerbl, Bernhard and Kopanas, Georgios and Leimk{<span class="keyword">\"</span>u}hler, Thomas and Drettakis, George},</span><br><span class="line">      title        = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},</span><br><span class="line">      journal      = {ACM Transactions on Graphics},</span><br><span class="line">      number       = {4},</span><br><span class="line">      volume       = {42},</span><br><span class="line">      month        = {July},</span><br><span class="line">      year         = {2023},</span><br><span class="line">      url          = {https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><blockquote>
+<h1 id="bib-tex">Bib Tex</h1>
+<figure class="highlight latex"><table><tbody><tr><td class="code"><pre><span class="line">@Article{kerbl3Dgaussians,</span><br><span class="line">      author       = {Kerbl, Bernhard and Kopanas, Georgios and Leimk{<span class="keyword">\"</span>u}hler, Thomas and Drettakis, George},</span><br><span class="line">      title        = {3D Gaussian Splatting for Real-Time Radiance Field Rendering},</span><br><span class="line">      journal      = {ACM Transactions on Graphics},</span><br><span class="line">      number       = {4},</span><br><span class="line">      volume       = {42},</span><br><span class="line">      month        = {July},</span><br><span class="line">      year         = {2023},</span><br><span class="line">      url          = {https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考文献">参考文献</h1>
+<blockquote>
 <ul>
 <li>适合小白阅读：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/688636817">NeRF与3DGS速通 - 知乎 (zhihu.com)</a></li>
 <li>有很多基础知识：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/681085846">3d Gaussian splatting笔记 - 知乎 (zhihu.com)</a></li>
@@ -395,7 +462,7 @@
 <p>[7] Snavely N, Seitz S M, Szeliski R. Photo tourism: exploring photo collections in 3D[M]//ACM siggraph 2006 papers. 2006: 835-846.</p>
 <p>[8] Lassner C, Zollhofer M. Pulsar: Efficient sphere-based neural rendering[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 1440-1449.</p>
 <p>[9] Westover, Lee Alan. <em>Splatting: a parallel, feed-forward volume rendering algorithm</em>. The University of North Carolina at Chapel Hill, 1991.</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">胖胖大藕片</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">http://example.com/2024/06/29/3DGS 论文笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">藕片侠大战论文怪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SIGGRAPH-2023/">SIGGRAPH 2023</a><a class="post-meta__tags" href="/tags/%E8%BE%90%E5%B0%84%E5%9C%BA/">辐射场</a><a class="post-meta__tags" href="/tags/splatting/">splatting</a><a class="post-meta__tags" href="/tags/CUDA-kernels-%E5%8A%A0%E9%80%9F/">CUDA kernels 加速</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/wechat.jpg" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/alipay.jpg" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/14/%E6%B7%B1%E5%BA%A6%E7%BA%A6%E6%9D%9F%E4%BF%A1%E6%81%AF/" title=""><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235146.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info"></div></div></a></div><div class="next-post pull-right"><a href="/2024/06/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN/" title="卷积神经网络"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235146.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">卷积神经网络</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/10/TensoRF%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="TensoRF"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/hexue.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">TensoRF</div></div></a></div><div><a href="/2024/07/26/%E6%A8%A1%E6%9D%BF/" title="标题"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-26</div><div class="title">标题</div></div></a></div></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">胖胖大藕片</div><div class="author-info__description">人生无完美，曲折亦风景</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hahahaha5606"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hahahaha5606" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:212188767@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文基本信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#original-splatting"><span class="toc-number">2.1.</span> <span class="toc-text">original splatting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3DGS-%E4%B8%AD%E7%9A%84-splatting"><span class="toc-number">2.2.</span> <span class="toc-text">3DGS 中的 splatting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">初步定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%8D%8F%E9%9B%AA%E7%90%83-3DGS-%E8%A1%A8%E7%A4%BA%E5%BD%A2%E7%8A%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">第一步：捏雪球(3DGS 表示形状)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%8A%9B%E9%9B%AA%E7%90%83"><span class="toc-number">2.2.3.</span> <span class="toc-text">第二步：抛雪球</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%AA%E7%90%83%E9%A2%9C%E8%89%B2-%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.4.</span> <span class="toc-text">雪球颜色(球谐函数)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E8%B6%B3%E8%BF%B9%E5%90%88%E6%88%90"><span class="toc-number">2.2.5.</span> <span class="toc-text">第三步：足迹合成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%85%A8%E8%B2%8C"><span class="toc-number">3.</span> <span class="toc-text">算法全貌</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">方法梳理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%84%E6%88%90"><span class="toc-number">5.2.</span> <span class="toc-text">代码构成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3DGS-%E4%B8%8E-NeRF-%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">6.</span> <span class="toc-text">3DGS 与 NeRF 的区别与联系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-ray-marching-%E7%9A%84%E4%BD%93%E6%B8%B2%E6%9F%93%E5%88%B0-point-based-alpha-blending-%E6%B8%B2%E6%9F%93"><span class="toc-number">6.1.</span> <span class="toc-text">从 ray-marching 的体渲染到  point-based $\alpha$-blending 渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NeRF-vs-3DGS"><span class="toc-number">6.2.</span> <span class="toc-text">NeRF vs. 3DGS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bib-Tex"><span class="toc-number">7.</span> <span class="toc-text">Bib Tex</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">8.</span> <span class="toc-text">参考文献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/%E7%9B%B8%E6%9C%BA%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" title="相机位姿估计"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/yunhai.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="相机位姿估计"></a><div class="content"><a class="title" href="/2024/07/26/%E7%9B%B8%E6%9C%BA%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" title="相机位姿估计">相机位姿估计</a><time datetime="2024-07-26T11:33:20.632Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="球谐函数"></a><div class="content"><a class="title" href="/2024/07/26/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a><time datetime="2024-07-26T11:33:20.462Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/NeRF/" title="长江后浪扑前浪，NeRF现在沙滩上"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="长江后浪扑前浪，NeRF现在沙滩上"></a><div class="content"><a class="title" href="/2024/07/26/NeRF/" title="长江后浪扑前浪，NeRF现在沙滩上">长江后浪扑前浪，NeRF现在沙滩上</a><time datetime="2024-07-26T11:33:20.198Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2023 - 2024  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 胖胖大藕片</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><p id="ghbdages"></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">胖胖大藕片</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/06/29/3DGS%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">http://example.com/2024/06/29/3DGS 论文笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">藕片侠大战论文怪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SIGGRAPH-2023/">SIGGRAPH 2023</a><a class="post-meta__tags" href="/tags/%E8%BE%90%E5%B0%84%E5%9C%BA/">辐射场</a><a class="post-meta__tags" href="/tags/splatting/">splatting</a><a class="post-meta__tags" href="/tags/CUDA-kernels-%E5%8A%A0%E9%80%9F/">CUDA kernels 加速</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/sonnnwwww.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer=""></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/wechat.jpg" alt="微信"></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/yazi.gif" data-original="/img/alipay.jpg" alt="支付宝"></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/26/%E5%AD%A6%E5%A0%82%E5%9C%A8%E7%BA%BF%20%E5%AD%A6%E6%9C%AF%E8%8B%B1%E8%AF%AD%E5%86%99%E4%BD%9C%E4%B8%8E%E6%B2%9F%E9%80%9A/" title="学术英语写作与沟通 笔记"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">学术英语写作与沟通 笔记</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN/" title="卷积神经网络"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" onerror="onerror=null;src='/img/problem.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">卷积神经网络</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/10/TensoRF%20%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/" title="TensoRF"><img class="cover" src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/post_img/20231125235032.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-10</div><div class="title">TensoRF</div></div></a></div></div></div><hr class="custom-hr"><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Twikoo</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/yazi.gif" data-original="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="author-info__name">胖胖大藕片</div><div class="author-info__description">人生无完美，曲折亦风景</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hahahaha5606"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/hahahaha5606" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:212188767@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"></div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">论文基本信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#original-splatting"><span class="toc-number">2.1.</span> <span class="toc-text">original splatting</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dgs-%E4%B8%AD%E7%9A%84-splatting"><span class="toc-number">2.2.</span> <span class="toc-text">3DGS 中的 splatting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E5%AE%9A%E4%B9%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">初步定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E6%8D%8F%E9%9B%AA%E7%90%833dgs-%E8%A1%A8%E7%A4%BA%E5%BD%A2%E7%8A%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">第一步：捏雪球(3DGS 表示形状)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E6%8A%9B%E9%9B%AA%E7%90%83"><span class="toc-number">2.2.3.</span> <span class="toc-text">第二步：抛雪球</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%AA%E7%90%83%E9%A2%9C%E8%89%B2%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.4.</span> <span class="toc-text">雪球颜色(球谐函数)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%E8%B6%B3%E8%BF%B9%E5%90%88%E6%88%90"><span class="toc-number">2.2.5.</span> <span class="toc-text">第三步：足迹合成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%85%A8%E8%B2%8C"><span class="toc-number">3.</span> <span class="toc-text">算法全貌</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E6%A2%B3%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">方法梳理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%84%E6%88%90"><span class="toc-number">5.2.</span> <span class="toc-text">代码构成</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dgs-%E4%B8%8E-nerf-%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-number">6.</span> <span class="toc-text">3DGS 与 NeRF 的区别与联系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-ray-marching-%E7%9A%84%E4%BD%93%E6%B8%B2%E6%9F%93%E5%88%B0-point-based-alpha-blending-%E6%B8%B2%E6%9F%93"><span class="toc-number">6.1.</span> <span class="toc-text">从 ray-marching 的体渲染到 point-based \(\alpha\)-blending 渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nerf-vs.-3dgs"><span class="toc-number">6.2.</span> <span class="toc-text">NeRF vs. 3DGS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#bib-tex"><span class="toc-number">7.</span> <span class="toc-text">Bib Tex</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">8.</span> <span class="toc-text">参考文献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/%E7%9B%B8%E6%9C%BA%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" title="相机位姿估计"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/yunhai.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="相机位姿估计"></a><div class="content"><a class="title" href="/2024/07/26/%E7%9B%B8%E6%9C%BA%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/" title="相机位姿估计">相机位姿估计</a><time datetime="2024-07-26T11:33:20.632Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/yunhai.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="球谐函数"></a><div class="content"><a class="title" href="/2024/07/26/%E7%90%83%E8%B0%90%E5%87%BD%E6%95%B0/" title="球谐函数">球谐函数</a><time datetime="2024-07-26T11:33:20.462Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/NeRF/" title="长江后浪扑前浪，NeRF现在沙滩上"><img src="/img/yazi.gif" data-original="https://cdn.jsdelivr.net/gh/hahahaha5606/blogImage/images/haul.jpg" onerror="this.onerror=null;this.src='/img/problem.jpg'" alt="长江后浪扑前浪，NeRF现在沙滩上"></a><div class="content"><a class="title" href="/2024/07/26/NeRF/" title="长江后浪扑前浪，NeRF现在沙滩上">长江后浪扑前浪，NeRF现在沙滩上</a><time datetime="2024-07-26T11:33:20.198Z" title="发表于 2024-07-26 19:33:20">2024-07-26</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">©2023 - 2024  <i id="heartbeat" class="fa fas fa-heartbeat"></i> 胖胖大藕片</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><p id="ghbdages"></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
   window.MathJax = {
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -506,7 +573,7 @@
 POWERMODE.shake = true;
 POWERMODE.mobile = true;
 document.body.addEventListener('input', POWERMODE);
-</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><link rel="stylesheet" href="/css/Aplayer.min.css" media="print" onload="this.media='all'"><script src="/js/Aplayer.min.js"></script><script src="/js/Meting2.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="true" data-text="富强,民主,文明,和谐,爱国,敬业,诚信,友善,自由,平等,公正,法治" data-fontsize="15px" data-random="true" async="async"></script><link rel="stylesheet" href="/css/Aplayer.min.css" media="print" onload="this.media='all'"><script src="/js/Aplayer.min.js"></script><script src="/js/Meting2.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
 
 var pjax = new Pjax({
   elements: 'a:not([target="_blank"])',
