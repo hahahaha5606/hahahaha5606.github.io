@@ -158,11 +158,11 @@
       
         <tags>
             
-            <tag> pytorch </tag>
-            
             <tag> 加速算法 </tag>
             
             <tag> 代码箱 </tag>
+            
+            <tag> pytorch </tag>
             
             <tag> 编码 </tag>
             
@@ -696,9 +696,9 @@
       
         <tags>
             
-            <tag> gaussian splatting </tag>
-            
             <tag> 代码箱 </tag>
+            
+            <tag> gaussian splatting </tag>
             
         </tags>
       
@@ -1089,9 +1089,9 @@
       
         <tags>
             
-            <tag> 辐射场 </tag>
-            
             <tag> 加速算法 </tag>
+            
+            <tag> 辐射场 </tag>
             
             <tag> ECCV2022 </tag>
             

@@ -1,6 +1,7 @@
 // 动态心跳
+// 适配怀旧古风的颜色字号：color:#b3c9d0
 $(document).ready(function(e){
-    $('.copyright').html('<i style="color:#b3c9d0">©2023-2024</i>  <i style="color:#FF6A6A;" class="fa-fw fas fa-heartbeat fa-beat"></i> <i style="color:#b3c9d0">By 胖胖大藕片</i>');
+    $('.copyright').html('<i style="color:#ffffff">©2023-2024</i>  <i style="color:#FF6A6A;" class="fa-fw fas fa-heartbeat fa-beat"></i> <i style="color:#ffffff">By 胖胖大藕片</i>');
 })
 
 $(document).ready(function(e){
@@ -9,7 +10,7 @@ $(document).ready(function(e){
 
 //不显示时间
 function show_date_time(){
-$('.framework-info').html('<i style="color:#b3c9d0">欢迎光临小破站~多逛逛或许你会发现又五分钟过去了哦~</i> <span id="span_dt_dt" style="color: #b3c9d0;"></span>');
+$('.framework-info').html('<i style="color:#ffffff">欢迎光临小破站~前方挖坑施工中~</i> <span id="span_dt_dt" style="color: #ffffff;"></span>');
 span_dt_dt.innerHTML='';
 }
 

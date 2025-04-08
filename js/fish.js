@@ -167,7 +167,8 @@ var RENDERER = {
 		this.controlStatus();
 		this.context.clearRect(0, 0, this.width, this.height);
                 /* hsl(45,31%,18%) 黑绿色：更多颜色参考https://www.mklab.cn/utils/color */
-		this.context.fillStyle = 'hsl(30,30%,75%)';
+				/* hsl(30,30%,75%) 土棕色，适配怀旧古风主题*/
+		this.context.fillStyle = 'hsl(173,47%,49%)';
 		
 		for(var i = 0, count = this.fishes.length; i < count; i++){
 			this.fishes[i].render(this.context);
