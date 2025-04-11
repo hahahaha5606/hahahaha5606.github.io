@@ -21,6 +21,8 @@ setInterval(function () {
     var str = tow(hour) + '<span class="time" style="color: #ef475d;">小时</span>'
         + tow(minute) + '<span class="time" style="color: #fdb933;">分钟</span>'
         + tow(second) + '<span class="time" style="color: #a3cf62;">秒</span>';
-    oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 20px; font-weight: bold;">哼哧哼哧建设小站中</span>'+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 18px; font-weight: bold;">Twikoo评论功能出了点bug，需要魔法上网使用哦</span>'+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">有问题欢迎加QQ 2754014776 讨论~</span>'+"<p> </p>您已浏览网页" + str;
+    oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 20px; font-weight: bold;">哼哧哼哧建设小站中</span>'
+	//+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 18px; font-weight: bold;">Twikoo评论功能出了点bug，需要魔法上网使用哦</span>'
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">有问题欢迎加QQ 2754014776 讨论~</span>'+"<p> </p>您已浏览网页" + str;
 }, 1000)
 

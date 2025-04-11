@@ -3,7 +3,7 @@
 	border-radius: 30px;
 }
 .layout #recent-posts>.recent-post-item .post_cover{
-	height: 200px;
+	height: 240px;
 }
 #recent-posts>.recent-post-item>.recent-post-info{
 	padding: 1px 30px;
@@ -12,7 +12,7 @@
 	font-size: 1.20em;
 }
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
-	font-size: 85%;
+	font-size: 50%;
 }
 /* 翻页按钮居中 */
 #pagination {  

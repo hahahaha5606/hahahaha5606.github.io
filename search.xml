@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>leetcode——字符串</title>
+      <link href="/2025/04/08/leetcode%E2%80%94%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+      <url>/2025/04/08/leetcode%E2%80%94%E2%80%94%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://github.com/youngyangyang04/leetcode-master/blob/master/README.md">leetcode-master/README.md at master · youngyangyang04/leetcode-master · GitHub</a></p><p><strong>C++</strong></p><ul><li>字符串基本操作<ul><li>删除字符串中的某个字符：<code>s.erase(s.begin()+idx);</code></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 代码箱 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>leetcode——链表</title>
       <link href="/2025/04/05/leetcode%E2%80%94%E2%80%94%E5%93%88%E5%B8%8C%E8%A1%A8/"/>
       <url>/2025/04/05/leetcode%E2%80%94%E2%80%94%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
@@ -853,9 +878,9 @@
       
         <tags>
             
-            <tag> 信息论与编码 </tag>
-            
             <tag> 统计学习方法 </tag>
+            
+            <tag> 信息论与编码 </tag>
             
         </tags>
       
@@ -906,9 +931,9 @@
       
         <tags>
             
-            <tag> 统计学习方法 </tag>
-            
             <tag> 机器学习 </tag>
+            
+            <tag> 统计学习方法 </tag>
             
         </tags>
       
