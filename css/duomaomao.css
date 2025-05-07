@@ -1,0 +1,16 @@
+  #maomao {
+            position: fixed;
+            bottom: 40px;
+            right: -5px;
+            width: 57px;
+            height: 70px;
+            background-image: url(https://cdn.jsdelivr.net/gh/muzihuaner/huancdn/img/20210808215127.svg);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            transition: background .3s;
+        }
+ 
+        #maomao:hover {
+            background-position: 60px 50%;
+        }

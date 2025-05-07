@@ -8,17 +8,62 @@
 /* 所有页面背景 */
 #aside_content .card-widget, #recent-posts>.recent-post-item, .layout_page>div:first-child:not(.recent-posts), .layout_post>#page, .layout_post>#post, .read-mode .layout_post>#post{
     /* 以下代表首页文章标题栏透明度为0.7 */
-    background: rgba(255,255,255,.8);
+    background: rgba(255,255,255,.7);
 }
 /*侧边卡片的透明度，但是它会把文章页也变了 */
 :root {
   --card-bg: rgba(255, 255, 255, 1.0);
 }
-/* 侧边栏透明 */
-#aside-content .card-widget {
-    /*background: var(--light_bg_color)*/
-    background: rgba(255, 255, 255, .7)
+
+/* 设置毛玻璃特效：https://blog.liushen.fun/posts/28ae33b6/#%E8%AE%BE%E7%BD%AE%E7%BD%91%E7%AB%99%E6%AF%9B%E7%8E%BB%E7%92%83%E7%89%B9%E6%95%88 */
+/* 侧边栏个人信息卡片和公告栏毛玻璃 */
+#aside-content>.card-widget {
+    position: relative;
+    z-index: 1; /* 确保原内容在上层显示 */
+    background: linear-gradient(-45deg, rgba(255, 255, 255, .7),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .7));
+    backdrop-filter: blur(10px); /* 应用高斯模糊效果，可以根据需要调整模糊程度 */
+    -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
 }
+
+/* 侧边栏最新文章、归档、网站资讯毛玻璃 */
+#aside-content>.sticky_layout>.card-widget {
+    position: relative;
+    z-index: 1; /* 确保原内容在上层显示 */
+    background: linear-gradient(-45deg, rgba(255, 255, 255, .7),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .7));
+    backdrop-filter: blur(10px); /* 应用高斯模糊效果，可以根据需要调整模糊程度 */
+    -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
+}
+
+/* 归档、标签、分类、关于等页面毛玻璃 */
+#archive, #page {
+    position: relative;
+    z-index: 1; /* 确保原内容在上层显示 */
+    background: linear-gradient(-45deg, rgba(255, 255, 255, .7),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .7));
+    backdrop-filter: blur(10px); /* 应用高斯模糊效果，可以根据需要调整模糊程度 */
+    -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
+}
+
+/* 文章页毛玻璃 */
+#post {
+    position: relative;
+    z-index: 1; /* 确保原内容在上层显示 */
+    background: linear-gradient(-45deg, rgba(255, 255, 255, .8),
+            rgba(255, 255, 255, .85),
+            rgba(255, 255, 255, .85),
+            rgba(255, 255, 255, .8));
+    backdrop-filter: blur(10px); /* 应用高斯模糊效果，可以根据需要调整模糊程度 */
+    -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
+}
+
 /* 页脚透明 */
 /* footer {*/
 	/* 以下代表透明度为0.7 */

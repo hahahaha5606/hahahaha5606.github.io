@@ -23,6 +23,8 @@ setInterval(function () {
         + tow(second) + '<span class="time" style="color: #a3cf62;">秒</span>';
     oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 20px; font-weight: bold;">哼哧哼哧建设小站中</span>'
 	//+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 18px; font-weight: bold;">Twikoo评论功能出了点bug，需要魔法上网使用哦</span>'
-	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">有问题欢迎加QQ 2754014776 讨论~</span>'+"<p> </p>您已浏览网页" + str;
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">有问题欢迎加QQ 2754014776 讨论~</span>'+"<p> </p>您已浏览网页" + str
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">《生活与我》</span>'
+	+'<img src="/img/lifeAndMe.gif" style="zoom: 36%;">';
 }, 1000)
 

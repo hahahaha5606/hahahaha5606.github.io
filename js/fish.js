@@ -7,7 +7,7 @@ function fish() {
     $(".fish_container").css({
       "z-index": -1,
       width: "100%",
-      height: "160px",
+      height: "240px",
       margin: 0,
       padding: 0,
     }),
