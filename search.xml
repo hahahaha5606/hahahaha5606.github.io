@@ -320,9 +320,9 @@
       
         <tags>
             
-            <tag> 代码箱 </tag>
-            
             <tag> pytorch </tag>
+            
+            <tag> 代码箱 </tag>
             
             <tag> 加速算法 </tag>
             
@@ -1165,9 +1165,9 @@
       
         <tags>
             
-            <tag> 环境搭建 </tag>
-            
             <tag> pytorch </tag>
+            
+            <tag> 环境搭建 </tag>
             
             <tag> cuda </tag>
             
