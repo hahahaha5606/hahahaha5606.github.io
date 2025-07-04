@@ -47,9 +47,9 @@
             
             <tag> 代码箱 </tag>
             
-            <tag> 环境搭建 </tag>
-            
             <tag> 编码 </tag>
+            
+            <tag> 环境搭建 </tag>
             
         </tags>
       
@@ -130,9 +130,9 @@
             
             <tag> 代码箱 </tag>
             
-            <tag> 环境搭建 </tag>
-            
             <tag> 编码 </tag>
+            
+            <tag> 环境搭建 </tag>
             
         </tags>
       
@@ -513,11 +513,11 @@
       
         <tags>
             
-            <tag> 代码箱 </tag>
-            
             <tag> pytorch </tag>
             
             <tag> 加速算法 </tag>
+            
+            <tag> 代码箱 </tag>
             
             <tag> 编码 </tag>
             
@@ -1358,9 +1358,9 @@
       
         <tags>
             
-            <tag> 环境搭建 </tag>
-            
             <tag> pytorch </tag>
+            
+            <tag> 环境搭建 </tag>
             
             <tag> cuda </tag>
             
