@@ -1,19 +1,45 @@
 // 双栏美化：https://luo-honghua.gitee.io/2022/12/06/butterfly%E4%B8%BB%E9%A2%98%E6%96%87%E7%AB%A0%E5%8F%8C%E6%A0%8F%E5%B8%83%E5%B1%80/index.html
-#recent-posts>.recent-post-item{
-	border-radius: 30px;
-}
-.layout #recent-posts>.recent-post-item .post_cover{
-	height: 240px;
-}
+
+/*.layout #recent-posts>.recent-post-item .post_cover{
+	height: 200px; // 默认 240px
+}*/
+
 #recent-posts>.recent-post-item>.recent-post-info{
-	padding: 1px 30px;
+	padding: 1px 30px; /*默认 1px 30px*/
+	margin-top: 0.3em;
 }
 .layout #recent-posts>.recent-post-item>.recent-post-info>.article-title{
-	font-size: 1.20em;
+	font-size: 1.50em; /*默认1.20em*/
+	font-family: "华文新魏", "微软雅黑", sans-serif; /* 设置为幼圆字体，后备字体可加 */
+	color: #574266; /*深灰色 #444;*/
 }
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
-	font-size: 50%;
+	font-size: 80%; /*默认50%*/
 }
+
+#recent-posts {
+  margin-top: -1rem;
+  align-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center !important; /* 让每个单栏居中 */
+  gap: 0px 25px ; /* 增加间距，可以根据需要调整大小 */
+}
+
+#recent-posts > .recent-post-item:not(.github_calendar) {
+  margin-top: 1rem;
+  display: inline-block;
+  /* height: auto; */ 
+  height: 200px !important;
+  width: 45% !important; /* 调小单项宽度 */
+  position: relative; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
+}
+
+#recent-posts > .recent-post-item:not(.github_calendar) div{
+  position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
+}
+
+/////////////////////////////////////////////////////////
 /* 翻页按钮居中 */
 #pagination {  
     overflow: hidden;
@@ -30,7 +56,7 @@
 
 /*文章页边缘调整*/
 .layout {
-  margin: 0 150px;
+  margin: 0 170px;
 }
 
 @media screen and (min-width: 900px) {
@@ -61,7 +87,7 @@
 .table-1 tbody tr {
     margin-bottom: 10px; }
 
-.table-1 tbody th, .table tbody td {
+.table-1 tbody th, .table-1 tbody td {
     border: none;
     padding: 10px;
     font-size: 16px;
@@ -151,11 +177,18 @@ fieldset:disabled a.btn {
     margin-bottom: 1rem;	/*底部外边距1rem*/
     color: #212529;	/*文字颜色为深灰色*/
 	background: #fff;
+	
+	border-radius: 15px;		/*设定圆角*/
+    overflow: hidden;		/*确保表格内容不会超出圆角边界*/
+	border: 2px solid #574266; /* 句边框颜色 */
+	border-collapse: separate; /*让单元格的边框不合并，方便显示圆角效果。 如果不加这句，表格边框就看不见了*/
+    border-spacing: 0; /*去掉单元格之间的间距，确保整体样式紧凑*/
 }
 
 .table-2 th, .table-2 td {
     padding: 0.75rem;	/*单元格内边距0.75rem*/
-    vertical-align: center;	/*垂直对齐方式*/
+    /*padding: 0.3rem;*/	
+    vertical-align: middle;	/*垂直对齐方式*/
     border-top: 1px solid #dee2e6;	/*顶部边框为浅灰色*/
 }
 
@@ -461,9 +494,9 @@ fieldset:disabled a.btn {
 
 
 /*//////////////////////////////////////////////////////////////////
-[ Table ]*/
+[ Table ] 这几个类可加可不加*/
 
-.limiter {
+.limiter {	/*限定表格最小宽度*/
   width: 1366px;
   margin: 0 auto;
 }
@@ -480,7 +513,7 @@ fieldset:disabled a.btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;	/* 允许内容换行 */
   padding: 33px 30px;
 }
 
@@ -490,48 +523,59 @@ fieldset:disabled a.btn {
 
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
+
+table { 
+    width: 100%;    /*设定表格大小填满盒子*/
+}
+
 .table-3 {
-  background-color: #fff;
+    background-color: #fff;
+    border-collapse: collapse; /*将相邻单元格的边框合并成一条线，避免出现双边框*/
+    width: 100%;    /*设定表格大小填满盒子*/
 }
 
-table {
-  width: 100%;
+.table-3 th,
+.table-3 td {
+    font-weight: unset;
+    padding-right: 10px;
+    text-align: left;   /*单元格内的文本靠左对齐*/
+    vertical-align: middle; /*垂直居中对齐*/
+    border: none;   /*移除边框*/
 }
 
-th, td {
-  font-weight: unset;
-  padding-right: 10px;
+.table-3 .column1 { 
+    text-align: center;
 }
 
-.column1 {
-  width: 33%;
-  padding-left: 40px;
+/* .table-3 .column1 { 默认列宽
+    width: 33%;
+    padding-left: 40px;
 }
 
-.column2 {
-  width: 13%;
+.table-3 .column2 {
+    width: 13%;
 }
 
-.column3 {
-  width: 22%;
+.table-3 .column3 {
+    width: 22%;
 }
 
-.column4 {
-  width: 19%;
+.table-3 .column4 {
+    width: 19%;
 }
 
-.column5 {
-  width: 13%;
-}
+.table-3 .column5 {
+    width: 13%;
+} */
 
 .table-3-head th {
-  padding-top: 18px;
-  padding-bottom: 18px;
+    padding-top: 12px; /*18px;*/
+    padding-bottom: 12px; /*18px;*/
 }
 
 .table-3-body td {
-  padding-top: 16px;
-  padding-bottom: 16px;
+    padding-top: 6px; /*16px;*/
+    padding-bottom: 6px; /*16px;*/
 }
 
 /*==================================================================
@@ -558,7 +602,8 @@ th, td {
 [ Ver1 ]*/
 
 .table-3.ver1 th {
-  font-family: Lato-Bold;
+  /*font-family: Lato-Bold;*/、
+  font-family: 黑体;
   font-size: 18px;
   color: #fff;
   line-height: 1.4;
@@ -567,8 +612,9 @@ th, td {
 }
 
 .table-3.ver1 td {
-  font-family: Lato-Regular;
-  font-size: 15px;
+  /*font-family: Lato-Regular;*/
+  font-family: 华文中宋;
+  font-size: 16px;
   color: #808080;
   line-height: 1.4;
 }
@@ -580,8 +626,8 @@ th, td {
 /*---------------------------------------------*/
 
 .table-3.ver1 {
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 10px;		/*设定圆角*/
+  overflow: hidden;		/*确保表格内容不会超出圆角边界*/
   box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
   -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
@@ -714,6 +760,7 @@ th, td {
 }
 
 .table-3.ver4 .table-3-head {
+  padding-left: 20px; /*强迫症对齐*/
   padding-right: 20px;
 }
 
@@ -723,7 +770,9 @@ th, td {
   color: #4272d7;
   line-height: 1.4;
 
-  background-color: transparent;
+  /*background-color: transparent;*/
+  background-color: white;
+  
   border-bottom: 2px solid #f2f2f2;
 }
 
@@ -749,6 +798,7 @@ th, td {
 }
 
 .table-3.ver4 .table-3-body{
+  padding-left: 20px; /*强迫症对齐*/
   padding-right: 20px;
 }
 
@@ -772,6 +822,7 @@ th, td {
 }
 
 .table-3.ver5 .table-3-head {
+  padding-left: 20px; /*强迫症对齐*/
   padding-right: 30px;
 }
 
@@ -782,7 +833,8 @@ th, td {
   line-height: 1.4;
   text-transform: uppercase;
 
-  background-color: transparent;
+  /*background-color: transparent !important;*/
+  background-color: white;
 }
 
 .table-3.ver5 td {
@@ -838,6 +890,7 @@ th, td {
 }
 
 .table-3.ver5 .table-3-body{
+  padding-left: 20px; /*强迫症对齐*/
   padding-right: 30px;
 }
 

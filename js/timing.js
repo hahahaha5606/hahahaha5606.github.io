@@ -21,10 +21,11 @@ setInterval(function () {
     var str = tow(hour) + '<span class="time" style="color: #ef475d;">小时</span>'
         + tow(minute) + '<span class="time" style="color: #fdb933;">分钟</span>'
         + tow(second) + '<span class="time" style="color: #a3cf62;">秒</span>';
-    oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 20px; font-weight: bold;">哼哧哼哧建设小站中</span>'
+    oSpan.innerHTML = '<span class="time" style="font-family: 华文中宋; font-size: 14px;">哼哧哼哧建设小站中</span>'
 	//+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 18px; font-weight: bold;">Twikoo评论功能出了点bug，需要魔法上网使用哦</span>'
-	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">有问题欢迎加QQ 2754014776 讨论~</span>'+"<p> </p>您已浏览网页" + str
-	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">《生活与我》</span>'
-	+'<img src="/img/lifeAndMe.gif" style="zoom: 36%;">';
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px;">有问题欢迎加QQ 2754014776 讨论</span>'
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px;">您已浏览网页' + str + '</span>'
+	+'<p> </p><span class="time" style="font-family: 华文中宋; font-size: 14px; font-weight: bold;">-v-v-v-v-v-《生活与我》-v-v-v-v-v-</span>'
+	+'<img src="/img/lifeAndMe.gif" style="zoom: 45%;">';
 }, 1000)
 
