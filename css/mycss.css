@@ -57,6 +57,7 @@
 /*文章页边缘调整*/
 .layout {
   margin: 0 auto; /*0 170px*/
+  justify-content: center; /*布局居中*/
 }
 
 @media screen and (min-width: 900px) {
