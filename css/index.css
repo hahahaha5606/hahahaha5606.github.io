@@ -7816,31 +7816,31 @@ h1.page-title + .tag-cloud-list {
   transform: translate(-58px, 0);
 }
 #rightside #rightside-config-hide {
-  height: 0;
-  opacity: 0;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
+  height: auto;
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
   -webkit-transition: -webkit-transform 0.4s;
   -moz-transition: -moz-transform 0.4s;
   -o-transition: -o-transform 0.4s;
   -ms-transition: -ms-transform 0.4s;
   transition: transform 0.4s;
-  -webkit-transform: translate(45px, 0);
-  -moz-transform: translate(45px, 0);
-  -o-transform: translate(45px, 0);
-  -ms-transform: translate(45px, 0);
-  transform: translate(45px, 0);
-}
-#rightside #rightside-config-hide.show {
-  height: auto;
-  opacity: 1;
-  -ms-filter: none;
-  filter: none;
   -webkit-transform: translate(0, 0);
   -moz-transform: translate(0, 0);
   -o-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
+}
+#rightside #rightside-config-hide.show {
+  height: 0;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-transform: translate(45px, 0);
+  -moz-transform: translate(45px, 0);
+  -o-transform: translate(45px, 0);
+  -ms-transform: translate(45px, 0);
+  transform: translate(45px, 0);
 }
 #rightside #rightside-config-hide.status {
   height: auto;
