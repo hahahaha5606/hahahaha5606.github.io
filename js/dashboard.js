@@ -77,61 +77,61 @@ var dashboard = {
     createDashboardHTML: function() {
         const dashboardPage = document.getElementById("dashboard-page");
         dashboardPage.innerHTML = `
-            <div class="dashboard-container">
-                <button class="refresh-btn" onclick="dashboard.refreshData()">🔄 刷新数据</button>
+            <div class="blog-dashboard-container">
+                <button class="blog-refresh-btn" onclick="dashboard.refreshData()">🔄 刷新数据</button>
                 
-                <div class="dashboard-header">
-                    <h1 class="dashboard-title">博客数据Dashboard</h1>
-                    <p class="last-updated">最后更新: <span id="lastUpdate"></span></p>
+                <div class="blog-dashboard-header">
+                    <h1 class="blog-dashboard-title">博客数据Dashboard</h1>
+                    <p class="blog-last-updated">最后更新: <span id="blogLastUpdate"></span></p>
                 </div>
 
                 <!-- 概览统计卡片 -->
-                <div class="stats-overview">
-                    <div class="stat-card">
-                        <span class="stat-number" id="totalPosts">0</span>
-                        <span class="stat-label">总文章数</span>
+                <div class="blog-stats-overview">
+                    <div class="blog-stat-card">
+                        <span class="blog-stat-number" id="blogTotalPosts">0</span>
+                        <span class="blog-stat-label">总文章数</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number" id="totalViews">0</span>
-                        <span class="stat-label">总浏览量</span>
+                    <div class="blog-stat-card">
+                        <span class="blog-stat-number" id="blogTotalViews">0</span>
+                        <span class="blog-stat-label">总浏览量</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number" id="avgViews">0</span>
-                        <span class="stat-label">平均浏览量</span>
+                    <div class="blog-stat-card">
+                        <span class="blog-stat-number" id="blogAvgViews">0</span>
+                        <span class="blog-stat-label">平均浏览量</span>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number" id="updateFreq">0</span>
-                        <span class="stat-label">本月更新</span>
+                    <div class="blog-stat-card">
+                        <span class="blog-stat-number" id="blogUpdateFreq">0</span>
+                        <span class="blog-stat-label">本月更新</span>
                     </div>
                 </div>
 
                 <!-- 图表区域 -->
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h3 class="chart-title">文章发布趋势</h3>
-                        <div class="chart-container">
-                            <canvas id="publishTrendChart"></canvas>
+                <div class="blog-charts-container">
+                    <div class="blog-chart-card">
+                        <h3 class="blog-chart-title">文章发布趋势</h3>
+                        <div class="blog-chart-container">
+                            <canvas id="blogPublishTrendChart"></canvas>
                         </div>
                     </div>
-                    <div class="chart-card">
-                        <h3 class="chart-title">分类分布</h3>
-                        <div class="chart-container">
-                            <canvas id="categoryChart"></canvas>
+                    <div class="blog-chart-card">
+                        <h3 class="blog-chart-title">分类分布</h3>
+                        <div class="blog-chart-container">
+                            <canvas id="blogCategoryChart"></canvas>
                         </div>
                     </div>
-                    <div class="chart-card full-width-chart">
-                        <h3 class="chart-title">月度浏览量统计</h3>
-                        <div class="chart-container">
-                            <canvas id="monthlyViewsChart"></canvas>
+                    <div class="blog-chart-card blog-full-width-chart">
+                        <h3 class="blog-chart-title">月度浏览量统计</h3>
+                        <div class="blog-chart-container">
+                            <canvas id="blogMonthlyViewsChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                 <!-- 最近文章 -->
-                <div class="recent-posts">
-                    <h3 class="chart-title">最近文章</h3>
-                    <div id="recentPostsList">
-                        <div class="loading">加载中...</div>
+                <div class="blog-recent-posts">
+                    <h3 class="blog-chart-title">最近文章</h3>
+                    <div id="blogRecentPostsList">
+                        <div class="blog-loading">加载中...</div>
                     </div>
                 </div>
             </div>
@@ -141,11 +141,11 @@ var dashboard = {
     // 更新统计卡片
     updateStats: function() {
         const stats = this.mockData.stats;
-        const totalPostsEl = document.getElementById('totalPosts');
-        const totalViewsEl = document.getElementById('totalViews');
-        const avgViewsEl = document.getElementById('avgViews');
-        const updateFreqEl = document.getElementById('updateFreq');
-        const lastUpdateEl = document.getElementById('lastUpdate');
+        const totalPostsEl = document.getElementById('blogTotalPosts');
+        const totalViewsEl = document.getElementById('blogTotalViews');
+        const avgViewsEl = document.getElementById('blogAvgViews');
+        const updateFreqEl = document.getElementById('blogUpdateFreq');
+        const lastUpdateEl = document.getElementById('blogLastUpdate');
 
         if (totalPostsEl) totalPostsEl.textContent = stats.totalPosts;
         if (totalViewsEl) totalViewsEl.textContent = stats.totalViews.toLocaleString();
@@ -156,7 +156,7 @@ var dashboard = {
 
     // 创建发布趋势图
     createPublishTrendChart: function() {
-        const ctx = document.getElementById('publishTrendChart');
+        const ctx = document.getElementById('blogPublishTrendChart');
         if (!ctx) return;
 
         // 销毁已存在的图表
@@ -196,7 +196,7 @@ var dashboard = {
 
     // 创建分类分布图
     createCategoryChart: function() {
-        const ctx = document.getElementById('categoryChart');
+        const ctx = document.getElementById('blogCategoryChart');
         if (!ctx) return;
 
         // 销毁已存在的图表
@@ -235,7 +235,7 @@ var dashboard = {
 
     // 创建月度浏览量图
     createMonthlyViewsChart: function() {
-        const ctx = document.getElementById('monthlyViewsChart');
+        const ctx = document.getElementById('blogMonthlyViewsChart');
         if (!ctx) return;
 
         // 销毁已存在的图表
@@ -276,16 +276,16 @@ var dashboard = {
 
     // 更新最近文章列表
     updateRecentPosts: function() {
-        const container = document.getElementById('recentPostsList');
+        const container = document.getElementById('blogRecentPostsList');
         if (!container) return;
 
         const posts = this.mockData.recentPosts;
         
         container.innerHTML = posts.map(post => `
-            <div class="post-item">
-                <span class="post-title">${post.title}</span>
-                <span class="post-date">${post.date}</span>
-                <span class="post-views">${post.views} 次浏览</span>
+            <div class="blog-post-item">
+                <span class="blog-post-title">${post.title}</span>
+                <span class="blog-post-date">${post.date}</span>
+                <span class="blog-post-views">${post.views} 次浏览</span>
             </div>
         `).join('');
     },
@@ -300,7 +300,7 @@ var dashboard = {
         this.updateStats();
         
         // 添加刷新动画效果
-        const btn = document.querySelector('#dashboard-page .refresh-btn');
+        const btn = document.querySelector('#dashboard-page .blog-refresh-btn');
         if (btn) {
             btn.style.transform = 'rotate(360deg)';
             setTimeout(() => {
