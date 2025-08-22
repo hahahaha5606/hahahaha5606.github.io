@@ -44,6 +44,10 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 黑色阴影 */
 }
 
+#recent-posts > .recent-post-item > .article-meta-wrap {
+	display: None;
+}
+
 /////////////////////////////////////////////////////////
 /* 翻页按钮居中 */
 #pagination {  
