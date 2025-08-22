@@ -89,7 +89,6 @@ var responsiveChart = () => {
           for (var index in git_monthchange) {
             github_calendar_ctx.fillText(git_monthchange[index], monthindexlist, 0.7 * linemaxwitdh);
             monthindexlist = monthindexlist + github_calendar_c.width / 12
-            //monthindexlist = monthindexlist + github_calendar_c.width / 14
           }
         }
         github_calendar_c.onmousemove = function (event) {
@@ -179,13 +178,12 @@ var responsiveChart = () => {
                     addbeforeweek()
                 }
             }
-            /*
+
             fetch(git_githubapiurl).then(data => data.json()).then(data => {
                 if(document.getElementById('github_loading')){
                     document.getElementById('github_loading').remove()};
                 git_data = data.contributions;
                 git_total = data.total;
-
                 git_first2date = git_data[48];
                 git_firstdate = git_data[47];
                 git_firstweek = data.contributions[0];
@@ -204,72 +202,7 @@ var responsiveChart = () => {
                 responsiveChart()
             }).catch(function (error) {
                 console.log(error)
-            });*/
-
-            fetch(git_githubapiurl).then(data => data.json()).then(data => {
-                if(document.getElementById('github_loading')){
-                    document.getElementById('github_loading').remove()
-                }
-                
-                // 获取原始数据
-                git_data = data.contributions;
-                git_total = data.total;
-                
-                // 计算去年今天的日期
-                const today = new Date();
-                const lastYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
-                
-                // 找到最接近去年今天的周数据
-                let startWeekIndex = 0;
-                let minDiff = Infinity;
-                
-                git_data.forEach((week, weekIndex) => {
-                    week.forEach(day => {
-                        const date = new Date(day.date);
-                        const diff = Math.abs(date - lastYear);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            startWeekIndex = weekIndex;
-                        }
-                    });
-                });
-                
-                // 重新排序数据，从去年今天开始
-                git_data = [
-                    ...data.contributions.slice(startWeekIndex),
-                    ...data.contributions.slice(0, startWeekIndex)
-                ];
-                
-                // 更新其他变量
-                git_first2date = git_data[48];
-                git_firstdate = git_data[47];
-                git_firstweek = git_data[0];
-                git_lastweek = git_data[git_data.length - 1];
-                git_beforeweek = git_data[git_data.length - 2];
-                git_thisdayindex = git_lastweek.length - 1;
-                
-                // 更新日期范围
-                git_thisday = git_lastweek[git_thisdayindex].date;
-                git_oneyearbeforeday = git_firstweek[0].date;
-                
-                // 更新月份显示
-                git_monthindex = git_thisday.substring(5, 7) * 1;
-                git_montharrbefore = git_month.splice(git_monthindex, 12 - git_monthindex);
-                git_monthchange = git_montharrbefore.concat(git_month);
-                
-                // 计算统计数据
-                addweek(data);
-                addlastmonth();
-                
-                // 渲染日历
-                var html = github_main_box(git_monthchange, git_data, git_user, git_color, git_total, git_thisweekdatacore, git_weekdatacore, git_oneyearbeforeday, git_thisday, git_aweekago, git_amonthago);
-                append_div_gitcalendar(github_container, html);
-                responsiveChart();
-                
-            }).catch(function (error) {
-                console.log(error);
             });
-
             window.onresize = function () {
                 responsiveChart()
             };
