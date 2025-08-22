@@ -1,5 +1,5 @@
 // 博客数据Dashboard脚本文件
-var anzhiyuDashboard = {
+var dashboard = {
     // 模拟数据 - 实际使用时替换为真实API调用
     mockData: {
         stats: {
@@ -32,52 +32,53 @@ var anzhiyuDashboard = {
     // 图表实例存储
     charts: {},
 
-    // 初始化Dashboard
-    initDashboard: function() {
+    // 初始化Dashboard - 参考music.js的changeMusicBg方法结构
+    initDashboard: function(isReload = false) {
         if (window.location.pathname !== "/dashboard/") {
             return;
         }
 
-        // 检查页面元素是否存在
         const dashboardPage = document.getElementById("dashboard-page");
         if (!dashboardPage) {
             console.warn("Dashboard页面元素未找到");
             return;
         }
 
-        // 创建Dashboard HTML结构
-        this.createDashboardHTML();
-        
-        // 等待Chart.js加载完成
-        this.waitForChartJS(() => {
-            this.updateStats();
-            this.createPublishTrendChart();
-            this.createCategoryChart();
-            this.createMonthlyViewsChart();
-            this.updateRecentPosts();
-        });
-    },
-
-    // 等待Chart.js加载
-    waitForChartJS: function(callback) {
-        if (typeof Chart !== 'undefined') {
-            callback();
+        if (isReload) {
+            // 重新加载时直接更新内容
+            this.updateDashboardContent();
         } else {
+            // 第一次进入，等待依赖加载完成后初始化
             let timer = setInterval(() => {
+                console.info("等待Chart.js加载...");
                 if (typeof Chart !== 'undefined') {
                     clearInterval(timer);
-                    callback();
+                    // 创建Dashboard HTML结构
+                    this.createDashboardHTML();
+                    // 初始化内容
+                    this.updateDashboardContent();
+                    // 绑定事件
+                    this.addEventListeners();
                 }
             }, 100);
         }
     },
 
-    // 创建Dashboard HTML结构
+    // 更新Dashboard内容
+    updateDashboardContent: function() {
+        this.updateStats();
+        this.createPublishTrendChart();
+        this.createCategoryChart();
+        this.createMonthlyViewsChart();
+        this.updateRecentPosts();
+    },
+
+    // 创建Dashboard HTML结构 - 完全替换原页面内容
     createDashboardHTML: function() {
         const dashboardPage = document.getElementById("dashboard-page");
         dashboardPage.innerHTML = `
             <div class="dashboard-container">
-                <button class="refresh-btn" onclick="anzhiyuDashboard.refreshData()">🔄 刷新数据</button>
+                <button class="refresh-btn" onclick="dashboard.refreshData()">🔄 刷新数据</button>
                 
                 <div class="dashboard-header">
                     <h1 class="dashboard-title">博客数据Dashboard</h1>
@@ -318,24 +319,27 @@ var anzhiyuDashboard = {
         });
     },
 
-    // 添加事件监听器
+    // 添加事件监听器 - 参考music.js的addEventListenerChangeMusicBg方法
     addEventListeners: function() {
+        const dashboardPage = document.getElementById("dashboard-page");
+        if (!dashboardPage) return;
+
         // 响应式处理
         window.addEventListener('resize', () => {
             this.handleResize();
         });
+
+        // 可以在这里添加更多事件监听器
+        console.info("Dashboard事件监听器已绑定");
     }
 };
 
-// 页面加载完成后初始化Dashboard
-document.addEventListener('DOMContentLoaded', function() {
-    anzhiyuDashboard.initDashboard();
-    anzhiyuDashboard.addEventListeners();
-});
+// 调用 - 参考music.js的调用方式
+dashboard.initDashboard(false);
 
 // 页面切换时重新初始化
 if (typeof pjax !== 'undefined') {
     document.addEventListener('pjax:complete', function() {
-        anzhiyuDashboard.initDashboard();
+        dashboard.initDashboard(false);
     });
 }
