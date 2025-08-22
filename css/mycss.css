@@ -31,7 +31,7 @@
   display: inline-block;
   /* height: auto; */ 
   height: 200px !important;
-  width: 45% !important; /* 调小单项宽度 */
+  width: 47% !important; /* 调小单项宽度 */
   position: relative; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
 }
 
