@@ -52,6 +52,12 @@
     -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
 }
 
+/*
+#recent-posts> .post-bg {
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+}*/
+
 /* 文章页半透明 */
 #post {
     background: rgba(255,255,255,0.95);

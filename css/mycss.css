@@ -39,6 +39,11 @@
   position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
 }
 
+.layout #recent-posts > .recent-post-item > .recent-post-info > .article-title {
+  color: #ffed4a;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 黑色阴影 */
+}
+
 /////////////////////////////////////////////////////////
 /* 翻页按钮居中 */
 #pagination {  
