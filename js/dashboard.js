@@ -81,7 +81,7 @@ var dashboard = {
                 <button class="blog-refresh-btn" onclick="dashboard.refreshData()">🔄 刷新数据</button>
                 
                 <div class="blog-dashboard-header">
-                    <h1 class="blog-dashboard-title">博客数据Dashboard</h1>
+                    <h1 class="blog-dashboard-title">博客数据看板</h1>
                     <p class="blog-last-updated">最后更新: <span id="blogLastUpdate"></span></p>
                 </div>
 
