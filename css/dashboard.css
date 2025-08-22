@@ -33,7 +33,7 @@ body:has(#dashboard-page) #dashboard_bg {
 
 /* 页面主体背景 */
 body:has(#dashboard-page) {
-    background: rgb(169, 177, 217); /*linear-gradient(135deg, #FFD1DF 0%, #f3eaf9 50%);*/
+    /*background: rgba(1, 0, 3, 0.7); linear-gradient(135deg, #FFD1DF 0%, #f3eaf9 50%);*/
     min-height: 100vh;
 }
 
@@ -50,6 +50,7 @@ body:has(#dashboard-page) #web_bg {
 body:has(#dashboard-page) #nav-music {
     display: none;
 }*/
+
 body:has(#dashboard-page) #footer {
     display: none;
 }
