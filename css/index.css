@@ -2594,6 +2594,7 @@ figure.highlight pre .javascript .function {
   margin: 6px 0;
   color: #858585;
   font-size: 0.9em;
+/*display: none*/
 }
 #recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .post-meta-date {
   cursor: default;
@@ -7323,6 +7324,7 @@ h1.page-title + .tag-cloud-list {
 }
 #pagination .pagination {
   margin-top: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
 #pagination .page-number.current {

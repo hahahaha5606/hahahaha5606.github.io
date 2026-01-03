@@ -9,15 +9,31 @@
 	padding: 1px 30px; /*默认 1px 30px*/
 	margin-top: 0.3em;
 }
+
+/*文章封面标题阴影和颜色*/
 .layout #recent-posts>.recent-post-item>.recent-post-info>.article-title{
-	font-size: 1.50em; /*默认1.20em*/
-	font-family: "华文新魏", "微软雅黑", sans-serif; /* 设置为幼圆字体，后备字体可加 */
-	color: #574266; /*深灰色 #444;*/
+	font-size: 1.4em; /*默认1.20em*/
+	font-family: "华文新魏", "Comic Sans MS", sans-serif; /* 设置为华文新魏字体，后备字体可加 */
+	/*color: #574266; /*深灰色 #444;*/
+  color: #444444c6; /*#ffed4a;柠檬黄 */
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* 阴影 */
+  margin-left: 170px;
 }
-#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
-	font-size: 80%; /*默认50%*/
-	display: none; /*不显示*/
+
+/*主页文章信息小字只显示日期*/
+#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap>.article-meta {
+  display: none;
 }
+/*设置文章信息日期小字*/
+#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap>.post-meta-date {
+  margin-left: 170px;
+}
+
+/* 直接在 homepage.styl 中修改样式，这里就不再重复*/
+/* #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
+	font-size: 80%; //默认50%
+	display: none; //不显示
+} */
 
 #recent-posts {
   margin-top: -1rem;
@@ -41,10 +57,8 @@
   position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
 }
 
-/*文章封面标题阴影和颜色*/
-.layout #recent-posts > .recent-post-item > .recent-post-info > .article-title {
-  color: #ffffff; /*#ffed4a;柠檬黄 */
-  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* 黑色阴影 */
+#recent-posts > .recent-post-item .post_cover .post-bg{
+  width: 38%; /* 调整主页封面图片宽度 */
 }
 
 /*代码收缩按钮文本居中*/
@@ -59,7 +73,9 @@
 #rightside #go-up:hover {
   padding-left: 7.6px;
 }
-/////////////////////////////////////////////////////////
+
+/*////////////////////////////////////////////////////////*/
+
 /* 翻页按钮居中 */
 #pagination {  
     overflow: hidden;
@@ -69,7 +85,12 @@
 
 #pagination .page-number{
 	box-shadow: 0 8px 16px -4px #2c2d300c;
+  border-radius: 50%; /*设置页码外框为圆形*/
 }
+.layout > .recent-posts .pagination > *:not(.space){
+  border-radius: 50%; /*设置页码翻页按钮外框为圆形*/
+}
+
 .layout>.recent-posts .pagination>:not(.space){
 	box-shadow: 0 8px 16px -4px #2c2d300c;
 }
@@ -82,9 +103,10 @@
 
 
 /*设置首页背景不透明*/
+/*
 .layout.is-home { 
-	/*background: rgba(0, 0, 0, 0.5); 这里可以不设置，会和下面的填充重叠*/
-}
+	background: rgba(0, 0, 0, 0.5); 这里可以不设置，会和下面的填充重叠
+}*/
 
 /*设置首页内容margin部分的填充颜色*/
 .layout.is-home > #recent-posts::before {
