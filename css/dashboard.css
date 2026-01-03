@@ -11,7 +11,7 @@
 /* Dashboard背景 */
 #dashboard_bg {
     display: none;
-    filter: blur(30px);
+    filter: blur(10px);
     opacity: 0.3;
     position: fixed;
     z-index: -999;
@@ -93,7 +93,7 @@ body:has(#dashboard-page) #footer {
     border-radius: 20px;
     padding: 0px;
     /*box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);*/
-    backdrop-filter: blur(20px);
+    /*backdrop-filter: blur(20px);*/
     /*border: 1px solid rgba(255, 255, 255, 0.3);*/
     position: relative;
 }
@@ -147,12 +147,46 @@ body:has(#dashboard-page) #footer {
 #dashboard-page .blog-stat-card:nth-child(3) { border-left-color: #FF9800; }
 #dashboard-page .blog-stat-card:nth-child(4) { border-left-color: #E91E63; }
 
-#dashboard-page .blog-stat-number {
+/*#dashboard-page .blog-stat-number {
     font-size: 2.5rem;
     font-weight: bold;
     color: #333;
     display: block;
     margin-bottom: 8px;
+}*/
+#dashboard-page .blog-stat-number {
+    /* 基础样式 */
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+
+    /* --- 电子数字 (数码管) 样式 --- */
+    /* 1. 使用等宽字体，让数字对齐更整齐 */
+    font-family: 'Courier New', monospace, 'Consolas', 'Roboto Mono', 'Fira Code', monospace;
+    
+    /* 2. 添加发光/辉光效果，模拟LED灯 */
+    text-shadow: 
+        0 0 5px rgba(66, 133, 244, 0.5), /* 蓝色辉光 */
+        0 0 10px rgba(66, 133, 244, 0.3);
+    
+    /* 3. 背景色和内边距，模拟显示屏 */
+    background: linear-gradient(135deg, #1a1a1a, #2c2c2c); /* 深色背景 */
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    
+    /* 4. 文字颜色调整为亮色，模拟LED灯亮 */
+    color: #00ff88; /* 亮绿色，经典LED色 */
+    /* 或者用其他颜色 */
+    /* color: #ff6b6b; */ /* 红色 */
+    /* color: #4ecdc4; */ /* 青色 */
+    /* color: #ffe66d; */ /* 黄色 */
+
+    /* 5. (可选) 添加一点噪点纹理，增加真实感 */
+    /* background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 2 2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1 h1 v1 H0 V0 z' fill='%23000' opacity='0.02'/%3E%3C/svg%3E");
+    background-repeat: repeat; */
 }
 
 #dashboard-page .blog-stat-label {

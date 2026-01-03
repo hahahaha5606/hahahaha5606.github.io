@@ -128,12 +128,12 @@ var dashboard = {
                 </div>
 
                 <!-- 最近文章 -->
-                <div class="blog-recent-posts">
+                <!--<div class="blog-recent-posts">
                     <h3 class="blog-chart-title">最近文章</h3>
                     <div id="blogRecentPostsList">
                         <div class="blog-loading">加载中...</div>
                     </div>
-                </div>
+                </div>-->
             </div>
         `;
     },

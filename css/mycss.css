@@ -1,4 +1,5 @@
-// 双栏美化：https://luo-honghua.gitee.io/2022/12/06/butterfly%E4%B8%BB%E9%A2%98%E6%96%87%E7%AB%A0%E5%8F%8C%E6%A0%8F%E5%B8%83%E5%B1%80/index.html
+/* 双栏美化：https://luo-honghua.gitee.io/2022/12/06/butterfly%E4%B8%BB%E9%A2%98%E6%96%87%E7%AB%A0%E5%8F%8C%E6%A0%8F%E5%B8%83%E5%B1%80/index.html
+*/
 
 /*.layout #recent-posts>.recent-post-item .post_cover{
 	height: 200px; // 默认 240px
@@ -15,6 +16,7 @@
 }
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap{
 	font-size: 80%; /*默认50%*/
+	display: none; /*不显示*/
 }
 
 #recent-posts {
@@ -39,15 +41,24 @@
   position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
 }
 
+/*文章封面标题阴影和颜色*/
 .layout #recent-posts > .recent-post-item > .recent-post-info > .article-title {
-  color: #ffed4a;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 黑色阴影 */
+  color: #ffffff; /*#ffed4a;柠檬黄 */
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* 黑色阴影 */
 }
 
-#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap {
-	display: none;
+/*代码收缩按钮文本居中*/
+#article-container .highlight-tools .expand{
+  padding: 0.57em 0em; 
+}
+#article-container figure.highlight .highlight-tools .expand {
+	right: 5px;
 }
 
+/*右下角按钮小bug*/
+#rightside #go-up:hover {
+  padding-left: 7.6px;
+}
 /////////////////////////////////////////////////////////
 /* 翻页按钮居中 */
 #pagination {  
@@ -65,9 +76,30 @@
 
 /*文章页边缘调整*/
 .layout {
-  margin: 0 auto; /*0 170px*/
+  margin: 0 auto; /*0 auto*/
   justify-content: center; /*布局居中*/
 }
+
+
+/*设置首页背景不透明*/
+.layout.is-home { 
+	/*background: rgba(0, 0, 0, 0.5); 这里可以不设置，会和下面的填充重叠*/
+}
+
+/*设置首页内容margin部分的填充颜色*/
+.layout.is-home > #recent-posts::before {
+	border-radius: 10px;
+	content: '';
+    position: absolute;
+    top: 480px; /* 根据需要调整，等于或大于 margin 值 */
+    left: 80px;
+    right: 80px;
+    bottom: 287px; /*257px是刚好的*/
+    background: url(/img/bg.png);/*rgba(87,66,102,0.5); /*rgba(176, 164, 227,.7);  所需的 margin 颜色 */
+    z-index: -1; /* 放置在 .layout 下方 */
+	/*border: 2px solid rgba(87,66,102,0.5); /* 添加边框，颜色和宽度可以根据需求调整 */
+}
+
 
 @media screen and (min-width: 900px) {
   #aside-content {
@@ -612,7 +644,7 @@ table {
 [ Ver1 ]*/
 
 .table-3.ver1 th {
-  /*font-family: Lato-Bold;*/、
+  /*font-family: Lato-Bold;*/
   font-family: 黑体;
   font-size: 18px;
   color: #fff;

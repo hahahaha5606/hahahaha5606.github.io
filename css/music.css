@@ -82,8 +82,8 @@ body:has(#anMusic-page) #nav-music {
 }
 
 #anMusic-page .aplayer-info .aplayer-lrc {
-  height: 800%;
-  margin-top: 80px;
+  height: 370%; /*歌词高度*/
+  margin-top: 0px; /*歌词信息高度*/
   mask-image: linear-gradient(to bottom, #000, #000, #000, #000, #000, #000, #000, #000, #000, #000, #0000, #0000);
 }
 #anMusic-page .aplayer-info .aplayer-lrc p {
@@ -95,14 +95,15 @@ body:has(#anMusic-page) #nav-music {
   display: none;
 }
 
+
 /* 控制器 */
 #anMusic-page .aplayer-info .aplayer-controller {
   position: fixed;
   max-width: 1500px;
   margin: auto;
   left: 0;
-  right: 0;
-  bottom: 50px;
+  right: 50px;
+  bottom: -10px; /*50px 控制栏高度*/
 }
 #anMusic-page .aplayer-info .aplayer-controller .aplayer-bar-wrap {
   margin: 0 160px 0 150px;
@@ -167,7 +168,7 @@ body:has(#anMusic-page) #nav-music {
   height: 100%;
 }
 #anMusic-page ol {
-  max-height: 75vh !important;
+  max-height: 70vh !important; /*75vh 歌曲列表高度*/
   padding-right: 25px;
 }
 #anMusic-page ol > li {
@@ -199,6 +200,10 @@ body:has(#anMusic-page) #nav-music {
 
 .page:has(#anMusic-page) #page-header.not-top-img #nav a,
 .page:has(#anMusic-page) #page-header #nav .back-home-button {
+  color: var(--anzhiyu-white);
+}
+
+.page:has(#anMusic-page) #page-header.not-top-img #nav a, #page-header.not-top-img #nav .site-name{
   color: var(--anzhiyu-white);
 }
 
@@ -284,7 +289,6 @@ body:has(#anMusic-page) .aplayer .aplayer-info .aplayer-controller .aplayer-time
   /* 歌词信息 */
   #anMusic-page .aplayer-body {
     width: 100%;
-
     position: fixed;
     margin: auto;
     left: 0;
