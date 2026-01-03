@@ -17,7 +17,8 @@
 	/*color: #574266; /*深灰色 #444;*/
   color: #444444c6; /*#ffed4a;柠檬黄 */
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* 阴影 */
-  margin-left: 170px;
+  padding-left: 170px;
+  margin-top: 15px;
 }
 
 /*主页文章信息小字只显示日期*/
@@ -26,7 +27,8 @@
 }
 /*设置文章信息日期小字*/
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap>.post-meta-date {
-  margin-left: 170px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 /* 直接在 homepage.styl 中修改样式，这里就不再重复*/
