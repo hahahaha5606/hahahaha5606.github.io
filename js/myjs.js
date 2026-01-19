@@ -16,7 +16,11 @@ if (postInfo && topImg) {
 	layout.style.maxWidth = '1500px';
 	
 	const post = document.querySelector('#post');
-	post.style.width = '72%';
+	post.style.width = '62%';
+
+	// 将文章页背景替换为与模糊化的顶部图
+	const webBg = document.querySelector('#web_bg');
+	webBg.style.background = topImg.style.backgroundImage;
 	
 	const cardToc = document.querySelector('#card-toc');
 	if (cardToc) {
@@ -32,7 +36,6 @@ if (postInfo && topImg) {
 		if (cardInfo) {
 			cardInfo.style.display = 'none';
 		}
-
 	}else{
 		const cardAnnouncement = document.querySelector('.card-announcement');
 		const cardInfo = document.querySelector('.card-info');

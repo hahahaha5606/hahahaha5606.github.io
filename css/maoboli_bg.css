@@ -1,4 +1,5 @@
-.maoboli_bg {
+/*毛玻璃背景效果*/
+.maoboli_bg_origin {
 	height: 1983px; /*1783 px*/
     position: absolute;
 	/*backdrop-filter: blur(23px);*/
@@ -16,3 +17,12 @@
 	mask: linear-gradient(transparent, black, black, black, black); /*自然过渡至模糊效果：https://www.oryoy.com/news/jie-suo-shi-jue-mo-fa-css-mo-hu-xiao-guo-guo-du-rang-ni-de-ye-mian-dong-qi-lai.html*/
 }
 
+.maoboli_bg {
+    top: 100vh;
+    position: absolute;
+    background: #574266;
+    overflow: hidden;
+    width: 100%;
+    z-index: -1; /*确保原内容在上层显示 */
+    bottom: 257px;
+}

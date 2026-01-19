@@ -6,8 +6,12 @@
 }*/
 
 #recent-posts>.recent-post-item>.recent-post-info{
-	padding: 1px 30px; /*默认 1px 30px*/
+	padding: 1px 8px; /*默认 1px 30px*/
 	margin-top: 0.3em;
+  position: relative !important; /*父容器元素从左到右排列*/
+  float: left !important; /*父容器元素从左到右排列*/
+  width: calc(62% - 10px) !important; /* 减去 padding 空间 */
+  height: inherit;
 }
 
 /*文章封面标题阴影和颜色*/
@@ -17,18 +21,28 @@
 	/*color: #574266; /*深灰色 #444;*/
   color: #444444c6; /*#ffed4a;柠檬黄 */
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* 阴影 */
-  padding-left: 170px;
-  margin-top: 15px;
+  margin-left: 5px;
+  margin-top: 8px;
+}
+
+#recent-posts > .recent-post-item >.recent-post-info > .article-title .sticky{
+  color: #ebcd54b1;
+}
+
+/*裁剪动图外框形状*/
+#recent-posts > .recent-post-item .post_cover .post-bg{
+   border-radius: 0 50% 50% 0; /* 左上 右上 右下 左下 */
 }
 
 /*主页文章信息小字只显示日期*/
 #recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap>.article-meta {
   display: none;
 }
-/*设置文章信息日期小字*/
-#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap>.post-meta-date {
-  margin-right: 20px;
-  margin-bottom: 20px;
+
+/*主页文章信息日期设置*/
+#recent-posts>.recent-post-item>.recent-post-info>.article-meta-wrap {
+  margin-top: 120px;
+  text-align: right;
 }
 
 /* 直接在 homepage.styl 中修改样式，这里就不再重复*/
@@ -48,20 +62,23 @@
 
 #recent-posts > .recent-post-item:not(.github_calendar) {
   margin-top: 1rem;
-  display: inline-block;
+  /*display: inline-block;*/
   /* height: auto; */ 
   height: 200px !important;
   width: 47% !important; /* 调小单项宽度 */
-  position: relative; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
+  position: relative !important; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
 }
 
-#recent-posts > .recent-post-item:not(.github_calendar) div{
-  position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867*/
+/*#recent-posts > .recent-post-item:not(.github_calendar) div{
+  position: absolute; /*文档信息与图片重叠：https://blog.csdn.net/weixin_36473056/article/details/119397867
+}*/
+
+#recent-posts>.recent-post-item .post_cover{
+  width: 35% !important; /* 调整主页封面图片宽度 */
+  position: relative !important; /*父容器元素从左到右排列*/
+  float: left !important; /*父容器元素从左到右排列*/
 }
 
-#recent-posts > .recent-post-item .post_cover .post-bg{
-  width: 38%; /* 调整主页封面图片宽度 */
-}
 
 /*代码收缩按钮文本居中*/
 #article-container .highlight-tools .expand{
@@ -102,7 +119,10 @@
   margin: 0 auto; /*0 auto*/
   justify-content: center; /*布局居中*/
 }
-
+/* 在myjs.js 中设置
+.layout:not(.is-home) #post{
+  width: 62% !important;
+}*/
 
 /*设置首页背景不透明*/
 /*
@@ -111,19 +131,35 @@
 }*/
 
 /*设置首页内容margin部分的填充颜色*/
-.layout.is-home > #recent-posts::before {
+#content-inner.layout.is-home > #recent-posts::before {
 	border-radius: 10px;
 	content: '';
     position: absolute;
-    top: 480px; /* 根据需要调整，等于或大于 margin 值 */
+    top: calc(100vh + 10px); /*480px;  根据需要调整，等于或大于 margin 值 */
     left: 80px;
     right: 80px;
-    bottom: 287px; /*257px是刚好的*/
+    bottom: 1530px;/*287px; /*257px是刚好的*/
     background: url(/img/bg.png);/*rgba(87,66,102,0.5); /*rgba(176, 164, 227,.7);  所需的 margin 颜色 */
     z-index: -1; /* 放置在 .layout 下方 */
 	/*border: 2px solid rgba(87,66,102,0.5); /* 添加边框，颜色和宽度可以根据需求调整 */
 }
 
+/*设置首页内容margin部分的填充颜色*/
+#content-inner-copy.layout.is-home {
+  position: relative;
+}
+#content-inner-copy.layout.is-home > #recent-posts::before {
+	border-radius: 10px;
+	content: '';
+    position: absolute;
+    top: 0; /*480px;  根据需要调整，等于或大于 margin 值 */
+    left: -10px;
+    right: -10px;
+    bottom: 20px; /*287px*/
+    background: url(/img/pin.png);/*rgba(87,66,102,0.5); /*rgba(176, 164, 227,.7);  所需的 margin 颜色 */
+    z-index: -1; /* 放置在 .layout 下方 */
+	/*border: 2px solid rgba(87,66,102,0.5); /* 添加边框，颜色和宽度可以根据需求调整 */
+}
 
 @media screen and (min-width: 900px) {
   #aside-content {

@@ -60,19 +60,23 @@
 
 /* 文章页半透明 */
 #post {
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,1);
 }
 
 /*文章列表毛玻璃*/
-.recent-post-item:not(.github_calendar) {
+/*.recent-post-item:not(.github_calendar) {
     position: relative;
-    z-index: 1; /* 确保原内容在上层显示 */
-    background: linear-gradient(-45deg, rgba(255, 255, 255, .2),
-            rgba(255, 255, 255, .1),
-            rgba(255, 255, 255, .1),
-            rgba(255, 255, 255, .2));
-    backdrop-filter: blur(10px); /* 应用高斯模糊效果，可以根据需要调整模糊程度 */
-    -webkit-backdrop-filter: blur(10px);/* 兼容性前缀，适用于一些旧版本的浏览器 */
+    z-index: 1; 确保原内容在上层显示 
+    background: linear-gradient(-45deg, rgba(255, 255, 255, .6),
+            rgba(255, 255, 255, .5),
+            rgba(255, 255, 255, .5),
+            rgba(255, 255, 255, .6));
+    backdrop-filter: blur(10px); 应用高斯模糊效果，可以根据需要调整模糊程度 
+    -webkit-backdrop-filter: blur(10px); 兼容性前缀，适用于一些旧版本的浏览器 
+}*/
+/*文章列表半透明*/
+.recent-post-item:not(.github_calendar) {
+    background: rgba(255,255,255,0.98)
 }
 
 /* 文章页毛玻璃 */
@@ -111,7 +115,7 @@ transform: translateX(-50%);
 
 /* 去除导航栏选项中底下的蓝条 */
 #nav *::after{
-    background-color: rgba(239,71,93, .9) !important;
+    background-color: rgba(144, 9, 247, 0.842) !important;
 }
 
 /* 导航栏菜单鼠标移入字体放大 */
